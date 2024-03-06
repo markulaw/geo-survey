@@ -1,0 +1,4 @@
+{
+  "apiPath": "http://backend:4000/api/",
+  "version": "1.0.0"
+}

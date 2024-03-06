@@ -1,0 +1,199 @@
+[
+  {
+    "surveyId": 900,
+    "title": "Geosurvey ORTO",
+    "desription": "Tests the knowledge of Gdansk",
+    "zoom": 12,
+    "center": [54.35, 18.64],
+    "mapUrl": "https://mapy.geoportal.gov.pl/wss/service/PZGIK/ORTO/WMS/StandardResolution",
+    "summary": false,
+    "categories": false,
+    "categoriesNames": [],
+    "questions": [
+      {
+        "id": 0,
+        "answerType": "SingleChoice",
+        "question": "How would you rate your knowledge of Gdansk?",
+        "answer": {
+          "geometry": {
+            "type": "SingleChoice"
+          },
+          "answers": ["High", "Medium", "Low"],
+          "points": [0, 0, 0]
+        }
+      },
+      {
+        "id": 1,
+        "answerType": "SingleChoice",
+        "question": "Were you born within a distance of 30 km from Gdansk?",
+        "answer": {
+          "geometry": {
+            "type": "SingleChoice"
+          },
+          "answers": ["Yes", "No"],
+          "points": [0, 0]
+        }
+      },            
+      {
+        "id": 2,
+        "answerType": "SingleChoice",
+        "question": "Have you been living within a distance of up to 30 km from Gdansk in the last 3 years?",
+        "answer": {
+          "geometry": {
+            "type": "SingleChoice"
+          },
+          "answers": ["Yes", "No"],
+          "points": [0, 0]
+        }
+      },
+      {
+        "id": 3,
+        "answerType": "Point",
+        "question": "Select the building of the City Hall in Gdańsk.",
+        "answer": {
+          "geometry": {
+            "type": "Point",
+            "coordinates": [18.652687668800354, 54.34889670772674]
+          }
+        }
+      },
+      {
+        "id": 4,
+        "answerType": "Point",
+        "question": "Select the building of the Main Railway Station in Gdańsk.",
+        "answer": {
+          "geometry": {
+            "type": "Point",
+            "coordinates": [18.644563257694244, 54.35552777635103]
+          }
+        }
+      },
+      {
+        "id": 5,
+        "answerType": "LineString",
+        "question": "Show the shortest route from City Hall to Forum Gdańsk.",
+        "answer": {
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [18.652961254119873, 54.348702855583035],
+                [18.651373386383057, 54.34913433168772],
+                [18.64781141281128, 54.34984094219094],
+                [18.647468090057373, 54.35000352341927],
+                [18.646620512008667, 54.350191116345016],
+                [18.64616721868515, 54.350264590007555],
+                [18.64429235458374, 54.35038496146865],
+                [18.64380955696106, 54.34947825867151],
+                [18.644195795059204, 54.34944699270101],
+                [18.644474744796753, 54.3499847640796],
+                [18.6468243598938, 54.34971587926996],
+                [18.647403717041016, 54.349603322315645],
+                [18.647607564926147, 54.34970337295693],
+                [18.65280032157898, 54.348552775876065],
+                [18.652961254119873, 54.348702855583035]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "id": 6,
+        "answerType": "Polygon",
+        "question": "Select the area of the Old Town district in Gdańsk.",
+        "answer": {
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [18.645601272583008, 54.35222957092619],
+                [18.653197288513184, 54.35222957092619],
+                [18.653197288513184, 54.358331824292414],
+                [18.645601272583008, 54.358331824292414],
+                [18.645601272583008, 54.35222957092619]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "id": 7,
+        "answerType": "Polygon",
+        "question": "Select the area of the Main City district in Gdańsk.",
+        "answer": {
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [18.64658832550049, 54.34627649979566],
+                [18.657360076904297, 54.34627649979566],
+                [18.657360076904297, 54.35305492868306],
+                [18.64658832550049, 54.35305492868306],
+                [18.64658832550049, 54.34627649979566]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "id": 8,
+        "answerType": "Polygon",
+        "question": "Select the area of the Forum Gdańsk shopping mall.",
+        "answer": {
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [18.6422860622406, 54.34809628006525],
+                [18.644903898239136, 54.34809628006525],
+                [18.644903898239136, 54.35044749195865],
+                [18.6422860622406, 54.35044749195865],
+                [18.6422860622406, 54.34809628006525]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "id": 9,
+        "answerType": "Point",
+        "question": "Show the location of this object on the map.",
+        "img": "/api/images/neptun",
+        "answer": {
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [18.653107434511185, 54.34850196751777],
+                [18.65333005785942, 54.34850196751777],
+                [18.65333005785942, 54.34859811251198],
+                [18.653107434511185, 54.34859811251198],
+                [18.653107434511185, 54.34850196751777]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "id": 10,
+        "answerType": "Point",
+        "question": "Show the location of this object on the map.",
+        "img": "/api/images/pomnik_stoczniowcow",
+        "answer": {
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [18.64883065223694, 54.36031517407993],
+                [18.64932417869568, 54.36031517407993],
+                [18.64932417869568, 54.360594929661666],
+                [18.64883065223694, 54.360594929661666],
+                [18.64883065223694, 54.36031517407993]
+              ]
+            ]
+          }
+        }
+      }
+    ]
+  }
+]

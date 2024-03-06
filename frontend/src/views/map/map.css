@@ -1,0 +1,15 @@
+.leaflet-container {
+  width: 100vw;
+  height: 100vh;
+}
+.sr-only {
+  display: none;
+}
+
+.leaflet-draw.leaflet-control {
+  display: none !important;
+}
+
+.leaflet-draw-tooltip {
+  display: none !important;
+}

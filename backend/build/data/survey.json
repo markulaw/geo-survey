@@ -1,0 +1,406 @@
+[
+    {
+        "id": 1,
+        "title": "Survey 1",
+        "desription": "Survey for group 1",
+        "zoom": 12,
+        "center": [54.35, 18.64],
+        "mapUrl": "https://api.mapbox.com/styles/v1/lauraze/clb0ydhn000b515okgk1arhpt/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibGF1cmF6ZSIsImEiOiJjbGFrNWJpYWEwMXhrM3BrMGNzcjRxbHJnIn0.hkW5MCMUiauMLpECyatoMw",
+        "questions": [
+            {
+                "id": 1,
+                "answerType": "Point",
+                "question": "Select the building of the City Hall in Gdańsk.",
+                "answer": {
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [18.652687668800354, 54.34889670772674]
+                    }
+                }
+            },
+            {
+                "id": 2,
+                "answerType": "Point",
+                "question": "Select the building of the Main Railway Station in Gdańsk.",
+                "answer": {
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [18.644563257694244, 54.35552777635103]
+                    }
+                }
+            },
+            {
+                "id": 3,
+                "answerType": "LineString",
+                "question": "Show the shortest route from City Hall to Forum Gdańsk.",
+                "answer": {
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            [
+                                [18.652961254119873, 54.348702855583035],
+                                [18.651373386383057, 54.34913433168772],
+                                [18.64781141281128, 54.34984094219094],
+                                [18.647468090057373, 54.35000352341927],
+                                [18.646620512008667, 54.350191116345016],
+                                [18.64616721868515, 54.350264590007555],
+                                [18.64429235458374, 54.35038496146865],
+                                [18.64380955696106, 54.34947825867151],
+                                [18.644195795059204, 54.34944699270101],
+                                [18.644474744796753, 54.3499847640796],
+                                [18.6468243598938, 54.34971587926996],
+                                [18.647403717041016, 54.349603322315645],
+                                [18.647607564926147, 54.34970337295693],
+                                [18.65280032157898, 54.348552775876065],
+                                [18.652961254119873, 54.348702855583035]
+                            ]
+                        ]
+                    }
+                }
+            },
+            {
+                "id": 4,
+                "answerType": "Polygon",
+                "question": "Select the area of the Old Town district in Gdańsk.",
+                "answer": {
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            [
+                                [18.645601272583008, 54.35222957092619],
+                                [18.653197288513184, 54.35222957092619],
+                                [18.653197288513184, 54.358331824292414],
+                                [18.645601272583008, 54.358331824292414],
+                                [18.645601272583008, 54.35222957092619]
+                            ]
+                        ]
+                    }
+                }
+            },
+            {
+                "id": 5,
+                "answerType": "Polygon",
+                "question": "Select the area of the Main City district in Gdańsk.",
+                "answer": {
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            [
+                                [18.64658832550049, 54.34627649979566],
+                                [18.657360076904297, 54.34627649979566],
+                                [18.657360076904297, 54.35305492868306],
+                                [18.64658832550049, 54.35305492868306],
+                                [18.64658832550049, 54.34627649979566]
+                            ]
+                        ]
+                    }
+                }
+            },
+            {
+                "id": 6,
+                "answerType": "Polygon",
+                "question": "Select the area of the Forum Gdańsk shopping mall.",
+                "answer": {
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            [
+                                [18.6422860622406, 54.34809628006525],
+                                [18.644903898239136, 54.34809628006525],
+                                [18.644903898239136, 54.35044749195865],
+                                [18.6422860622406, 54.35044749195865],
+                                [18.6422860622406, 54.34809628006525]
+                            ]
+                        ]
+                    }
+                }
+            },
+            {
+                "id": 7,
+                "answerType": "Point",
+                "question": "Show the loc of this object on the map.",
+                "img": "/images/neptun.jpg",
+                "answer": {
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            [
+                                [18.653107434511185, 54.34850196751777],
+                                [18.65333005785942, 54.34850196751777],
+                                [18.65333005785942, 54.34859811251198],
+                                [18.653107434511185, 54.34859811251198],
+                                [18.653107434511185, 54.34850196751777]
+                            ]
+                        ]
+                    }
+                }
+            },
+            {
+                "id": 8,
+                "answerType": "Point",
+                "question": "Show the loc of this object on the map.",
+                "img": "/images/pomnik_stoczniowcow.jpg",
+                "answer": {
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            [
+                                [18.64883065223694, 54.36031517407993],
+                                [18.64932417869568, 54.36031517407993],
+                                [18.64932417869568, 54.360594929661666],
+                                [18.64883065223694, 54.360594929661666],
+                                [18.64883065223694, 54.36031517407993]
+                            ]
+                        ]
+                    }
+                }
+            },
+            {
+                "id": 9,
+                "answerType": "Slider",
+                "question": "Select a value between 0 and 100.",
+                "answer": {
+                    "geometry": {
+                        "type": "Slider",
+                        "coordinates": [
+                            [
+                                [18.64883065223694, 54.36031517407993],
+                                [18.64932417869568, 54.36031517407993],
+                                [18.64932417869568, 54.360594929661666],
+                                [18.64883065223694, 54.360594929661666],
+                                [18.64883065223694, 54.36031517407993]
+                            ]
+                        ]
+                    }
+                },
+                "points_Wiedza": 0,
+                "points_Umiejetnosci": 15,
+                "points_Afektywnosc": 10
+            },
+            {
+                "id": 10,
+                "answerType": "Images",
+                "question": "Choose from one to several photos.",
+                "answer": {
+                    "geometry": {
+                        "type": "Images",
+                        "coordinates": [
+                            [
+                                [18.64883065223694, 54.36031517407993],
+                                [18.64932417869568, 54.36031517407993],
+                                [18.64932417869568, 54.360594929661666],
+                                [18.64883065223694, 54.360594929661666],
+                                [18.64883065223694, 54.36031517407993]
+                            ]
+                        ]
+                    }
+                },
+                "points_Wiedza": 0,
+                "points_Umiejetnosci": 15,
+                "points_Afektywnosc": 10
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "title": "Survey 2",
+        "desription": "Survey for group 2",
+        "zoom": 12,
+        "center": [54.35, 18.64],
+        "mapUrl": "https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=f2597231df4b447e8d964abff0408ad5",
+        "questions": [
+            {
+                "id": 1,
+                "answerType": "Point",
+                "question": "Select the building of the City Hall in Gdańsk.",
+                "answer": {
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [18.652687668800354, 54.34889670772674]
+                    }
+                }
+            },
+            {
+                "id": 2,
+                "answerType": "Point",
+                "question": "Select the building of the Main Railway Station in Gdańsk.",
+                "answer": {
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [18.644563257694244, 54.35552777635103]
+                    }
+                }
+            },
+            {
+                "id": 3,
+                "answerType": "LineString",
+                "question": "Show the shortest route from City Hall to Forum Gdańsk.",
+                "answer": {
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            [
+                                [18.652961254119873, 54.348702855583035],
+                                [18.651373386383057, 54.34913433168772],
+                                [18.64781141281128, 54.34984094219094],
+                                [18.647468090057373, 54.35000352341927],
+                                [18.646620512008667, 54.350191116345016],
+                                [18.64616721868515, 54.350264590007555],
+                                [18.64429235458374, 54.35038496146865],
+                                [18.64380955696106, 54.34947825867151],
+                                [18.644195795059204, 54.34944699270101],
+                                [18.644474744796753, 54.3499847640796],
+                                [18.6468243598938, 54.34971587926996],
+                                [18.647403717041016, 54.349603322315645],
+                                [18.647607564926147, 54.34970337295693],
+                                [18.65280032157898, 54.348552775876065],
+                                [18.652961254119873, 54.348702855583035]
+                            ]
+                        ]
+                    }
+                }
+            },
+            {
+                "id": 4,
+                "answerType": "Polygon",
+                "question": "Select the area of the Old Town district in Gdańsk.",
+                "answer": {
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            [
+                                [18.645601272583008, 54.35222957092619],
+                                [18.653197288513184, 54.35222957092619],
+                                [18.653197288513184, 54.358331824292414],
+                                [18.645601272583008, 54.358331824292414],
+                                [18.645601272583008, 54.35222957092619]
+                            ]
+                        ]
+                    }
+                }
+            },
+            {
+                "id": 5,
+                "answerType": "Polygon",
+                "question": "Select the area of the Main City district in Gdańsk.",
+                "answer": {
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            [
+                                [18.64658832550049, 54.34627649979566],
+                                [18.657360076904297, 54.34627649979566],
+                                [18.657360076904297, 54.35305492868306],
+                                [18.64658832550049, 54.35305492868306],
+                                [18.64658832550049, 54.34627649979566]
+                            ]
+                        ]
+                    }
+                }
+            },
+            {
+                "id": 6,
+                "answerType": "Polygon",
+                "question": "Select the area of the Forum Gdańsk shopping mall.",
+                "answer": {
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            [
+                                [18.6422860622406, 54.34809628006525],
+                                [18.644903898239136, 54.34809628006525],
+                                [18.644903898239136, 54.35044749195865],
+                                [18.6422860622406, 54.35044749195865],
+                                [18.6422860622406, 54.34809628006525]
+                            ]
+                        ]
+                    }
+                }
+            },
+            {
+                "id": 7,
+                "answerType": "Point",
+                "question": "Show the loc of this object on the map.",
+                "img": "/images/neptun.jpg",
+                "answer": {
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            [
+                                [18.653107434511185, 54.34850196751777],
+                                [18.65333005785942, 54.34850196751777],
+                                [18.65333005785942, 54.34859811251198],
+                                [18.653107434511185, 54.34859811251198],
+                                [18.653107434511185, 54.34850196751777]
+                            ]
+                        ]
+                    }
+                }
+            },
+            {
+                "id": 8,
+                "answerType": "Point",
+                "question": "Show the loc of this object on the map.",
+                "img": "/images/pomnik_stoczniowcow.jpg",
+                "answer": {
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [
+                            [
+                                [18.64883065223694, 54.36031517407993],
+                                [18.64932417869568, 54.36031517407993],
+                                [18.64932417869568, 54.360594929661666],
+                                [18.64883065223694, 54.360594929661666],
+                                [18.64883065223694, 54.36031517407993]
+                            ]
+                        ]
+                    }
+                }
+            },
+            {
+                "id": 9,
+                "answerType": "Slider",
+                "question": "Select a value between 0 and 100.",
+                "answer": {
+                    "geometry": {
+                        "type": "Slider",
+                        "coordinates": [
+                            [
+                                [18.64883065223694, 54.36031517407993],
+                                [18.64932417869568, 54.36031517407993],
+                                [18.64932417869568, 54.360594929661666],
+                                [18.64883065223694, 54.360594929661666],
+                                [18.64883065223694, 54.36031517407993]
+                            ]
+                        ]
+                    }
+                },
+                "points_Wiedza": 0,
+                "points_Umiejetnosci": 15,
+                "points_Afektywnosc": 10
+            },
+            {
+                "id": 10,
+                "answerType": "Images",
+                "question": "Choose from one to several photos.",
+                "answer": {
+                    "geometry": {
+                        "type": "Images",
+                        "coordinates": [
+                            [
+                                [18.64883065223694, 54.36031517407993],
+                                [18.64932417869568, 54.36031517407993],
+                                [18.64932417869568, 54.360594929661666],
+                                [18.64883065223694, 54.360594929661666],
+                                [18.64883065223694, 54.36031517407993]
+                            ]
+                        ]
+                    }
+                },
+                "points_Wiedza": 0,
+                "points_Umiejetnosci": 15,
+                "points_Afektywnosc": 10
+            }
+        ]
+    }
+]

@@ -1,0 +1,57 @@
+version: '3.7'
+
+services:
+  nginx:
+    container_name: nginx
+    image: ghcr.io/laurazembrzuska/geosurveys-nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./nginx/.passwd:/etc/nginx/.passwd
+    depends_on:
+      - frontend
+      - backend
+    ports:
+      - 80:80
+    environment:
+      - NGINX_MAX_REQUEST_SIZE=20m
+
+  frontend:
+    container_name: frontend
+    image: ghcr.io/laurazembrzuska/geosurveys-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+
+  backend:
+    container_name: backend
+    image: ghcr.io/laurazembrzuska/geosurveys-backend
+    build:
+      args:
+        MONGODB_URL: mongodb
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend/src/data:/usr/src/app/src/data
+      - ./nginx/.passwd:/etc/nginx/.passwd
+    depends_on:
+      - database
+
+  fix-database-volume-permissions:
+    image: bitnami/mongodb:latest
+    user: root
+    command: chown -R 1001:1001 /bitnami
+    volumes:
+      - ./mongodb_data:/bitnami
+
+  database:
+    container_name: mongodb
+    image: bitnami/mongodb:latest
+    restart: on-failure
+    volumes:
+      - ./mongodb_data:/bitnami/mongodb
+    depends_on:
+      - fix-database-volume-permissions
