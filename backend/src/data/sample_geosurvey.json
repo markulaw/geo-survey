@@ -1,11 +1,12 @@
 [
   {
-    "surveyId": 900,
-    "title": "Geosurvey ORTO",
-    "desription": "Tests the knowledge of Gdansk",
+    "surveyId": 909,
+    "title": "Sample Geosurvey",
+    "desription": "Tests the knowledge of the City of Gdansk",
     "zoom": 12,
     "center": [54.35, 18.64],
-    "mapUrl": "https://mapy.geoportal.gov.pl/wss/service/PZGIK/ORTO/WMS/StandardResolution",
+    "mapUrl": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "mapAttribution": "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
     "summary": false,
     "categories": false,
     "categoriesNames": [],
@@ -24,26 +25,61 @@
       },
       {
         "id": 1,
-        "answerType": "SingleChoice",
-        "question": "Were you born within a distance of 30 km from Gdansk?",
+        "answerType": "Table",
+        "question": "Have you visited Gdansk via:",
         "answer": {
           "geometry": {
-            "type": "SingleChoice"
+            "type": "Table"
           },
-          "answers": ["Yes", "No"],
-          "points": [0, 0]
+          "table": [
+            "Airplane",
+            "Train",
+            "Bus",
+            "Car"
+          ],
+          "answers": [
+            "Never",
+            "Once",
+            "Several times"
+          ],
+          "points": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         }
       },            
       {
         "id": 2,
-        "answerType": "SingleChoice",
-        "question": "Have you been living within a distance of up to 30 km from Gdansk in the last 3 years?",
+        "answerType": "SingleImage",
+        "question": "Which image shows the City of Gdansk?",
         "answer": {
           "geometry": {
-            "type": "SingleChoice"
+            "type": "SingleImage"
           },
-          "answers": ["Yes", "No"],
-          "points": [0, 0]
+          "answers": [
+            "/api/images/Puck",
+            "/api/images/Warszawa",
+            "/api/images/Gdansk",
+            "/api/images/Krakow",
+            "/api/images/I_dont_know"
+          ],
+          "points": [
+            0,
+            0,
+            1,
+            0,
+            0
+          ]
         }
       },
       {
@@ -61,6 +97,8 @@
         "id": 4,
         "answerType": "Point",
         "question": "Select the building of the Main Railway Station in Gdańsk.",
+        "mapUrlForQuestion": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "mapAttribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
         "answer": {
           "geometry": {
             "type": "Point",
@@ -100,25 +138,6 @@
       {
         "id": 6,
         "answerType": "Polygon",
-        "question": "Select the area of the Old Town district in Gdańsk.",
-        "answer": {
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [
-              [
-                [18.645601272583008, 54.35222957092619],
-                [18.653197288513184, 54.35222957092619],
-                [18.653197288513184, 54.358331824292414],
-                [18.645601272583008, 54.358331824292414],
-                [18.645601272583008, 54.35222957092619]
-              ]
-            ]
-          }
-        }
-      },
-      {
-        "id": 7,
-        "answerType": "Polygon",
         "question": "Select the area of the Main City district in Gdańsk.",
         "answer": {
           "geometry": {
@@ -136,26 +155,7 @@
         }
       },
       {
-        "id": 8,
-        "answerType": "Polygon",
-        "question": "Select the area of the Forum Gdańsk shopping mall.",
-        "answer": {
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [
-              [
-                [18.6422860622406, 54.34809628006525],
-                [18.644903898239136, 54.34809628006525],
-                [18.644903898239136, 54.35044749195865],
-                [18.6422860622406, 54.35044749195865],
-                [18.6422860622406, 54.34809628006525]
-              ]
-            ]
-          }
-        }
-      },
-      {
-        "id": 9,
+        "id": 7,
         "answerType": "Point",
         "question": "Show the location of this object on the map.",
         "img": "/api/images/neptun",
@@ -169,26 +169,6 @@
                 [18.65333005785942, 54.34859811251198],
                 [18.653107434511185, 54.34859811251198],
                 [18.653107434511185, 54.34850196751777]
-              ]
-            ]
-          }
-        }
-      },
-      {
-        "id": 10,
-        "answerType": "Point",
-        "question": "Show the location of this object on the map.",
-        "img": "/api/images/pomnik_stoczniowcow",
-        "answer": {
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [
-              [
-                [18.64883065223694, 54.36031517407993],
-                [18.64932417869568, 54.36031517407993],
-                [18.64932417869568, 54.360594929661666],
-                [18.64883065223694, 54.360594929661666],
-                [18.64883065223694, 54.36031517407993]
               ]
             ]
           }

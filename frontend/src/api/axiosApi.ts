@@ -13,7 +13,7 @@ axiosSurveyApp.interceptors.request.use(async (axiosConfig) => {
 
   // Set the base URL for the axios instance based on the environment or configuration
   // URL to run code locally
-  //axiosConfig.baseURL = 'http://localhost/api/'
+  // axiosConfig.baseURL = 'http://localhost/api/'
 
   // URL to run code on aws
   axiosConfig.baseURL = "/api/";

@@ -1,0 +1,317 @@
+[
+  {
+    "surveyId": 910,
+    "title": "Sample geosurvey with scoring and summary",
+    "desription": "Tests the knowledge of the City of Gdansk",
+    "zoom": 12,
+    "center": [54.35, 18.64],
+    "mapUrl": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "mapAttribution": "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
+     "summary": true,
+    "summaryDetails": {
+      "thanks": {
+        "generic": true
+      },
+      "categories": {
+        "theBestCategorySummaryDescription": true
+      }
+    },
+    "categories": true,
+    "categoriesNames": [
+      "Spatiality",
+      "Navigation",
+      "Observation"
+    ],
+    "scoringCategoriesDescription": [
+      {
+        "name": "Spatiality",
+        "theBestCategorySummaryDescription": "You have the good ability to understand and utilize spatial relationships and dimensions."
+      },
+      {
+        "name": "Navigation",
+        "theBestCategorySummaryDescription": "You have the good ability to determine and follow routes using maps, compasses, or GPS technology."
+      },
+      {
+        "name": "Observation",
+        "theBestCategorySummaryDescription": "You have the good ability to attentively perceive and gather information about your surroundings."
+      }
+    ],
+    "questions": [
+      {
+        "id": 0,
+        "answerType": "SingleChoice",
+        "question": "How would you rate your knowledge of Gdansk?",
+        "answer": {
+          "geometry": {
+            "type": "SingleChoice"
+          },
+          "answers": ["High", "Medium", "Low"],
+          "points": [1, 0, 0],
+          "scoringCategories": [
+            {
+              "name": "Spatiality",
+              "score": 1
+            },
+            {
+              "name": "Navigation",
+              "score": 1
+            },
+            {
+              "name": "Observation",
+              "score": 0
+            }
+          ]
+        }
+      },
+      {
+        "id": 1,
+        "answerType": "Table",
+        "question": "Have you visited Gdansk via:",
+        "answer": {
+          "geometry": {
+            "type": "Table"
+          },
+          "table": [
+            "Airplane",
+            "Train",
+            "Bus",
+            "Car"
+          ],
+          "answers": [
+            "Never",
+            "Once",
+            "Several times"
+          ],
+          "points": [
+            0,
+            0.5,
+            1,
+            0,
+            0.5,
+            1,
+            0,
+            0.5,
+            1,
+            0,
+            1,
+            1
+          ],
+          "scoringCategories": [
+            {
+              "name": "Spatiality",
+              "score": 0
+            },
+            {
+              "name": "Navigation",
+              "score": 0
+            },
+            {
+              "name": "Observation",
+              "score": 1
+            }
+          ]
+        }
+      },            
+      {
+        "id": 2,
+        "answerType": "SingleImage",
+        "question": "Which image shows the City of Gdansk?",
+        "answer": {
+          "geometry": {
+            "type": "SingleImage"
+          },
+          "answers": [
+            "/api/images/Puck",
+            "/api/images/Warszawa",
+            "/api/images/Gdansk",
+            "/api/images/Krakow",
+            "/api/images/I_dont_know"
+          ],
+          "points": [
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          "scoringCategories": [
+            {
+              "name": "Spatiality",
+              "score": 0
+            },
+            {
+              "name": "Navigation",
+              "score": 0
+            },
+            {
+              "name": "Observation",
+              "score": 1
+            }
+          ]
+        }
+      },
+      {
+        "id": 3,
+        "answerType": "Point",
+        "question": "Select the building of the City Hall in Gdańsk.",
+        "answer": {
+          "geometry": {
+            "type": "Point",
+            "coordinates": [18.652687668800354, 54.34889670772674]
+          },
+          "scoringCategories": [
+            {
+              "name": "Spatiality",
+              "score": 1
+            },
+            {
+              "name": "Navigation",
+              "score": 1
+            },
+            {
+              "name": "Observation",
+              "score": 0
+            }
+          ]
+        }
+      },
+      {
+        "id": 4,
+        "answerType": "Point",
+        "question": "Select the building of the Main Railway Station in Gdańsk.",
+        "mapUrlForQuestion": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "mapAttribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+        "answer": {
+          "geometry": {
+            "type": "Point",
+            "coordinates": [18.644563257694244, 54.35552777635103]
+          },
+          "scoringCategories": [
+            {
+              "name": "Spatiality",
+              "score": 1
+            },
+            {
+              "name": "Navigation",
+              "score": 1
+            },
+            {
+              "name": "Observation",
+              "score": 0
+            }
+          ]
+        }
+      },
+      {
+        "id": 5,
+        "answerType": "LineString",
+        "question": "Show the shortest route from City Hall to Forum Gdańsk.",
+        "answer": {
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [18.652961254119873, 54.348702855583035],
+                [18.651373386383057, 54.34913433168772],
+                [18.64781141281128, 54.34984094219094],
+                [18.647468090057373, 54.35000352341927],
+                [18.646620512008667, 54.350191116345016],
+                [18.64616721868515, 54.350264590007555],
+                [18.64429235458374, 54.35038496146865],
+                [18.64380955696106, 54.34947825867151],
+                [18.644195795059204, 54.34944699270101],
+                [18.644474744796753, 54.3499847640796],
+                [18.6468243598938, 54.34971587926996],
+                [18.647403717041016, 54.349603322315645],
+                [18.647607564926147, 54.34970337295693],
+                [18.65280032157898, 54.348552775876065],
+                [18.652961254119873, 54.348702855583035]
+              ]
+            ]
+          }
+        },
+        "scoringCategories": [
+          {
+            "name": "Spatiality",
+            "score": 1
+          },
+          {
+            "name": "Navigation",
+            "score": 1
+          },
+          {
+            "name": "Observation",
+            "score": 1
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "answerType": "Polygon",
+        "question": "Select the area of the Main City district in Gdańsk.",
+        "answer": {
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [18.64658832550049, 54.34627649979566],
+                [18.657360076904297, 54.34627649979566],
+                [18.657360076904297, 54.35305492868306],
+                [18.64658832550049, 54.35305492868306],
+                [18.64658832550049, 54.34627649979566]
+              ]
+            ]
+          }
+        },
+        "scoringCategories": [
+          {
+            "name": "Spatiality",
+            "score": 0
+          },
+          {
+            "name": "Navigation",
+            "score": 1
+          },
+          {
+            "name": "Observation",
+            "score": 0
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "answerType": "Point",
+        "question": "Show the location of this object on the map.",
+        "img": "/api/images/neptun",
+        "answer": {
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [18.653107434511185, 54.34850196751777],
+                [18.65333005785942, 54.34850196751777],
+                [18.65333005785942, 54.34859811251198],
+                [18.653107434511185, 54.34859811251198],
+                [18.653107434511185, 54.34850196751777]
+              ]
+            ]
+          }
+        },
+        "scoringCategories": [
+          {
+            "name": "Spatiality",
+            "score": 0
+          },
+          {
+            "name": "Navigation",
+            "score": 1
+          },
+          {
+            "name": "Observation",
+            "score": 0
+          }
+        ]
+      }
+    ]
+  }
+]
