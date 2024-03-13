@@ -12,7 +12,7 @@
     "categoriesNames": [],
     "questions": [
       {
-        "id": 0,
+        "id": 1,
         "answerType": "SingleChoice",
         "question": "How would you rate your knowledge of Gdansk?",
         "answer": {
@@ -24,42 +24,20 @@
         }
       },
       {
-        "id": 1,
+        "id": 2,
         "answerType": "Table",
         "question": "Have you visited Gdansk via:",
         "answer": {
           "geometry": {
             "type": "Table"
           },
-          "table": [
-            "Airplane",
-            "Train",
-            "Bus",
-            "Car"
-          ],
-          "answers": [
-            "Never",
-            "Once",
-            "Several times"
-          ],
-          "points": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ]
+          "table": ["Airplane", "Train", "Bus", "Car"],
+          "answers": ["Never", "Once", "Several times"],
+          "points": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         }
-      },            
+      },
       {
-        "id": 2,
+        "id": 3,
         "answerType": "SingleImage",
         "question": "Which image shows the City of Gdansk?",
         "answer": {
@@ -73,17 +51,11 @@
             "/api/images/Krakow",
             "/api/images/I_dont_know"
           ],
-          "points": [
-            0,
-            0,
-            1,
-            0,
-            0
-          ]
+          "points": [0, 0, 1, 0, 0]
         }
       },
       {
-        "id": 3,
+        "id": 4,
         "answerType": "Point",
         "question": "Select the building of the City Hall in Gdańsk.",
         "answer": {
@@ -94,7 +66,7 @@
         }
       },
       {
-        "id": 4,
+        "id": 5,
         "answerType": "Point",
         "question": "Select the building of the Main Railway Station in Gdańsk.",
         "mapUrlForQuestion": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -107,7 +79,7 @@
         }
       },
       {
-        "id": 5,
+        "id": 6,
         "answerType": "LineString",
         "question": "Show the shortest route from City Hall to Forum Gdańsk.",
         "answer": {
@@ -136,7 +108,7 @@
         }
       },
       {
-        "id": 6,
+        "id": 7,
         "answerType": "Polygon",
         "question": "Select the area of the Main City district in Gdańsk.",
         "answer": {
@@ -155,7 +127,7 @@
         }
       },
       {
-        "id": 7,
+        "id": 8,
         "answerType": "Point",
         "question": "Show the location of this object on the map.",
         "img": "/api/images/neptun",
@@ -172,6 +144,53 @@
               ]
             ]
           }
+        }
+      },
+      {
+        "id": 9,
+        "answerType": "MultipleChoice",
+        "question": "Which of the following activities bring you joy in your local community? (Select all that apply)",
+        "answer": {
+          "geometry": {
+            "type": "MultipleChoice"
+          },
+          "answers": [
+            "Attending community events",
+            "Exploring nature trails",
+            "Visiting local parks",
+            "Interacting with local art installations",
+            "Participating in community sports events"
+          ],
+          "points": [1, 1, 1, 1, 1]
+        }
+      },
+      {
+        "id": 10,
+        "answerType": "Images",
+        "question": "Point out maps that are readable to you.",
+        "answer": {
+          "geometry": {
+            "type": "Images"
+          },
+          "answers": [
+            "/api/images/map1",
+            "/api/images/map2",
+            "/api/images/map3"
+          ],
+          "points": [1, 0.25, 0.25]
+        }
+      },
+      {
+        "id": 11,
+        "answerType": "Slider",
+        "question": "What is your percentage of satisfaction with the peacefulness of your neighborhood?",
+        "answer": {
+          "geometry": {
+            "type": "Slider"
+          },
+          "minSlider": 0,
+          "maxSlider": 100,
+          "goodAnswer": 50
         }
       }
     ]

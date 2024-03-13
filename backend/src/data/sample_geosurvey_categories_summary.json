@@ -38,7 +38,7 @@
     ],
     "questions": [
       {
-        "id": 0,
+        "id": 1,
         "answerType": "SingleChoice",
         "question": "How would you rate your knowledge of Gdansk?",
         "answer": {
@@ -64,7 +64,7 @@
         }
       },
       {
-        "id": 1,
+        "id": 2,
         "answerType": "Table",
         "question": "Have you visited Gdansk via:",
         "answer": {
@@ -113,7 +113,7 @@
         }
       },            
       {
-        "id": 2,
+        "id": 3,
         "answerType": "SingleImage",
         "question": "Which image shows the City of Gdansk?",
         "answer": {
@@ -151,7 +151,7 @@
         }
       },
       {
-        "id": 3,
+        "id": 4,
         "answerType": "Point",
         "question": "Select the building of the City Hall in Gdańsk.",
         "answer": {
@@ -176,7 +176,7 @@
         }
       },
       {
-        "id": 4,
+        "id": 5,
         "answerType": "Point",
         "question": "Select the building of the Main Railway Station in Gdańsk.",
         "mapUrlForQuestion": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -203,7 +203,7 @@
         }
       },
       {
-        "id": 5,
+        "id": 6,
         "answerType": "LineString",
         "question": "Show the shortest route from City Hall to Forum Gdańsk.",
         "answer": {
@@ -228,25 +228,25 @@
                 [18.652961254119873, 54.348702855583035]
               ]
             ]
-          }
-        },
-        "scoringCategories": [
-          {
-            "name": "Spatiality",
-            "score": 1
           },
-          {
-            "name": "Navigation",
-            "score": 1
-          },
-          {
-            "name": "Observation",
-            "score": 1
-          }
-        ]
+          "scoringCategories": [
+            {
+              "name": "Spatiality",
+              "score": 1
+            },
+            {
+              "name": "Navigation",
+              "score": 1
+            },
+            {
+              "name": "Observation",
+              "score": 1
+            }
+          ]
+        }   
       },
       {
-        "id": 6,
+        "id": 7,
         "answerType": "Polygon",
         "question": "Select the area of the Main City district in Gdańsk.",
         "answer": {
@@ -261,25 +261,25 @@
                 [18.64658832550049, 54.34627649979566]
               ]
             ]
-          }
-        },
-        "scoringCategories": [
-          {
-            "name": "Spatiality",
-            "score": 0
           },
-          {
-            "name": "Navigation",
-            "score": 1
-          },
-          {
-            "name": "Observation",
-            "score": 0
-          }
-        ]
+          "scoringCategories": [
+            {
+              "name": "Spatiality",
+              "score": 0
+            },
+            {
+              "name": "Navigation",
+              "score": 1
+            },
+            {
+              "name": "Observation",
+              "score": 0
+            }
+          ]
+        }
       },
       {
-        "id": 7,
+        "id": 8,
         "answerType": "Point",
         "question": "Show the location of this object on the map.",
         "img": "/api/images/neptun",
@@ -295,22 +295,22 @@
                 [18.653107434511185, 54.34850196751777]
               ]
             ]
-          }
-        },
-        "scoringCategories": [
-          {
-            "name": "Spatiality",
-            "score": 0
           },
-          {
-            "name": "Navigation",
-            "score": 1
-          },
-          {
-            "name": "Observation",
-            "score": 0
-          }
-        ]
+          "scoringCategories": [
+            {
+              "name": "Spatiality",
+              "score": 0
+            },
+            {
+              "name": "Navigation",
+              "score": 1
+            },
+            {
+              "name": "Observation",
+              "score": 0
+            }
+          ]
+        }
       }
     ]
   }
