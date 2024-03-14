@@ -1,6 +1,6 @@
 [
   {
-    "surveyId": 910,
+    "surveyId": 2,
     "title": "Sample geosurvey with scoring and summary",
     "desription": "Tests the knowledge of the City of Gdansk",
     "zoom": 12,
@@ -257,16 +257,8 @@
         "img": "/api/images/neptun",
         "answer": {
           "geometry": {
-            "type": "Polygon",
-            "coordinates": [
-              [
-                [18.653107434511185, 54.34850196751777],
-                [18.65333005785942, 54.34850196751777],
-                [18.65333005785942, 54.34859811251198],
-                [18.653107434511185, 54.34859811251198],
-                [18.653107434511185, 54.34850196751777]
-              ]
-            ]
+            "type": "Point",
+            "coordinates": [18.653107434511185, 54.34850196751777]
           },
           "scoringCategories": [
             {
