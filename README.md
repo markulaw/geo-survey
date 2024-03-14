@@ -1,9 +1,8 @@
-# What is the Spatial Distribution of Emotions survey system?
+# What is the geo-survey?
 
-The Spatial Distribution of Emotions survey system is a program that allows the collection of respondents' opinions and views on their emotional attitudes toward various public spaces. Its use is governed by [GNU General Public License v3.0](https://github.com/markulaw/geo-survey/blob/main/LICENSE).
+A geo-survey is a tool used to collect data and information in surveys while incorporating geographical or spatial elements, enabling the assessment and analysis of data in relation to specific locations or geographic areas. Its use is governed by [GNU General Public License v3.0](https://github.com/markulaw/geo-survey/blob/main/LICENSE).
 
-The app can operate as **a simple survey**, **a geo-survey** (a combination of a survey and digital maps) and **a survey
-surveying the spatial distribution of emotions**.
+The app can operate as both **a simple survey platform** and a **geo-survey tool**, which combines survey capabilities with digital mapping functionalities (questions are answered on the map). Additionally, it serves as **a application for surveying and analyzing the spatial distribution of emotions**.
 
 For more information, see the [Wiki](https://github.com/markulaw/geo-survey/wiki).
 

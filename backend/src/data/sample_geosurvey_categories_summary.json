@@ -7,21 +7,21 @@
     "center": [54.35, 18.64],
     "mapUrl": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     "mapAttribution": "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
-     "summary": true,
+    "summary": true,
     "summaryDetails": {
       "thanks": {
-        "generic": true
+        "generic": true,
+        "custom": "Your answers will help us."
+      },
+      "percentage": {
+        "percentageWithoutConditions": true
       },
       "categories": {
         "theBestCategorySummaryDescription": true
       }
     },
     "categories": true,
-    "categoriesNames": [
-      "Spatiality",
-      "Navigation",
-      "Observation"
-    ],
+    "categoriesNames": ["Spatiality", "Navigation", "Observation"],
     "scoringCategoriesDescription": [
       {
         "name": "Spatiality",
@@ -71,31 +71,9 @@
           "geometry": {
             "type": "Table"
           },
-          "table": [
-            "Airplane",
-            "Train",
-            "Bus",
-            "Car"
-          ],
-          "answers": [
-            "Never",
-            "Once",
-            "Several times"
-          ],
-          "points": [
-            0,
-            0.5,
-            1,
-            0,
-            0.5,
-            1,
-            0,
-            0.5,
-            1,
-            0,
-            1,
-            1
-          ],
+          "table": ["Airplane", "Train", "Bus", "Car"],
+          "answers": ["Never", "Once", "Several times"],
+          "points": [0, 0.5, 1, 0, 0.5, 1, 0, 0.5, 1, 0, 1, 1],
           "scoringCategories": [
             {
               "name": "Spatiality",
@@ -111,7 +89,7 @@
             }
           ]
         }
-      },            
+      },
       {
         "id": 3,
         "answerType": "SingleImage",
@@ -127,13 +105,7 @@
             "/api/images/Krakow",
             "/api/images/I_dont_know"
           ],
-          "points": [
-            0,
-            0,
-            1,
-            0,
-            0
-          ],
+          "points": [0, 0, 1, 0, 0],
           "scoringCategories": [
             {
               "name": "Spatiality",
@@ -243,7 +215,7 @@
               "score": 1
             }
           ]
-        }   
+        }
       },
       {
         "id": 7,

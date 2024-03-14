@@ -752,9 +752,10 @@ const Survey = () => {
                   {percentage}
                 </p>
               )}
-            {survey?.summaryDetails?.categories
+            {(survey?.summaryDetails?.categories
               ?.categoriesDescriptionAboveThresholdPercentage <=
-              percentages[maxIndex] &&
+              percentages[maxIndex] || survey?.summaryDetails?.percentage
+              ?.percentageWithoutConditions) &&
               survey?.categories &&
               survey?.categoriesNames && (
                 <p>

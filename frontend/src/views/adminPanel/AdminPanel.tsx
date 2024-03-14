@@ -783,7 +783,7 @@ const AdminPanel = () => {
             ></div>
             <ul>
               {files.map((file) => (
-                <InnerContainer style={{ width: "100%" }}>
+                <InnerContainer style={{ width: "120%" }}>
                   <li key={file}>
                     {file}
                     <ColorButton
