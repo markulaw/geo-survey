@@ -328,7 +328,7 @@ const AdminPanel = () => {
       const surveys = await getSurveys();
       const fetchedAnswers = [];
       for (let i = 0; i < surveys.length; i++) {
-        const response = await getAnswers(surveys[i].surveyId); // Poprawiamy przekazanie id ankiety
+        const response = await getAnswers(surveys[i].surveyId);
         fetchedAnswers.push(response);
       }
       const filledSurveyCounts = fetchedAnswers.map((answer) => answer.length);
