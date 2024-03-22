@@ -328,10 +328,11 @@ const AdminPanel = () => {
       const surveys = await getSurveys();
       const fetchedAnswers = [];
       for (let i = 0; i < surveys.length; i++) {
-        const response = await getAnswers(i);
+        const response = await getAnswers(surveys[i].surveyId); // Poprawiamy przekazanie id ankiety
         fetchedAnswers.push(response);
       }
       const filledSurveyCounts = fetchedAnswers.map((answer) => answer.length);
+      console.log(filledSurveyCounts)
       setNumberOfFilledSurveys(filledSurveyCounts);
     } catch (error) {
       console.error("Error while downloading response:", error);
@@ -895,14 +896,14 @@ const AdminPanel = () => {
               className="spacer"
             ></div>
 
-            {surveys.map((survey) => (
+            {surveys.map((survey, index) => (
               <SurveyItem
                 survey={survey}
                 key={survey.surveyId}
                 startHandler={startHandler}
                 downloadJSON={downloadJSON}
                 downloadCSV={downloadCSV}
-                countFilledSurveys={numberOfFilledSurveys[survey.surveyId]}
+                countFilledSurveys={numberOfFilledSurveys[index]}
                 type="answers"
               />
             ))}
