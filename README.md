@@ -6,9 +6,9 @@ The app can operate as a **spatial questionnaire tool**, which combines survey c
 
 <p>
 <img src='https://github.com/markulaw/geo-survey/assets/62136542/ef14e7be-4345-4a83-bf50-33d741618a51' width="45%"/>
-<img src='https://github.com/markulaw/geo-survey/assets/62136542/3cc4309a-558f-4071-9633-e4533b327c17' width="45%"/>
+<img src='https://github.com/markulaw/geo-survey/assets/61965733/c1f05604-e7b7-4e77-80fe-3914ad6e3b2a' width="45%"/>  
 <img src='https://github.com/markulaw/geo-survey/assets/62136542/801e88d0-ec3e-458e-b97a-5db82a773085' width="45%"/>
-<img src='https://github.com/markulaw/geo-survey/assets/62136542/c6c26791-5c7e-4e82-a198-5821628bb718' width="45%"/>
+<img src='https://github.com/markulaw/geo-survey/assets/61965733/f9699f04-ffbe-4763-bf8e-91a660e788f2' width="45%"/>
 <img src='https://github.com/markulaw/geo-survey/assets/62136542/7dc74b90-8cc2-4d84-a1d0-903db266f652' width="45%"/>
 <img src='https://github.com/markulaw/geo-survey/assets/62136542/4024c4a2-fdb7-49cc-8605-3be82dc483af' width="45%"/>
 
@@ -55,3 +55,4 @@ Open the administration panel (/adminPanel) and click the 'Survey management ' t
 <img src='https://github.com/markulaw/geo-survey/assets/62136542/5b1804e7-91cb-49bb-bc2c-73df45167bca' width="45%"/>
 
 You can have sample survey files in the '/backend/src/data/' folder of the app.
+
