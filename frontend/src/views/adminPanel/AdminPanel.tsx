@@ -9,7 +9,6 @@ import { translations, languages } from "../../translate/Translations";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 
-// Styled components
 const Container = styled.div`
   display: flex;
   padding-top: 24px;
@@ -34,7 +33,7 @@ const ColorFileInput = styled.input`
   box-shadow: 0px 0px 26px 2px rgba(66, 68, 90, 1);
 
   & hover{
-    background-color #22223b:
+    background-color: #22223b;
   }
   font-size: 1vw;
   @media (min-width: 600px) and (max-width: 1200px) {
@@ -47,7 +46,7 @@ const ColorButton = styled(Button)`
   background-color: #22223b !important;
   color: #ffffff;
   & hover{
-    background-color #22223b:
+    background-color: #22223b;
   }
   font-size: 1vw;
   @media (min-width: 600px) and (max-width: 1200px) {
@@ -70,7 +69,7 @@ const ColorShadowButton = styled(Button)`
   box-shadow: 0px 0px 26px 2px rgba(66, 68, 90, 1);
 
   & hover{
-    background-color #22223b:
+    background-color: #22223b;
   }
   font-size: 1vw;
   @media (min-width: 600px) and (max-width: 1200px) {
@@ -116,7 +115,6 @@ const InnerContainer = styled.div`
   }
 `;
 
-// AdminPanel component
 const AdminPanel = () => {
   const [surveys, setSurveys] = useState<SurveyType[] | []>([]);
   const [answers, setAnswers] = useState<any[]>([]);
@@ -134,36 +132,27 @@ const AdminPanel = () => {
 
   const [imagesList, setImagesList] = useState<string[]>([]);
 
+
   var language = "pl";
-  // Checks if there's any value stored in the localStorage under the key
   if (localStorage.getItem("languageHook") != null)
     language = JSON.parse(localStorage.getItem("languageHook") || "");
 
   const [languageHook, setLanguageHook] = useState(language);
-
-  // Translations
+  
   var surveyManagement = (translations as any)[language]["surveyManagement"];
   var surveyResponses = (translations as any)[language]["surveyResponses"];
   var addingANewSurvey = (translations as any)[language]["addingANewSurvey"];
-  var addingAPhotoToTheSurvey = (translations as any)[language][
-    "addingAPhotoToTheSurvey"
-  ];
+  var addingAPhotoToTheSurvey = (translations as any)[language]["addingAPhotoToTheSurvey"];
   var listofImages = (translations as any)[language]["listofImages"];
   var JSONFileList = (translations as any)[language]["JSONFileList"];
   var deleteTranslation = (translations as any)[language]["delete"];
   var passwordChange = (translations as any)[language]["passwordChange"];
   var imageManagement = (translations as any)[language]["imageManagement"];
   var changePassword = (translations as any)[language]["changePassword"];
-  var currentPasswordTranslation = (translations as any)[language][
-    "currentPassword"
-  ];
+  var currentPasswordTranslation = (translations as any)[language]["currentPassword"];
   var newPasswordTranslation = (translations as any)[language]["newPassword"];
-  var passwordChangeSuccess = (translations as any)[language][
-    "passwordChangeSuccess"
-  ];
-  var passwordChangeFail = (translations as any)[language][
-    "passwordChangeFail"
-  ];
+  var passwordChangeSuccess = (translations as any)[language]["passwordChangeSuccess"];
+  var passwordChangeFail = (translations as any)[language]["passwordChangeFail"];
   var confirmFileDelete = (translations as any)[language]["confirmFileDelete"];
   var downloadFile = (translations as any)[language]["downloadFile"];
   var uploadFile = (translations as any)[language]["uploadFile"];
@@ -179,7 +168,6 @@ const AdminPanel = () => {
     fetchSurveys();
     countFilledSurveys();
 
-    // Fetch files from API
     const fetchFiles = async () => {
       try {
         const response = await axios.get<string[]>("/api/files");
@@ -191,7 +179,6 @@ const AdminPanel = () => {
 
     fetchFiles();
 
-    // Fetch images list from API
     const fetchImagesList = async () => {
       try {
         const response = await axios.get("/api/images-list");
@@ -206,16 +193,13 @@ const AdminPanel = () => {
     fetchImagesList();
   }, []);
 
-  // Function to handle password change
   const handleChangePassword = async () => {
-    var oldPasswdDiv = document.getElementById(
-      "currentPassword"
-    ) as HTMLInputElement | null;
-    if (oldPasswdDiv != null) oldPasswdDiv.value = "";
-    var newPasswdDiv = document.getElementById(
-      "newPassword"
-    ) as HTMLInputElement | null;
-    if (newPasswdDiv != null) newPasswdDiv.value = "";
+    var oldPasswdDiv = document.getElementById('currentPassword') as HTMLInputElement | null;
+    if (oldPasswdDiv != null)
+        oldPasswdDiv.value = "";
+    var newPasswdDiv = document.getElementById('newPassword') as HTMLInputElement | null;
+    if (newPasswdDiv != null)
+        newPasswdDiv.value = "";
     var result = " ";
     try {
       const response = await axios.post("/change-password", {
@@ -231,17 +215,16 @@ const AdminPanel = () => {
       );
       result = passwordChangeFail;
     }
-    var resultDiv = document.getElementById("passwordResult");
-    if (resultDiv != null) resultDiv.innerHTML = result;
+    var resultDiv = document.getElementById('passwordResult');
+    if (resultDiv != null)
+      resultDiv.innerHTML = result;
   };
 
-  // Fetch surveys from API
   const fetchSurveys = async () => {
     const importedSurveys = await getSurveys();
     setSurveys(importedSurveys);
   };
 
-  // Fetch survey answers from API
   const fetchAnswers = async (surveyId: number) => {
     try {
       const response = await getAnswers(surveyId);
@@ -251,13 +234,12 @@ const AdminPanel = () => {
     }
   };
 
-  // Function to handle starting a survey
+  // Function for starting a survey
   const startHandler = (id: number) => {
-    // Navigates to the survey answers page with the survey ID as part of the URL
     navigate(`/survey/${id}/answers`, {
-      state: {
-        survey: surveys.find((survey) => survey.surveyId === id),
-      },
+//      state: {
+//        survey: surveys.find((survey) => survey.surveyId === id),
+//      },
     });
   };
 
@@ -322,7 +304,6 @@ const AdminPanel = () => {
     document.body.removeChild(link);
   };
 
-  // Count filled surveys
   const countFilledSurveys = async () => {
     try {
       const surveys = await getSurveys();
@@ -332,14 +313,12 @@ const AdminPanel = () => {
         fetchedAnswers.push(response);
       }
       const filledSurveyCounts = fetchedAnswers.map((answer) => answer.length);
-      console.log(filledSurveyCounts)
       setNumberOfFilledSurveys(filledSurveyCounts);
     } catch (error) {
       console.error("Error while downloading response:", error);
     }
   };
 
-  // Function to handle file input change
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       var fileName = document.getElementById("surveyFileName");
@@ -362,16 +341,13 @@ const AdminPanel = () => {
       reader.onload = async () => {
         const fileContent = reader.result as string;
 
-        if (
-          fileContent === null ||
-          fileContent === undefined ||
-          fileContent.length < 5
-        ) {
+        if (fileContent === null || fileContent === undefined || fileContent.length < 5) {
           console.error("Error reading file contents");
-
+          
           var uploadResult = document.getElementById("surveyUploadResult");
-          if (uploadResult != null) uploadResult.innerHTML = fileError;
-
+          if (uploadResult != null)
+            uploadResult.innerHTML = fileError;
+          
           return;
         }
 
@@ -384,9 +360,10 @@ const AdminPanel = () => {
           JSON.parse(contentString);
         } catch (jsonError) {
           console.error("Error while parsing JSON file: ", jsonError);
-
+          
           var uploadResult = document.getElementById("surveyUploadResult");
-          if (uploadResult != null) uploadResult.innerHTML = fileContentError;
+          if (uploadResult != null)
+            uploadResult.innerHTML = fileContentError;
           return;
         }
 
@@ -404,7 +381,6 @@ const AdminPanel = () => {
 
           console.log("The JSON file was saved to the server: ", response.data);
 
-          // Fetch files from API
           const fetchFiles = async () => {
             try {
               const response = await axios.get<string[]>("/api/files");
@@ -415,15 +391,20 @@ const AdminPanel = () => {
           };
 
           await fetchFiles();
-
+          
           var uploadResult = document.getElementById("surveyUploadResult");
-          if (uploadResult != null) uploadResult.innerHTML = uploadSuccessful;
+          if (uploadResult != null)
+            uploadResult.innerHTML = uploadSuccessful;
+         
         } catch (error) {
           console.error("Error while saving file: ", error);
-
+          
           var uploadResult = document.getElementById("surveyUploadResult");
-          if (uploadResult != null) uploadResult.innerHTML = uploadError;
-        }
+          if (uploadResult != null)
+            uploadResult.innerHTML = uploadError;
+            
+        } 
+
       };
       reader.readAsText(file);
     } catch (error) {
@@ -431,41 +412,38 @@ const AdminPanel = () => {
     }
   };
 
-  // Function to delete a file
   const deleteFile = async (filename: string) => {
-    // Confirm file deletion with user
-    const choice = window.confirm(confirmFileDelete);
+      // Confirm file deletion with user
+      const choice = window.confirm(confirmFileDelete);
 
-    if (choice) {
-      try {
-        // Retrieve file content from the server
-        const response = await axios.get(`/api/files/${filename}`);
-        const fileContent = response.data;
+      if (choice) {
+        try {
+          // Retrieve file content from the server
+          const response = await axios.get(`/api/files/${filename}`);
+          const fileContent = response.data;
 
-        // Extract survey IDs from file content
-        const surveyIds = extractSurveyIdsFromFileContent(fileContent);
-
-        // Delete answers for each survey ID found in the file
-        if (surveyIds.length > 0) {
-          for (const surveyId of surveyIds) {
-            await axios.delete(`/api/surveys/${surveyId}/deleteAnswers`);
+          // Extract survey IDs from file content
+          const surveyIds = extractSurveyIdsFromFileContent(fileContent);
+          // Delete answers for each survey ID found in the file
+          if (surveyIds.length > 0) {
+            for (const surveyId of surveyIds) {
+              await axios.delete(`/api/surveys/${surveyId}/deleteAnswers`);
+            }
+          } else {
+            console.log("No survey IDs found in file content.");
+            return;
           }
-        } else {
-          console.log("No survey IDs found in file content.");
-          return;
+          // Finally, delete the file itself
+          await axios.delete(`/api/files/${filename}`);
+          // Update the list of files after deletion
+          setFiles((prevFiles) => prevFiles.filter((file) => file !== filename));
+          console.log("File deleted successfully");
+        } catch (error) {
+          console.error("Error deleting file:", error);
         }
-        // Finally, delete the file itself
-        await axios.delete(`/api/files/${filename}`);
-        // Update the list of files after deletion
-        setFiles((prevFiles) => prevFiles.filter((file) => file !== filename));
-        console.log("File deleted successfully");
-      } catch (error) {
-        console.error("Error deleting file:", error);
       }
-    }
   };
 
-  // Function to extract survey IDs from file content
   const extractSurveyIdsFromFileContent = (fileContent: any): number[] => {
     try {
       const surveyIds: number[] = fileContent.map(
@@ -482,7 +460,7 @@ const AdminPanel = () => {
   // Reference hook for file upload menu
   const uploadInputRef = React.useRef<HTMLInputElement | null>(null);
 
-  // Function to handle image input change
+  // Handler for image upload selection:
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       var fileName = document.getElementById("imageFileName");
@@ -493,9 +471,8 @@ const AdminPanel = () => {
     }
   };
 
-  // Function to handle image upload
   const handleImageUpload = async () => {
-    if (!selectedImage) {
+    if (!selectedImage){
       return;
     }
     try {
@@ -512,11 +489,10 @@ const AdminPanel = () => {
 
       console.log("Server's answer: ", response.data);
 
-      // Fetch images list from API
       const fetchImagesList = async () => {
         try {
           const response = await axios.get("/api/images-list");
-          // Api returns a list of image names
+          // api returns a list of image names
           const imagesData = response.data;
           setImagesList(imagesData);
         } catch (error) {
@@ -525,94 +501,88 @@ const AdminPanel = () => {
       };
 
       await fetchImagesList();
-
+      
       var uploadResult = document.getElementById("imageUploadResult");
       if (uploadResult != null) {
         uploadResult.innerHTML = uploadSuccessful;
       }
+      
     } catch (error) {
       var uploadResult = document.getElementById("imageUploadResult");
-      if (uploadResult != null) uploadResult.innerHTML = uploadError;
+      if (uploadResult != null) 
+        uploadResult.innerHTML = uploadError;       
       console.error("Error while uploading a file: ", error);
     }
   };
 
-  // Function to remove an image from the list
   const removeImageFromList = async (imageName: string) => {
-    // Confirm image deletion with user
     const choice = window.confirm(confirmFileDelete);
 
     if (choice) {
-      try {
-        // Removing an image from the server
-        await axios.delete(`/api/images/${imageName}`);
-        // imagesList update
-        setImagesList((prevList) =>
-          prevList.filter((image) => image !== imageName)
-        );
-      } catch (error) {
-        console.error("Error removing image:", error);
-      }
+        try {
+          // Removing an image from the server
+          await axios.delete(`/api/images/${imageName}`);
+          // imagesList update
+          setImagesList((prevList) =>
+            prevList.filter((image) => image !== imageName)
+          );
+        } catch (error) {
+          console.error("Error removing image:", error);
+        }
     }
   };
+ 
+   const downloadSurvey = async (filename: string) => {
+       try {
+          // Fetch the survey file from the server
+          const response = await axios.get(`/api/files/${filename}`, { responseType: 'blob' });
+          const fileContent = response.data;
+          const url = URL.createObjectURL(fileContent);
 
-  // Function to download a survey
-  const downloadSurvey = async (filename: string) => {
-    try {
-      // Fetch the survey file from the server
-      const response = await axios.get(`/api/files/${filename}`, {
-        responseType: "blob",
-      });
-      const fileContent = response.data;
-      const url = URL.createObjectURL(fileContent);
-
-      // Create a link element to trigger download
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      console.error("Error fetching file:", error);
-    }
-  };
-
-  // Function to download an image from the list
+          // Create a link element to trigger download
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+       } catch (error) {
+          console.error("Error fetching file:", error);
+       }
+  }; 
+  
   const downloadImageFromList = async (imageName: string) => {
-    console.log(imageName);
-    try {
-      // Fetch the image from the server
-      const response = await axios.get(`/api/images/${imageName}`, {
-        responseType: "blob",
-      });
-      const fileContent = response.data;
-      const fileType = fileContent.type.includes("image")
-        ? fileContent.type.substring(6, fileContent.type.length)
-        : "png";
-      const url = URL.createObjectURL(fileContent);
+   console.log(imageName);
+     try {
+          // Fetch the image from the server
+          const response = await axios.get(`/api/images/${imageName}`, { responseType: 'blob' });
+          const fileContent = response.data;
+          const fileType = fileContent.type.includes("image") ? fileContent.type.substring(6, fileContent.type.length) : "png";
+          const url = URL.createObjectURL(fileContent);
 
-      // Create a link element to trigger download
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = imageName + "." + fileType;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      console.error("Error downloading image:", error);
-    }
+          // Create a link element to trigger download
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = imageName+ "." + fileType;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+      
+     } catch (error) {
+        console.error("Error downloading image:", error);
+     }
   };
-
-  // Function to change the language
+  
+  // Language Menu functions:
   const handlelanguageChange = async (e: any) => {
     setLanguageHook(e.target.value);
     console.log(e.target.value);
     language = e.target.value;
     localStorage.setItem("languageHook", JSON.stringify(language));
-    if (selectedBtn == 4) window.location.reload();
+    if (selectedBtn === 4)
+       window.location.reload();
   };
-
+  
   return (
     <>
       <div style={{ height: "100px", width: "100%" }} className="spacer"></div>
@@ -656,34 +626,34 @@ const AdminPanel = () => {
             {surveyResponses}
           </Button>
           <Box sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
-              <NativeSelect
-                id="languageSelect"
-                defaultValue={language}
-                onChange={handlelanguageChange}
-                style={{
-                  padding: "4px 15px",
-                  fontFamily: "Roboto, Helvetica, Arial, sans-serif",
-                  textTransform: "uppercase",
-                  fontSize: "0.875rem",
-                  backgroundColor: "#65688A",
-                  color: "#ffffff",
-                }}
-              >
-                {/* Language options */}
-                {languages.map((language) => (
-                  <option
-                    style={{
-                      backgroundColor: "#65688A",
-                      color: "#ffffff",
-                    }}
-                    value={language.code}
-                  >
-                    {language.name}
-                  </option>
-                ))}
-              </NativeSelect>
-            </FormControl>
+           <FormControl fullWidth>
+            <NativeSelect
+              id="languageSelect"
+              defaultValue={language}
+              onChange={handlelanguageChange}
+              style={{
+                padding: '4px 15px',
+                fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+                textTransform: 'uppercase',
+                fontSize: '0.875rem',
+                backgroundColor: '#65688A',
+                color: '#ffffff',
+              }}
+            >
+              {/* Language options */}
+              {languages.map((language) => (
+                <option
+                  style={{
+                    backgroundColor: '#65688A',
+                    color: '#ffffff',
+                  }}
+                  value={language.code}
+                >
+                  {language.name}
+                </option>
+              ))}
+            </NativeSelect>
+           </FormControl>
           </Box>
           <Button
             style={{
@@ -697,8 +667,9 @@ const AdminPanel = () => {
             <KeyboardDoubleArrowUpIcon />
           </Button>
         </FixedButtonGroup>
+
         {/* Content based on selected button */}
-        {selectedBtn == 1 && (
+        {selectedBtn === 1 && (
           <div>
             <div
               style={{ height: "100px", width: "100%" }}
@@ -707,8 +678,7 @@ const AdminPanel = () => {
             <div>
               <h2 style={{ color: "#22223b" }}>{changePassword}</h2>
               <div>
-                <input
-                  id="currentPassword"
+                <input id='currentPassword'
                   placeholder={currentPasswordTranslation}
                   style={{ margin: "12px 0", padding: "8px" }}
                   type="password"
@@ -717,8 +687,7 @@ const AdminPanel = () => {
                 />
               </div>
               <div>
-                <input
-                  id="newPassword"
+                <input id='newPassword'
                   placeholder={newPasswordTranslation}
                   style={{ margin: "12px 0", padding: "8px" }}
                   type="password"
@@ -733,14 +702,11 @@ const AdminPanel = () => {
                 {changePassword}
               </ColorButton>
             </div>
-            <div
-              id="passwordResult"
-              style={{ color: "#22223b", margin: "12px 0" }}
-            ></div>
+            <div id="passwordResult" style={{ color: "#22223b", margin: "12px 0" }}></div>
           </div>
         )}
 
-        {selectedBtn == 2 && (
+        {selectedBtn === 2 && (
           <div>
             <div
               style={{ height: "50px", width: "100%" }}
@@ -756,13 +722,14 @@ const AdminPanel = () => {
             />
             <ColorShadowButton
               style={{ color: "#ffffff" }}
-              onClick={() =>
-                uploadInputRef.current && uploadInputRef.current.click()
-              }
+              onClick={() => uploadInputRef.current&&uploadInputRef.current.click()}
             >
               {selectFile}
             </ColorShadowButton>
-            <div id="surveyFileName" style={{ color: "#22223b" }}>
+            <div 
+              id = "surveyFileName"
+              style={{ color: "#22223b" }} 
+            >
               {noFileSelected}
             </div>
             <ColorShadowButton
@@ -771,7 +738,11 @@ const AdminPanel = () => {
             >
               {uploadFile}
             </ColorShadowButton>
-            <div id="surveyUploadResult" style={{ color: "#22223b" }}></div>
+            <div 
+              id = "surveyUploadResult"
+              style={{ color: "#22223b" }} 
+            >
+            </div>
             <div
               style={{ height: "100px", width: "100%" }}
               className="spacer"
@@ -784,7 +755,9 @@ const AdminPanel = () => {
             ></div>
             <ul>
               {files.map((file) => (
-                <InnerContainer style={{ width: "120%" }}>
+                <InnerContainer 
+                  style={{ width: "120%" }}
+                >
                   <li key={file}>
                     {file}
                     <ColorButton
@@ -810,7 +783,7 @@ const AdminPanel = () => {
           </div>
         )}
 
-        {selectedBtn == 3 && (
+        {selectedBtn === 3 && (
           <div style={{ margin: "50px", padding: "15px" }}>
             <div
               style={{ height: "100px", width: "100%" }}
@@ -826,13 +799,14 @@ const AdminPanel = () => {
             />
             <ColorShadowButton
               style={{ color: "#ffffff" }}
-              onClick={() =>
-                uploadInputRef.current && uploadInputRef.current.click()
-              }
+              onClick={() => uploadInputRef.current&&uploadInputRef.current.click()}
             >
               {selectFile}
             </ColorShadowButton>
-            <div id="imageFileName" style={{ color: "#22223b" }}>
+            <div 
+              id = "imageFileName"
+              style={{ color: "#22223b" }} 
+            >
               {noFileSelected}
             </div>
             <ColorShadowButton
@@ -841,7 +815,11 @@ const AdminPanel = () => {
             >
               {uploadFile}
             </ColorShadowButton>
-            <div id="imageUploadResult" style={{ color: "#22223b" }}></div>
+            <div 
+              id = "imageUploadResult"
+              style={{ color: "#22223b" }} 
+            >
+            </div>
             <div
               style={{ height: "100px", width: "100%" }}
               className="spacer"
@@ -853,12 +831,13 @@ const AdminPanel = () => {
               className="spacer"
             ></div>
 
-            <div style={{ display: "flex", flexWrap: "wrap" }}>
+            <div style={{ color: "black", display: "flex", flexWrap: "wrap" }}>
               {imagesList.map((image) => (
                 <div
                   key={image}
-                  style={{ margin: "10px", position: "relative" }}
+                  style={{ margin: "10px", position: "relative", textAlign: "center"}}
                 >
+                {image}
                   <img
                     src={`/api/images/${image}`}
                     alt={image}
@@ -869,13 +848,13 @@ const AdminPanel = () => {
                     }}
                   />
                   <ColorButton
-                    style={{ position: "absolute", top: "-10px", right: "5px" }}
+                    style={{ position: "absolute", top: "15px", right: "5px", minWidth: "42px", color: "white"}}
                     onClick={() => removeImageFromList(image)}
                   >
                     &#x2715;
                   </ColorButton>
                   <ColorButton
-                    style={{ position: "absolute", top: "30px", right: "5px" }}
+                    style={{ position: "absolute", top: "55px", right: "5px", minWidth: "42px", color: "white" }}
                     onClick={() => downloadImageFromList(image)}
                   >
                     &#x2193;
@@ -889,7 +868,7 @@ const AdminPanel = () => {
             ></div>
           </div>
         )}
-        {selectedBtn == 4 && (
+        {selectedBtn === 4 && (
           <>
             <div
               style={{ height: "100px", width: "100%" }}

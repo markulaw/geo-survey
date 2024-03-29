@@ -52,7 +52,7 @@ const ColorButton = styled(Button)`
   margin: 12px 0 !important;
   background-color: #22223b !important;
   & hover{
-    background-color #22223b:
+    background-color: #22223b;
   }
   font-size: 1vw;
   @media (min-width: 600px) and (max-width: 1200px) {
@@ -62,35 +62,33 @@ const ColorButton = styled(Button)`
 
 // Set application language based on user preferences:
 var language = "en";
-if (localStorage.getItem("languageHook") == null) {
-  var language = window.navigator.language.substring(0, 2);
-  var languageFound = false;
-  for (var i = 0; i < languages.length; i++) {
-    if (languages[i].code == language) languageFound = true;
-  }
-  if (languageFound == false) language = "en";
-  localStorage.setItem("languageHook", JSON.stringify(language));
-  console.log("Detected language : " + language);
-} else {
-  language = JSON.parse(localStorage.getItem("languageHook") || "");
-  console.log("Found stored language : " + language);
+if (localStorage.getItem("languageHook") === null)
+{
+   language = window.navigator.language.substring(0,2);
+   var languageFound = false;
+   for (var i=0; i<languages.length; i++)
+   {
+    if (languages[i].code === language)
+       languageFound = true;
+   }
+   if (languageFound === false) language="en";
+   localStorage.setItem("languageHook", JSON.stringify(language));
+   console.log("Detected language : "+language);
 }
-console.log("SurveyItem language: " + language);
+else
+{
+   language = JSON.parse(localStorage.getItem("languageHook") || "");
+   console.log("Found stored language : "+language);
+}
+console.log("SurveyItem language: "+language);
 
-// Get translated strings based on selected language
 var description = (translations as any)[language]["description"];
 var showAnswers = (translations as any)[language]["showAnswers"];
-var numberOfFilledSurveys = (translations as any)[language][
-  "numberOfFilledSurveys"
-];
+var numberOfFilledSurveys = (translations as any)[language]["numberOfFilledSurveys"];
 var openSurvey = (translations as any)[language]["openSurvey"];
-var downloadAnswersJSON = (translations as any)[language][
-  "downloadAnswersJSON"
-];
+var downloadAnswersJSON = (translations as any)[language]["downloadAnswersJSON"];
 var downloadAnswersCSV = (translations as any)[language]["downloadAnswersCSV"];
-var deleteSurveyAndAnswers = (translations as any)[language][
-  "deleteSurveyAndAnswers"
-];
+var deleteSurveyAndAnswersTranslation = (translations as any)[language]["deleteSurveyAndAnswers"];
 
 const SurveyItem = ({
   survey,
@@ -101,28 +99,28 @@ const SurveyItem = ({
   countFilledSurveys,
   type,
 }: SurveyItemType) => {
+
   const navigate = useNavigate();
   const [reloadPage, setReloadPage] = useState(false);
 
+  // Refresh page after adding new survey
   useEffect(() => {
-    // Refresh page after adding new survey
     if (reloadPage) {
       navigate(`/adminPanel`);
       setReloadPage(false);
     }
   }, [reloadPage]);
 
-  // Function to delete answers
-  const deleteAnswers = () => {
-    setReloadPage(true);
-    deleteSurveyAndAnswers?.(survey.surveyId);
-  };
+const deleteAnswers = () => {
+  setReloadPage(true);
+  deleteSurveyAndAnswers?.(survey.surveyId)
+}
 
   return (
     <Container>
       <h3>{survey.title}</h3>
       <span>
-        {description}: {survey.desription}
+        {description}: {survey.description}
       </span>
       {type === "answers" && (
         <h4>
@@ -159,7 +157,7 @@ const SurveyItem = ({
           variant="contained"
           onClick={() => deleteSurveyAndAnswers?.(survey.surveyId)}
         >
-          {deleteSurveyAndAnswers}
+          {deleteSurveyAndAnswersTranslation}
         </ColorButton>
       )}
     </Container>

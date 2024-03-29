@@ -56,7 +56,7 @@ const Map = ({
   return (
     <MapContainer key={mapKey} scrollWheelZoom>
       {/* Rendering TileLayer or WMSTileLayer based on wmsParams */}
-      {wmsParams == undefined ? (
+      {wmsParams === undefined ? (
         <TileLayer url={mapUrl} attribution={mapAttribution} />
       ) : (
         <WMSTileLayer

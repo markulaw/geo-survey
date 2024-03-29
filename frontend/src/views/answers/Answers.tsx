@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getAnswers, getSurvey } from "../../api/surveyApi";
@@ -43,31 +43,29 @@ const Answers = () => {
   const [answers, setAnswers] = useState([]);
   const [survey, setSurvey] = useState<any>();
   let { id: surveyId } = useParams();
-
-  // Fetch survey answers and survey data on component mount
-  useEffect(() => {
-    if (surveyId) {
-      fetchAnaswers(+surveyId);
-      fetchSurvey(+surveyId);
-    }
-  }, []);
-
-  // Function to fetch survey answers
-  const fetchAnaswers = async (surveyId: number) => {
+    
+  const fetchAnswers = async (surveyId: number) => {
     const answers = await getAnswers(surveyId);
     setAnswers(answers);
   };
 
-  // Function to fetch survey data
   const fetchSurvey = async (surveyId: number) => {
     const survey = await getSurvey(surveyId);
     setSurvey(survey);
   };
 
+  // Fetch survey answers and survey data on component mount
+  useLayoutEffect(() => {
+    if (surveyId !== undefined) {
+      fetchAnswers(+surveyId);
+      fetchSurvey(+surveyId);
+    }
+  }, []);
+  
   // Language setting
   var language = "pl";
   if (localStorage.getItem("languageHook") != null)
-    language = JSON.parse(localStorage.getItem("languageHook") || "");
+      language = JSON.parse(localStorage.getItem("languageHook") || "");
 
   return (
     <Container>

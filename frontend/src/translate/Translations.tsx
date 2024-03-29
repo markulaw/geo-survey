@@ -3,7 +3,7 @@ export const languages = [
   { code: "pl", name: "Polski" },
 ];
 
-// Translations used for interface translations
+//Interface translation strings
 export const translations = {
   en: {
     // Language selection
@@ -37,7 +37,7 @@ export const translations = {
     // Login.tsx
     hi: "Hello!",
     // Answers.tsx
-    surveyResponses: "Survey responses",
+    surveyResponses: "Responses for survey",
     // AnswersList.tsx
     name: "Name",
     age: "Age",

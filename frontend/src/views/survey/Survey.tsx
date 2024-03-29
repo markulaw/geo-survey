@@ -107,7 +107,7 @@ const Survey = () => {
   const initializeMaxPoints = () => {
     if (
       survey?.categoriesNames !== undefined &&
-      maxPoints.length == 0 &&
+      maxPoints.length === 0 &&
       ifInitializedMaxPoints
     ) {
       maxPoints = [...maxPointsConstant];
@@ -115,7 +115,7 @@ const Survey = () => {
     }
     if (
       survey?.categoriesNames !== undefined &&
-      maxPoints.length == 0 &&
+      maxPoints.length === 0 &&
       !ifInitializedMaxPoints
     ) {
       for (let i = 0; i < survey?.categoriesNames?.length; i++) {
@@ -133,7 +133,7 @@ const Survey = () => {
   const initializeTotalPointsByCategories = () => {
     if (
       survey?.categoriesNames !== undefined &&
-      totalPointsByCategories.length == 0 &&
+      totalPointsByCategories.length === 0 &&
       !ifInitializedTotalPointsByCategories
     ) {
       totalPointsByCategories = [...totalPointsByCategoriesConstant];
@@ -141,7 +141,7 @@ const Survey = () => {
 
     if (
       survey?.categoriesNames !== undefined &&
-      totalPointsByCategories.length == 0 &&
+      totalPointsByCategories.length === 0 &&
       !ifInitializedTotalPointsByCategories
     ) {
       for (let i = 0; i < survey?.categoriesNames?.length; i++) {
@@ -549,7 +549,7 @@ const Survey = () => {
         survey?.questions[questionIndex]?.answer.geometry?.type === "Slider" &&
         survey?.questions[questionIndex].answerType === "Slider"
       ) {
-        if (survey?.questions[questionIndex]?.answer.goodAnswer == answer) {
+        if (survey?.questions[questionIndex]?.answer.goodAnswer === answer) {
           calculatedScore = maxScorePerQn;
           calculatedScore = calculatedScore >= 0 ? calculatedScore : 0;
           calculatedScore =
@@ -564,7 +564,7 @@ const Survey = () => {
       ) {
         const splitedArr = answer.split(",");
         for (let i = 0; i < splitedArr.length; i++) {
-          if (splitedArr[i] == "true") {
+          if (splitedArr[i] === "true") {
             calculatedScore +=
               maxScorePerQn *
               survey?.questions[questionIndex]?.answer.points[i];
@@ -619,7 +619,7 @@ const Survey = () => {
       ) {
         const splitedArr = answer.split(",");
         for (let i = 0; i < splitedArr.length; i++) {
-          if (splitedArr[i] == "true") {
+          if (splitedArr[i] === "true") {
             calculatedScore +=
               maxScorePerQn *
               survey?.questions[questionIndex]?.answer.points[i];
@@ -657,10 +657,10 @@ const Survey = () => {
       }
     calculatedScore = !Number.isNaN(calculatedScore) ? calculatedScore : 0;
 
-    if (maxPoints.length == 0) {
+    if (maxPoints.length === 0) {
       maxPoints = [...maxPointsConstant];
     }
-    if (totalPointsByCategories.length == 0) {
+    if (totalPointsByCategories.length === 0) {
       totalPointsByCategories = [...totalPointsByCategoriesConstant];
     }
     if (survey?.categories) {

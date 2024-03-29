@@ -54,9 +54,10 @@ ChartJS.register(
 
 // Component for displaying survey answers
 const AnswersList = ({ answers, survey }: any) => {
+
   // Language setting
   var language = "pl";
-  if (localStorage.getItem("languageHook") != null)
+  if (localStorage.getItem("languageHook") !== null)
     language = JSON.parse(localStorage.getItem("languageHook") || "");
 
   // State variables for selected question ID and respondent
@@ -236,6 +237,8 @@ const AnswersList = ({ answers, survey }: any) => {
 
   // Function to prepare for score calculation
   function prepareCalculation(): void {
+   if (survey !== undefined)
+   {
     allPointsLabels = [];
     allPointsLabels.length = 0;
     if (categories) {
@@ -261,10 +264,13 @@ const AnswersList = ({ answers, survey }: any) => {
     for (var i = 1; i < questionsLen; i++) {
       questionsLenArray.push(i);
     }
+   }
   }
 
   // Function to clear score sum
   const clearScoreSum = (answer: any) => {
+   if (survey !== undefined)
+   {
     totalPointsByCategories = [];
     totalPointsByCategories.length = 0;
     totalPointsByCategories = totalPointsByCategories = new Array(
@@ -310,7 +316,7 @@ const AnswersList = ({ answers, survey }: any) => {
 
     var respondentIdCounter = 0;
     for (const element of labels) {
-      if (element == respondent) break;
+      if (element === respondent) break;
       respondentIdCounter = respondentIdCounter + 1;
     }
 
@@ -383,11 +389,14 @@ const AnswersList = ({ answers, survey }: any) => {
       });
       responderId = responderId + 1;
     }
+   }
     return " ";
   };
 
   // Function to calculate answer based on question type
   const calculateAnswer = (answer: any): any => {
+   if (survey !== undefined)
+   {
     const questionAnswer = survey.questions.find(
       (question: any) => question.id === answer.questionId
     )?.answer;
@@ -505,16 +514,18 @@ const AnswersList = ({ answers, survey }: any) => {
         return answer?.table;
       }
     }
+   }    
     return null;
   };
 
   // Function to calculate score based on answer and categories' index
   const calculateScore = (answer: any, index: number): any => {
+   var calculatedScore = 0;
+   if (survey !== undefined)
+   {
     const questionAnswer = survey.questions.find(
       (question: any) => question.id === answer.questionId
     )?.answer;
-
-    var calculatedScore = 0;
 
     // Copy of the total points in the category
     var totalCopy = 0;
@@ -677,7 +688,7 @@ const AnswersList = ({ answers, survey }: any) => {
         questionAnswer?.geometry?.type === "Slider" &&
         answer?.type === "Slider"
       ) {
-        if (questionAnswer?.goodAnswer == answer?.sliderValue) {
+        if (questionAnswer?.goodAnswer === answer?.sliderValue) {
           // If the answer is good, award max points
           calculatedScore = maxScorePerQn;
           calculatedScore = calculatedScore >= 0 ? calculatedScore : 0;
@@ -697,7 +708,7 @@ const AnswersList = ({ answers, survey }: any) => {
       ) {
         const splitedArr = answer?.imagesChoose.split(",");
         for (let i = 0; i < splitedArr.length; i++) {
-          if (splitedArr[i] == "true") {
+          if (splitedArr[i] === "true") {
             // If the selected picture is the correct answer award partial points
             calculatedScore += maxScorePerQn * questionAnswer.points[i];
             calculatedScore =
@@ -756,7 +767,7 @@ const AnswersList = ({ answers, survey }: any) => {
       ) {
         const splitedArr = answer?.multipleChoice.split(",");
         for (let i = 0; i < splitedArr.length; i++) {
-          if (splitedArr[i] == "true") {
+          if (splitedArr[i] === "true") {
             // If the selected picture is the correct answer, award partial points
             calculatedScore += maxScorePerQn * questionAnswer.points[i];
             calculatedScore =
@@ -805,11 +816,13 @@ const AnswersList = ({ answers, survey }: any) => {
       totalPointsByCategories[0] = totalCopy;
       allPointsByCategories[0] = [...allAbilityCopy];
     }
+   }
     return calculatedScore;
   };
 
-  // Check that points are awarded in categories
+  // Check if points are awarded in categories
   function setCategories(): void {
+    if (survey !== undefined)
     {
       answers.map((answer: any) => (categories = survey.categories));
     }
@@ -873,10 +886,10 @@ const AnswersList = ({ answers, survey }: any) => {
                 <TableCell component="th" scope="row">
                   {answer.user.name}
                   <div>
-                    {answer.user.name != undefined &&
+                    {answer.user.name !== undefined &&
                       labels.push(answer.user.name)}
                   </div>
-                  <div>{answer.user.name != undefined && points.push(0)}</div>
+                  <div>{answer.user.name !== undefined && points.push(0)}</div>
                 </TableCell>
                 <TableCell>{answer.user.age}</TableCell>
                 <TableCell>{answer.user.gender}</TableCell>
@@ -1030,10 +1043,10 @@ const AnswersList = ({ answers, survey }: any) => {
         </Button>
       </ButtonGroup>
 
-      {selectedBtn == 1 && <Bar options={options} data={data} />}
-      {selectedBtn == 2 && <Bar options={options} data={dataDetailed} />}
+      {selectedBtn === 1 && <Bar options={options} data={data} />}
+      {selectedBtn === 2 && <Bar options={options} data={dataDetailed} />}
       <div style={{ height: "5%" }}></div>
-      {(selectedBtn == 3 || selectedBtn == 5 || selectedBtn == 6) && (
+      {(selectedBtn === 3 || selectedBtn === 5 || selectedBtn === 6) && (
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">
@@ -1057,11 +1070,11 @@ const AnswersList = ({ answers, survey }: any) => {
           </FormControl>
         </Box>
       )}
-      {selectedBtn == 3 && (
+      {selectedBtn === 3 && (
         <Bar options={options} data={dataQuestionDetailed} />
       )}
       <div style={{ height: "5%" }}></div>
-      {(selectedBtn == 4 || selectedBtn == 6) && (
+      {(selectedBtn === 4 || selectedBtn === 6) && (
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Respondent</InputLabel>
@@ -1083,13 +1096,13 @@ const AnswersList = ({ answers, survey }: any) => {
           </FormControl>
         </Box>
       )}
-      {selectedBtn == 4 && (
+      {selectedBtn === 4 && (
         <Bar options={options} data={dataRespondentDetailed} />
       )}
-      {selectedBtn == 5 && (
+      {selectedBtn === 5 && (
         <Bar options={options} data={dataQuestionDetailedAllResponders} />
       )}
-      {selectedBtn == 6 && (
+      {selectedBtn === 6 && (
         <Bar options={options} data={dataRespondentDetailedPerQuestion} />
       )}
     </Paper>

@@ -29,7 +29,6 @@ const Dashoard = () => {
     fetchSurveys();
   }, []);
 
-  // Function to fetch surveys from API
   const fetchSurveys = async () => {
     const importedSurveys = await getSurveys();
     setSurveys(importedSurveys);

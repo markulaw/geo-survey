@@ -280,7 +280,7 @@ const Question = ({
 
   // Get the selected language from local storage
   var language = "pl";
-  if (localStorage.getItem("languageHook") != null)
+  if (localStorage.getItem("languageHook") !== null)
     language = JSON.parse(localStorage.getItem("languageHook") || "");
 
   // Translations:
@@ -335,9 +335,9 @@ const Question = ({
 
     var hasAnyEmptyElement =
       tableChoicesTmp.filter(function (val: any) {
-        return typeof val != "undefined";
-      }).length != tableChoicesTmp.length;
-    if (!hasAnyEmptyElement && tableChoicesTmp.length == length) {
+        return typeof val !== "undefined";
+      }).length !== tableChoicesTmp.length;
+    if (!hasAnyEmptyElement && tableChoicesTmp.length === length) {
       handleTableChoices(tableChoicesTmp, currentQuestionId);
     }
   };
@@ -457,12 +457,12 @@ const Question = ({
             : " "}
         </h5>
 
-        {question?.answerType != "Slider" &&
-          question?.answerType != "Images" &&
-          question?.answerType != "Table" &&
-          question?.answerType != "SingleChoice" &&
-          question?.answerType != "SingleImage" &&
-          question?.answerType != "MultipleChoice" && (
+        {question?.answerType !== "Slider" &&
+          question?.answerType !== "Images" &&
+          question?.answerType !== "Table" &&
+          question?.answerType !== "SingleChoice" &&
+          question?.answerType !== "SingleImage" &&
+          question?.answerType !== "MultipleChoice" && (
             <ColorButton variant="contained" onClick={selectHandler}>
               {question?.answerType === "LineString" ? startDrawing : select}
             </ColorButton>
@@ -481,7 +481,7 @@ const Question = ({
           <CustomImage src={process.env.PUBLIC_URL + question?.img} />
         )}
 
-        {question?.answerType == "Images" && (
+        {question?.answerType === "Images" && (
           <Stack direction="row" spacing={0}>
             {question?.answer.answers.map((image: any, i: number) => (
               <Button
@@ -499,7 +499,7 @@ const Question = ({
           </Stack>
         )}
 
-        {question?.answerType == "SingleImage" && (
+        {question?.answerType === "SingleImage" && (
           <FormControl>
             <RadioGroup
               onChange={changeSingleImageVal}
@@ -529,7 +529,7 @@ const Question = ({
           </FormControl>
         )}
 
-        {question?.answerType == "Table" && (
+        {question?.answerType === "Table" && (
           <TableContainer style={{ width: "50%" }}>
             <Table>
               <TableHead>
@@ -571,7 +571,7 @@ const Question = ({
                           {question?.answer.answers.map(
                             (answer: any, j: number) => (
                               <CustomFormControlLabel
-                                checked={tableChoices[i] == j}
+                                checked={tableChoices[i] === j}
                                 value={j}
                                 control={<Radio />}
                                 label={answer}
