@@ -1,18 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
-import { MapContainer, TileLayer, WMSTileLayer, useMap } from "react-leaflet";
+import React from "react";
+import { MapContainer, TileLayer, WMSTileLayer } from "react-leaflet";
 import "./map.css";
 import EditMap from "./EditMap";
-import * as L from "leaflet";
-
-// Component for changing the view of the map
-function ChangeView({ center, zoom, isMapAttributesChanges }: any) {
-  const map = useMap();
-  if (isMapAttributesChanges.current) {
-    map.setView(center, zoom);
-    isMapAttributesChanges.current = false;
-  }
-  return null;
-}
+import L from "leaflet";
 
 // Component for rendering maps with Leaflet
 const Map = ({
@@ -28,33 +18,11 @@ const Map = ({
   wmsParams,
   mapAttribution,
 }: any) => {
-  const [mapZoom, setMapZoom] = useState(15);
-  const [mapCenter, setMapCenter] = useState([54, 18]);
-  const [mapKey, setMapKey] = useState(0);
-  const isMapAttributesChanges = useRef(false);
 
-  // Effect to handle changes in zoom and center of the map
-  useEffect(() => {
-    if (zoom && center) {
-      setMapZoom(zoom);
-      setMapCenter(center);
-      isMapAttributesChanges.current = true;
-    }
-  }, [zoom, center]);
-
-  // Effect to handle changes in the map URL
-  useEffect(() => {
-    // Refresh server key on layer change
-    setMapKey((prevKey) => prevKey + 1);
-    if (zoom && center) {
-      setMapZoom(zoom);
-      setMapCenter(center);
-      isMapAttributesChanges.current = true;
-    }
-  }, [mapUrl]);
+  if (!mapUrl || !zoom || !center) return null;
 
   return (
-    <MapContainer key={mapKey} scrollWheelZoom>
+    <MapContainer scrollWheelZoom zoom={zoom} center={center}>
       {/* Rendering TileLayer or WMSTileLayer based on wmsParams */}
       {wmsParams === undefined ? (
         <TileLayer url={mapUrl} attribution={mapAttribution} />
@@ -68,11 +36,6 @@ const Map = ({
           version={wmsParams.VERSION}
         />
       )}
-      <ChangeView
-        center={mapCenter}
-        zoom={mapZoom}
-        isMapAttributesChanges={isMapAttributesChanges}
-      />
       <EditMap
         updateAnswer={updateAnswer}
         actualAnswer={actualAnswer}

@@ -17,6 +17,7 @@ export type SurveyType = {
   categories: boolean | undefined;
   categoriesNames: string[];
   scoringCategoriesDescription: any | undefined;
+  description?: string;
 };
 
 // Define the wmsParamsType interface

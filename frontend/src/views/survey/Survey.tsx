@@ -787,6 +787,9 @@ const Survey = () => {
   //console.log("wmsParams global: "+survey?.wmsParams);
   //console.log("wmsParams local: "+survey?.questions[currentQuestionId].wmsParams);
   //console.log("wmsParams LAYERS: "+survey?.wmsParams.LAYERS);
+  const zoom = survey?.questions[currentQuestionId].mapZoom || survey?.zoom;
+  const center = survey?.questions[currentQuestionId].mapCenter || survey?.center;
+  const mapUrl = survey?.questions[currentQuestionId].mapUrlForQuestion || survey?.mapUrl;
 
   return (
     <Container>
@@ -812,20 +815,16 @@ const Survey = () => {
         completedSurvey={completedSurvey}
       />
       <Map
+        key={`${zoom}+${center}+${mapUrl}`}
         updateAnswer={updateAnswer}
         actualAnswer={answer}
         answerType={survey?.questions[currentQuestionId].answerType}
         questionIndex={currentQuestionId}
         mapFunc={mapFunc}
-        zoom={survey?.questions[currentQuestionId].mapZoom || survey?.zoom}
-        center={
-          survey?.questions[currentQuestionId].mapCenter || survey?.center
-        }
+        zoom={zoom}
+        center={center}
         mapEndDrawFunc={mapEndDrawFunc}
-        mapUrl={
-          survey?.questions[currentQuestionId].mapUrlForQuestion ||
-          survey?.mapUrl
-        }
+        mapUrl={mapUrl}
         wmsParams={
           survey?.questions[currentQuestionId].wmsParams || survey?.wmsParams
         }
