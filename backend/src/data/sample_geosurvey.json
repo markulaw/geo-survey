@@ -2,7 +2,7 @@
   {
     "surveyId": 1,
     "title": "Sample Geosurvey",
-    "desription": "Tests the knowledge of the City of Gdansk",
+    "description": "Tests the knowledge of the City of Gdansk",
     "zoom": 12,
     "center": [54.35, 18.64],
     "mapUrl": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
