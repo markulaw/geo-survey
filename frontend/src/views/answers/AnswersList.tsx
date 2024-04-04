@@ -446,13 +446,28 @@ const AnswersList = ({ answers, survey }: any) => {
         let poly = questionAnswer.geometry;
         const poly2 = feature(poly);
         var overlapping = lineSplit(feature(line), poly2);
-        let intersectionLength2 = 0;
-        for (let i = 0; i < overlapping.features.length; i++) {
-          let pointInCenter = centerOfMass(overlapping.features[i]);
-          if (booleanPointInPolygon(pointInCenter, poly))
-            intersectionLength2 += length(overlapping.features[i].geometry);
+        console.log("Overlapping features: "+overlapping.features);
+        let intersectionLength2 = 0;        
+        if (overlapping.features.length === 0)
+        {
+           var lineIsInsidePoly = booleanPointInPolygon(point(line.coordinates[0]), poly2);
+           console.log("Line is inside polygon: "+lineIsInsidePoly);
+           // Line is completely inside of polygon:
+           if (lineIsInsidePoly)
+               intersectionLength2 = length(line);
+        }
+        else
+        {
+           for (let i = 0; i < overlapping.features.length; i++) 
+           {
+             let pointInCenter = centerOfMass(overlapping.features[i]);
+             if (booleanPointInPolygon(pointInCenter, poly2))
+               intersectionLength2 += length(overlapping.features[i].geometry);
+               console.log("intersectionLength2: "+intersectionLength2);
+           }
         }
         const lineLength = length(line);
+        console.log("lineLength: "+lineLength);
         let percentage = (intersectionLength2 / lineLength) * 100;
         return Math.round(percentage) + "%";
       }
