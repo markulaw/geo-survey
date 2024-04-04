@@ -5,7 +5,7 @@ import axiosSurveyApp from "./axiosApi";
 export type SurveyType = {
   surveyId: number;
   title: string;
-  desription: string;
+  description: string;
   zoom: number;
   center: number[];
   mapUrl: string;
@@ -17,7 +17,6 @@ export type SurveyType = {
   categories: boolean | undefined;
   categoriesNames: string[];
   scoringCategoriesDescription: any | undefined;
-  description?: string;
 };
 
 // Define the wmsParamsType interface
