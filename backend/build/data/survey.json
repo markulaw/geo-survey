@@ -204,7 +204,7 @@
     {
         "id": 2,
         "title": "Survey 2",
-        "desription": "Survey for group 2",
+        "description": "Survey for group 2",
         "zoom": 12,
         "center": [54.35, 18.64],
         "mapUrl": "https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=f2597231df4b447e8d964abff0408ad5",
