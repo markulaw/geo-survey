@@ -76,7 +76,7 @@ const EditMap = ({
             editRef.current._toolbars.draw._modes.polyline.handler._onTouch;
           editRef.current._toolbars.draw._modes.polyline.handler._onTouch =
             function (e: any) {
-              if (e.originalEvent.pointerType != "mouse") {
+              if (e.originalEvent.pointerType !== "mouse") {
                 return originalOnTouch.call(this, e);
               }
             };
