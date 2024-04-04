@@ -117,7 +117,6 @@ const InnerContainer = styled.div`
 
 const AdminPanel = () => {
   const [surveys, setSurveys] = useState<SurveyType[] | []>([]);
-  const [answers, setAnswers] = useState<any[]>([]);
   const [file, setFile] = useState<File | null>(null);
   const [numberOfFilledSurveys, setNumberOfFilledSurveys] = useState<number[]>(
     []
@@ -228,7 +227,8 @@ const AdminPanel = () => {
   const fetchAnswers = async (surveyId: number) => {
     try {
       const response = await getAnswers(surveyId);
-      setAnswers(response);
+      //setAnswers(response);
+      return response;
     } catch (error) {
       console.error("Data download error: ", error);
     }
@@ -244,8 +244,8 @@ const AdminPanel = () => {
   };
 
   // Function to download survey answers in JSON format
-  const downloadJSON = (surveyId: number) => {
-    fetchAnswers(surveyId);
+  const downloadJSON = async (surveyId: number) => {
+    const answers = await fetchAnswers(surveyId);
 
     if (answers.length === 0) {
       console.log("No data available for download.");
@@ -267,8 +267,8 @@ const AdminPanel = () => {
   };
 
   // Function to download survey answers in CSV format
-  const downloadCSV = (surveyId: number) => {
-    fetchAnswers(surveyId);
+  const downloadCSV = async (surveyId: number) => {
+    const answers = await fetchAnswers(surveyId);
 
     if (answers.length === 0) {
       console.log("No data available for download.");
@@ -282,7 +282,7 @@ const AdminPanel = () => {
 
     // Create CSV content
     const csvContent = `${headers.join(",")}\n${answers
-      .map((entry) => {
+      .map((entry: any) => {
         const userValues = Object.values(entry.user);
         const answersValues = entry.answers
           .map((ans: any) => Object.values(ans))
