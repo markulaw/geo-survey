@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -828,6 +828,9 @@ const AnswersList = ({ answers, survey }: any) => {
     }
   }
 
+  setCategories();
+  prepareCalculation();
+
   return (
     <Paper style={{ height: selectedBtn > 0 ? "40%" : "90%", width: "100%" }}>
       <TableContainer
@@ -857,8 +860,7 @@ const AnswersList = ({ answers, survey }: any) => {
               </TableCell>
               <TableCell>{(translations as any)[language]["answer"]}</TableCell>
 
-              {setCategories()}
-              {prepareCalculation()}
+              
 
               {categories && (
                 <>

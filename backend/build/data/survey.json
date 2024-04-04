@@ -2,7 +2,7 @@
     {
         "id": 1,
         "title": "Survey 1",
-        "desription": "Survey for group 1",
+        "description": "Survey for group 1",
         "zoom": 12,
         "center": [54.35, 18.64],
         "mapUrl": "https://api.mapbox.com/styles/v1/lauraze/clb0ydhn000b515okgk1arhpt/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibGF1cmF6ZSIsImEiOiJjbGFrNWJpYWEwMXhrM3BrMGNzcjRxbHJnIn0.hkW5MCMUiauMLpECyatoMw",
@@ -204,7 +204,7 @@
     {
         "id": 2,
         "title": "Survey 2",
-        "desription": "Survey for group 2",
+        "description": "Survey for group 2",
         "zoom": 12,
         "center": [54.35, 18.64],
         "mapUrl": "https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=f2597231df4b447e8d964abff0408ad5",

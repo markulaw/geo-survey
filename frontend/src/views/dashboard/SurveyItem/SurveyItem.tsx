@@ -120,7 +120,7 @@ const deleteAnswers = () => {
     <Container>
       <h3>{survey.title}</h3>
       <span>
-        {description}: {survey.description}
+        {description}: {survey?.description}
       </span>
       {type === "answers" && (
         <h4>

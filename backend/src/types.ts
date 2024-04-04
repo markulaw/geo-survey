@@ -2,7 +2,7 @@
 export interface SurveyEntry {
   surveyId: number;
   title: string;
-  desription: string;
+  description: string;
   categories: boolean | undefined;
   categoriesNames: string[] | undefined;
   questions: QuestionType[];

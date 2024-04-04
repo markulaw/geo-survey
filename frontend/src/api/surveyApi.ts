@@ -5,7 +5,7 @@ import axiosSurveyApp from "./axiosApi";
 export type SurveyType = {
   surveyId: number;
   title: string;
-  desription: string;
+  description: string;
   zoom: number;
   center: number[];
   mapUrl: string;

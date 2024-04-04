@@ -485,6 +485,7 @@ const Question = ({
           <Stack direction="row" spacing={0}>
             {question?.answer.answers.map((image: any, i: number) => (
               <Button
+                key={i}
                 variant="contained"
                 onClick={() => handleImagesChange(i)}
                 style={{
@@ -571,6 +572,7 @@ const Question = ({
                           {question?.answer.answers.map(
                             (answer: any, j: number) => (
                               <CustomFormControlLabel
+                                key={j}
                                 checked={tableChoices[i] === j}
                                 value={j}
                                 control={<Radio />}
@@ -608,6 +610,7 @@ const Question = ({
             <RadioGroup onChange={changeSingleVal} value={singleChoiceVal}>
               {question?.answer.answers.map((answers: any, i: number) => (
                 <CustomFormControlLabel
+                  key={i}
                   value={i}
                   label={answers}
                   control={<Radio />}
@@ -621,6 +624,7 @@ const Question = ({
           <FormGroup>
             {question?.answer.answers.map((answers: any, i: number) => (
               <CustomFormControlLabel
+                key={i}
                 value={i}
                 control={
                   <Checkbox
