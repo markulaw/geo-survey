@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import Button from "@mui/material/Button";
 import { getAnswers, getSurvey } from "../../api/surveyApi";
 import AnswersList from "./AnswersList";
 import { translations } from "../../translate/Translations";
@@ -17,19 +18,30 @@ const Container = styled.div`
   height: 100%;
 `;
 
+const ColorButton = styled(Button)`
+  margin-top: 15px !important;
+  margin-bottom: 10px;
+  background-color: ${({ disabled }) =>
+    disabled ? "#555574" : "#22223b"}!important;
+  color: white !important;
+  & hover{
+    background-color #22223b:
+  }
+`;
+
 const Content = styled.div`
   width: 90%;
   height: 100%;
-  padding: 24px;
+  padding: 5px 24px 34px;
   background: #ffffff;
   border-color: rgba(255, 255, 255, 0.5);
   border-style: solid;
   border-width: 1px;
   border-radius: 15px;
   color: #22223b;
-  -webkit-box-shadow: 0px 0px 26px 2px rgba(66, 68, 90, 1);
-  -moz-box-shadow: 0px 0px 26px 2px rgba(66, 68, 90, 1);
-  box-shadow: 0px 0px 26px 2px rgba(66, 68, 90, 1);
+/*  -webkit-box-shadow: 0px 0px 26px 2px rgba(66, 68, 90, 1); */
+/*  -moz-box-shadow: 0px 0px 26px 2px rgba(66, 68, 90, 1); */
+/*  box-shadow: 0px 0px 26px 2px rgba(66, 68, 90, 1); */
 `;
 
 const AnswersHeader = styled.h2`
@@ -67,6 +79,8 @@ const Answers = () => {
   if (localStorage.getItem("languageHook") != null)
       language = JSON.parse(localStorage.getItem("languageHook") || "");
 
+  let navigate = useNavigate();
+  
   return (
     <Container>
       <Content>
@@ -75,6 +89,12 @@ const Answers = () => {
         </AnswersHeader>
         <AnswersList answers={answers} survey={survey} />
       </Content>
+        <ColorButton
+            variant="contained"
+            onClick={() => navigate(-1)}
+          >
+          {(translations as any)[language]["goBack"]}          
+          </ColorButton>      
     </Container>
   );
 };

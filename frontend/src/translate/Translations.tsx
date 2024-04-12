@@ -34,6 +34,7 @@ export const translations = {
     passwordChangeFail: "Error changing password. Check error console.",
     confirmFileDelete: "Are you sure you want to delete this file?",
     downloadFile: "Download",
+    goBack: "Back",
     // Login.tsx
     hi: "Hello!",
     // Answers.tsx
@@ -128,6 +129,7 @@ export const translations = {
     passwordChangeFail: "Wystąpił błąd. Sprawdź konsolę błędów.",
     confirmFileDelete: "Czy na pewno usunąć plik?",
     downloadFile: "Pobierz",
+    goBack: "Powrót",    
     // Login.tsx
     hi: "Cześć!",
     // Answers.tsx

@@ -119,13 +119,13 @@ const AnswersList = ({ answers, survey }: any) => {
       legend: {
         labels: {
           font: {
-            size: 16,
+            size: 15,
             color: "black",
           },
         },
       },
       title: {
-        display: true,
+        display: false,
         font: {
           size: 22,
           color: "black",
@@ -142,7 +142,7 @@ const AnswersList = ({ answers, survey }: any) => {
         },
         ticks: {
           font: {
-            size: 16,
+            size: 14,
             color: "#FFFFFF",
           },
         },
@@ -156,7 +156,7 @@ const AnswersList = ({ answers, survey }: any) => {
         },
         ticks: {
           font: {
-            size: 18,
+            size: 15,
             color: "#FFFFFF",
           },
         },
@@ -1071,7 +1071,7 @@ const AnswersList = ({ answers, survey }: any) => {
       <div style={{ height: "5%" }}></div>
       {(selectedBtn === 3 || selectedBtn === 5 || selectedBtn === 6) && (
         <Box sx={{ minWidth: 120 }}>
-          <FormControl fullWidth>
+          <FormControl fullWidth size="small">
             <InputLabel id="demo-simple-select-label">
               {(translations as any)[language]["questionId"]}
             </InputLabel>
@@ -1099,7 +1099,7 @@ const AnswersList = ({ answers, survey }: any) => {
       <div style={{ height: "5%" }}></div>
       {(selectedBtn === 4 || selectedBtn === 6) && (
         <Box sx={{ minWidth: 120 }}>
-          <FormControl fullWidth>
+          <FormControl fullWidth size="small">
             <InputLabel id="demo-simple-select-label">Respondent</InputLabel>
             <Select
               labelId="demo-simple-select-label"

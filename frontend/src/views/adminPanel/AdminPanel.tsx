@@ -234,12 +234,9 @@ const AdminPanel = () => {
     }
   };
 
-  // Function for starting a survey
+  // Function for starting a subpage
   const startHandler = (id: number) => {
     navigate(`/survey/${id}/answers`, {
-//      state: {
-//        survey: surveys.find((survey) => survey.surveyId === id),
-//      },
     });
   };
 

@@ -10,7 +10,7 @@ import Answers from '../answers/Answers'
 // Styled component for the main layout container
 const PageLayout = styled.div`
   height: 100vh; 
-  background: #F7F7F7;
+  background: #FFFFFF;
   color: white;
 `
 // Styled component for the main content area
