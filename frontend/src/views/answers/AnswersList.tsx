@@ -871,9 +871,6 @@ const AnswersList = ({ answers, survey }: any) => {
               <TableCell>{(translations as any)[language]["age"]}</TableCell>
               <TableCell>{(translations as any)[language]["gender"]}</TableCell>
               <TableCell>
-                {(translations as any)[language]["residencePlace"]}
-              </TableCell>
-              <TableCell>
                 {(translations as any)[language]["questionId"]}
               </TableCell>
               <TableCell>
@@ -916,7 +913,6 @@ const AnswersList = ({ answers, survey }: any) => {
                 </TableCell>
                 <TableCell>{answer.user.age}</TableCell>
                 <TableCell>{answer.user.gender}</TableCell>
-                <TableCell>{answer.user.residencePlace}</TableCell>
                 <TableCell>
                   {answer.answers.map((answer: any) => {
                     return (

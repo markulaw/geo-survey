@@ -69,7 +69,6 @@ type UserDataType = {
   name: string;
   age: string;
   gender: string;
-  residencePlace: string;
 };
 
 const LoginForm = () => {
@@ -133,13 +132,11 @@ const LoginForm = () => {
     name: getRandomSixLetterWord(),
     age: "",
     gender: "",
-    residencePlace: "",
   });
   const [userDataValidation, setUserDataValidation] = useState<UserDataType>({
     name: "",
     age: "",
     gender: "",
-    residencePlace: "",
   });
   const navigate = useNavigate();
   const [survey, setSurvey] = useState<SurveyType | undefined>(undefined);
@@ -148,19 +145,16 @@ const LoginForm = () => {
   // Function to handle the start button click event
   // Field validation
   const onClick = () => {
-    const { name, age, gender, residencePlace } = userData;
+    const { name, age, gender } = userData;
     const nameValidation = name === "" ? { enterField } : "";
     const ageValidation =
       age === "" ? { enterField } : !Number.isInteger(+age) ? { typeYear } : "";
     const genderValidation = gender === "" ? { enterField } : "";
-    const residencePlaceValidation =
-      residencePlace === "" ? { enterField } : "";
 
     if (
       nameValidation !== "" ||
       ageValidation !== "" ||
-      genderValidation !== "" ||
-      residencePlaceValidation !== ""
+      genderValidation !== ""
     ) {
       objectPropertyChange(
         userDataValidation,
@@ -168,7 +162,6 @@ const LoginForm = () => {
           name: nameValidation,
           age: ageValidation,
           gender: genderValidation,
-          residencePlace: residencePlaceValidation,
         },
         (userDataValidation) => {
           setUserDataValidation(userDataValidation);
@@ -192,7 +185,6 @@ const LoginForm = () => {
       name: "",
       age: "",
       gender: "",
-      residencePlace: "",
     });
   };
 
@@ -240,37 +232,6 @@ const LoginForm = () => {
         <MenuItem value="male">{male}</MenuItem>
         <MenuItem value="female">{female}</MenuItem>
         <MenuItem value="noData">{irrelevant}</MenuItem>
-      </CustomBorderTextField>
-      <CustomBorderTextField
-        required
-        label={city}
-        select
-        error={!!userDataValidation.residencePlace}
-        helperText={userDataValidation.residencePlace}
-        onChange={(e) => userDataChange("residencePlace", e.target.value)}
-        value={userData.residencePlace}
-      >
-        <MenuItem value="none">{notOnList}</MenuItem>
-        <MenuItem value="Blackburn">Blackburn</MenuItem>
-        <MenuItem value="Droylsden">Droylsden</MenuItem>
-        <MenuItem value="Gdańsk">Gdańsk</MenuItem>
-        <MenuItem value="Warszawa">Warszawa</MenuItem>
-        <MenuItem value="Białystok">Białystok</MenuItem>
-        <MenuItem value="Bydgoszcz">Bydgoszcz</MenuItem>
-        <MenuItem value="Gorzów Wielkopolski">Gorzów Wielkopolski</MenuItem>
-        <MenuItem value="Katowice">Katowice</MenuItem>
-        <MenuItem value="Kielce">Kielce</MenuItem>
-        <MenuItem value="Kraków">Kraków</MenuItem>
-        <MenuItem value="Lublin">Lublin</MenuItem>
-        <MenuItem value="Łódź">Łódź</MenuItem>
-        <MenuItem value="Olsztyn">Olsztyn</MenuItem>
-        <MenuItem value="Opole">Opole</MenuItem>
-        <MenuItem value="Poznań">Poznań</MenuItem>
-        <MenuItem value="Rzeszów">Rzeszów</MenuItem>
-        <MenuItem value="Szczecin">Szczecin</MenuItem>
-        <MenuItem value="Toruń">Toruń</MenuItem>
-        <MenuItem value="Wrocław">Wrocław</MenuItem>
-        <MenuItem value="Zielona Góra">Zielona Góra</MenuItem>
       </CustomBorderTextField>
 
       <ButtonContainer>

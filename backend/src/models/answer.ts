@@ -26,7 +26,6 @@ const answerSchema = new mongoose.Schema({
     name: String,
     age: Number,
     gender: String,
-    residencePlace: String,
   },
   answers: [
     {
