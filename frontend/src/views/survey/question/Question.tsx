@@ -50,7 +50,7 @@ const QuestionContainer = styled.div`
   position: absolute;
   top: 5%;
   right: 5%;
-  width: 40%;
+  width: 33%;
   z-index: 9998;
   background: #ffffff;
   color: #22223b;
@@ -135,12 +135,12 @@ const ColorButton = styled(Button)`
 `;
 
 const CustomImage = styled.img`
-  width: auto; /* Automatyczna szerokość, aby zachować proporcje */
+  width: auto; /* Automatic width, to keep proportions */
   max-width: calc(
     100% - 10px
-  ); /* Maksymalna szerokość do szerokości ekranu minus 10px */
-  max-height: 300px; /* Maksymalna wysokość 450px */
-  object-fit: contain; /* Wyświetl obraz w całości na wysokość */
+  ); /* Maximum width is container width minus 10px */
+  max-height: 300px; /* Maximum height 300px */
+  object-fit: contain; /* Fit the image vertically */
   margin-bottom: 12px;
 
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
