@@ -11,15 +11,13 @@
     "summaryDetails": {
       "thanks": {
         "generic": true,
-        "custom": "We have analysed your answers."
+        "custom": "We have analysed your answers in the following categories."
       },
       "points": {
         "pointsWithoutConditions": true
       },
-      "percentage": {
-        "percentageWithoutConditions": true
-      },
       "categories": {
+        "theBestCategoryPercentageDisplay" : true,
         "theBestCategorySummaryDescription": true
       }
     },
