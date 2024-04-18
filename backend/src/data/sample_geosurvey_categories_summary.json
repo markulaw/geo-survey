@@ -11,7 +11,7 @@
     "summaryDetails": {
       "thanks": {
         "generic": true,
-        "custom": "Your answers will help us."
+        "custom": "We have analysed your answers."
       },
       "percentage": {
         "percentageWithoutConditions": true
@@ -25,15 +25,15 @@
     "scoringCategoriesDescription": [
       {
         "name": "Spatiality",
-        "theBestCategorySummaryDescription": "You have the good ability to understand and utilize spatial relationships and dimensions."
+        "theBestCategorySummaryDescription": "You have good ability to understand and utilize spatial relationships and dimensions."
       },
       {
         "name": "Navigation",
-        "theBestCategorySummaryDescription": "You have the good ability to determine and follow routes using maps, compasses, or GPS technology."
+        "theBestCategorySummaryDescription": "You have good ability to determine and follow routes using maps, compasses, or GPS technology."
       },
       {
         "name": "Observation",
-        "theBestCategorySummaryDescription": "You have the good ability to attentively perceive and gather information about your surroundings."
+        "theBestCategorySummaryDescription": "You have good ability to attentively perceive and gather information about your surroundings."
       }
     ],
     "questions": [
@@ -46,7 +46,7 @@
             "type": "SingleChoice"
           },
           "answers": ["High", "Medium", "Low"],
-          "points": [1, 0, 0],
+          "points": [1, 0.5, 0],
           "scoringCategories": [
             {
               "name": "Spatiality",
@@ -222,6 +222,7 @@
         "answerType": "Polygon",
         "question": "Select the area of the Main City district in Gdańsk.",
         "answer": {
+          "acceptableMin": 0,
           "geometry": {
             "type": "Polygon",
             "coordinates": [
@@ -268,6 +269,95 @@
             {
               "name": "Navigation",
               "score": 1
+            },
+            {
+              "name": "Observation",
+              "score": 0
+            }
+          ]
+        }
+      },
+      {
+        "id": 9,
+        "answerType": "MultipleChoice",
+        "question": "Which of the following activities are available in Gdansk? (Select all that apply)",
+        "answer": {
+          "geometry": {
+            "type": "MultipleChoice"
+          },
+          "answers": [
+            "Attending community events",
+            "Exploring nature trails",
+            "Visiting local parks",
+            "Interacting with local art installations",
+            "Participating in community sports events"
+          ],
+          "points": [1, 1, 1, 1, 1],
+          "scoringCategories": [
+            {
+              "name": "Spatiality",
+              "score": 1
+            },
+            {
+              "name": "Navigation",
+              "score": 0
+            },
+            {
+              "name": "Observation",
+              "score": 1
+            }
+          ]
+        }
+      },
+      {
+        "id": 10,
+        "answerType": "Images",
+        "question": "Select the map types in which you can clearly see the city of Gdansk.",
+        "answer": {
+          "geometry": {
+            "type": "Images"
+          },
+          "answers": [
+            "/api/images/map1",
+            "/api/images/map2",
+            "/api/images/map3"
+          ],
+          "points": [1, 0.25, 0.25],
+          "scoringCategories": [
+            {
+              "name": "Spatiality",
+              "score": 0
+            },
+            {
+              "name": "Navigation",
+              "score": 1
+            },
+            {
+              "name": "Observation",
+              "score": 0
+            }
+          ]
+        }
+      },
+      {
+        "id": 11,
+        "answerType": "Slider",
+        "question": "How satisfied are you with this questionnaire?",
+        "answer": {
+          "geometry": {
+            "type": "Slider"
+          },
+          "minSlider": 0,
+          "maxSlider": 100,
+          "goodAnswer": 50,
+          "scoringCategories": [
+            {
+              "name": "Spatiality",
+              "score": 0
+            },
+            {
+              "name": "Navigation",
+              "score": 0
             },
             {
               "name": "Observation",

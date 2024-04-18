@@ -141,7 +141,7 @@
       {
         "id": 9,
         "answerType": "MultipleChoice",
-        "question": "Which of the following activities bring you joy in your local community? (Select all that apply)",
+        "question": "Which of the following activities are available in Gdansk? (Select all that apply)",
         "answer": {
           "geometry": {
             "type": "MultipleChoice"
@@ -159,7 +159,7 @@
       {
         "id": 10,
         "answerType": "Images",
-        "question": "Point out maps that are readable to you.",
+        "question": "Select the map types in which you can clearly see the city of Gdansk.",
         "answer": {
           "geometry": {
             "type": "Images"
@@ -175,7 +175,7 @@
       {
         "id": 11,
         "answerType": "Slider",
-        "question": "What is your percentage of satisfaction with the peacefulness of your neighborhood?",
+        "question": "How satisfied are you with this questionnaire?",
         "answer": {
           "geometry": {
             "type": "Slider"
