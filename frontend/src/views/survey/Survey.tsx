@@ -450,8 +450,6 @@ const Survey = () => {
         survey?.questions[questionIndex]?.answer.geometry.type === "Point" &&
         survey?.questions[questionIndex].answerType === "Point"
       ) {
-      console.log("question: "+questionIndex);
-      console.log("distance: "+distance(answer, survey?.questions[questionIndex]?.answer.geometry));      
         if (
           distance(answer, survey?.questions[questionIndex]?.answer.geometry, {
             units: "meters",
@@ -476,7 +474,6 @@ const Survey = () => {
         calculatedScore =
           Math.round((calculatedScore + Number.EPSILON) * 100) / 100;
         calculatedMaxScore = maxScorePerQn;
-        console.log("calculatedScore: "+calculatedScore);
       } else if (
         survey?.questions[questionIndex]?.answer.geometry?.type === "Polygon" &&
         survey?.questions[questionIndex].answerType === "Point"
@@ -721,6 +718,9 @@ const Survey = () => {
     // The percentage of correct answers
     percentages = percentages.map((number) => Math.round(number * 10) / 10);
 
+    var pointsSummary = "";
+    var percentagesSummary = "";
+
     // Find the category in which the respondent scored the most points (if category exist)
     let maxIndex = 0;
     let maxValue = percentages[0];
@@ -729,13 +729,16 @@ const Survey = () => {
       survey?.summaryDetails !== undefined &&
       survey?.categoriesNames !== undefined
     ) {
-      for (let i = 1; i < percentages.length; i++) {
+      for (let i = 0; i < percentages.length; i++) {
+        pointsSummary+= survey?.categoriesNames[i] + ": "+scored+flattenedTotalArray[i]+"/"+flattenedMaxArray[i]+" "+points+"\n";
+        percentagesSummary+= survey?.categoriesNames[i] + ": "+scored+percentages[i]+"%"+"\n";
         if (percentages[i] > maxValue) {
           maxValue = percentages[i];
           maxIndex = i;
         }
       }
     }
+ 
 
     // Set how the summary looks after the survey is completed (if such is to be displayed, it is personalized against the survey settings)
     setSummaryContent(
@@ -756,25 +759,44 @@ const Survey = () => {
               (survey?.summaryDetails?.points?.pointsWithoutConditions ||
                 survey?.summaryDetails?.points?.pointsAbovePercentage <=
                   percentages[maxIndex]) &&
-              !survey?.categories && (
+                  !survey?.categories && (
                 <p>
                   {scored}
                   {flattenedTotalArray[maxIndex]}/{flattenedMaxArray[maxIndex]}{" "}
                   {points}
                 </p>
               )}
+            {survey?.summaryDetails?.points !== undefined &&
+              (survey?.summaryDetails?.points?.pointsWithoutConditions ||
+                survey?.summaryDetails?.points?.pointsAbovePercentage <=
+                  percentages[maxIndex]) &&
+                  survey?.categories && (
+                <p style={{whiteSpace: 'pre'}}>
+                  {pointsSummary}
+                </p>
+              )}
             {survey?.summaryDetails?.percentage !== undefined &&
               (survey?.summaryDetails?.percentage
                 ?.percentageWithoutConditions ||
                 survey?.summaryDetails?.percentage?.percentageAboveThreshold <=
-                  percentages[maxIndex]) &&
-              !survey?.categories && (
+                  percentages[maxIndex]) && 
+                  !survey?.categories && (
                 <p>
                   {scored}
                   {percentages[maxIndex]}
                   {percentage}
                 </p>
               )}
+            {survey?.summaryDetails?.percentage !== undefined &&
+              (survey?.summaryDetails?.percentage
+                ?.percentageWithoutConditions ||
+                survey?.summaryDetails?.percentage?.percentageAboveThreshold <=
+                  percentages[maxIndex]) && 
+                  survey?.categories && (
+                <p style={{whiteSpace: 'pre'}}>
+                  {percentagesSummary}
+                </p>
+              )}  
             {(survey?.summaryDetails?.categories
               ?.categoriesDescriptionAboveThresholdPercentage <=
               percentages[maxIndex] || survey?.summaryDetails?.percentage
