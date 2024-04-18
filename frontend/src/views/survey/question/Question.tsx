@@ -397,7 +397,7 @@ const Question = ({
             question?.answerType === "Table" ||
             question?.answerType === "MultipleChoice"
               ? "100%"
-              : "40%",
+              : "33%",
           height:
             question?.answerType === "Slider" ||
             question?.answerType === "Images" ||
@@ -675,7 +675,7 @@ const Question = ({
           <div>{summaryDescription}</div>
           <ButtonContainer>
             <ColorButton variant="contained" onClick={backToLogin}>
-              {(translations as any)[language]["cancel"]}
+              {(translations as any)[language]["goBack"]}
             </ColorButton>
           </ButtonContainer>
         </SummaryContainer>

@@ -19,7 +19,7 @@ type SurveyItemType = {
 // Styled component for container
 const Container = styled.div`
   margin: 12px;
-  width: 30%;
+  width: 34%;
   display: flex;
 
   flex-direction: column;

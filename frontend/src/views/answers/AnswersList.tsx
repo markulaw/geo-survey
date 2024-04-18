@@ -89,7 +89,7 @@ const AnswersList = ({ answers, survey }: any) => {
   // Acceptable distance from the correct answer (coordinates), which will be scored
   var acceptableDistance = 30;
   // Acceptable percentage of correct polygon/linestring to be scored
-  var acceptableMin = 50;
+  var acceptableMin = 30;
   // Whether the answers are scored in categories
   var categories = false;
 
@@ -646,13 +646,32 @@ const AnswersList = ({ answers, survey }: any) => {
         var overlapping = lineSplit(feature(line), poly2);
         let intersectionLength2 = 0;
         // Calculating the length of intersections
-        for (let i = 0; i < overlapping.features.length; i++) {
-          let pointInCenter = centerOfMass(overlapping.features[i]);
-          if (booleanPointInPolygon(pointInCenter, poly)) // Check if the point is inside the polygon
-            intersectionLength2 += length(overlapping.features[i].geometry);
+        if (overlapping.features.length === 0)
+        {
+           var lineIsInsidePoly = booleanPointInPolygon(point(line.coordinates[0]), poly2);
+           // Line is completely inside of polygon:
+           if (lineIsInsidePoly)
+           {
+               var lengthOfLine = length(line);
+               var linePolygon = polygonToLine(poly2);
+               var lengthOfPolygon = length(linePolygon);
+               if (lengthOfLine > lengthOfPolygon*0.33)
+                   intersectionLength2 = lengthOfLine;
+               else
+                   intersectionLength2 = lengthOfLine*(lengthOfLine/(lengthOfPolygon*0.33));               
+           }
+        }
+        else
+        {
+           for (let i = 0; i < overlapping.features.length; i++) 
+           {
+             let pointInCenter = centerOfMass(overlapping.features[i]);
+             if (booleanPointInPolygon(pointInCenter, poly2)) // Check if the point is inside the polygon
+               intersectionLength2 += length(overlapping.features[i].geometry);
+           }
         }
         const lineLength = length(line);
-        let percentage = (intersectionLength2 / lineLength) * 100;
+        let percentage = (intersectionLength2 / lineLength) * 100;        
          // Checking if the percentage of intersection is greater than acceptable minimum
         if (Math.round(percentage) > acceptableMin) {
           var scoreRange = Math.round(percentage) / 100;

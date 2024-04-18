@@ -17,6 +17,7 @@ import {
   lineIntersect,
   lineSlice,
   point,
+  polygonToLine,  
   area,
   centerOfMass,
   lineSplit,
@@ -60,7 +61,7 @@ const Survey = () => {
 
   // Constants for scoring calculation
   const acceptableDistance = 30;
-  const acceptableMin = 50;
+  const acceptableMin = 30;
 
   // Language handling
   var language = "pl";
@@ -449,6 +450,8 @@ const Survey = () => {
         survey?.questions[questionIndex]?.answer.geometry.type === "Point" &&
         survey?.questions[questionIndex].answerType === "Point"
       ) {
+      console.log("question: "+questionIndex);
+      console.log("distance: "+distance(answer, survey?.questions[questionIndex]?.answer.geometry));      
         if (
           distance(answer, survey?.questions[questionIndex]?.answer.geometry, {
             units: "meters",
@@ -457,7 +460,7 @@ const Survey = () => {
           var scoreRange =
             (acceptableDistance -
               distance(
-                survey?.questions[questionIndex]?.answer.geoJSON,
+                answer,
                 survey?.questions[questionIndex]?.answer.geometry,
                 {
                   units: "meters",
@@ -473,6 +476,7 @@ const Survey = () => {
         calculatedScore =
           Math.round((calculatedScore + Number.EPSILON) * 100) / 100;
         calculatedMaxScore = maxScorePerQn;
+        console.log("calculatedScore: "+calculatedScore);
       } else if (
         survey?.questions[questionIndex]?.answer.geometry?.type === "Polygon" &&
         survey?.questions[questionIndex].answerType === "Point"
@@ -500,12 +504,31 @@ const Survey = () => {
         const poly2 = feature(poly);
         var overlapping = lineSplit(feature(line), poly2);
         let intersectionLength2 = 0;
-        for (let i = 0; i < overlapping.features.length; i++) {
-          let pointInCenter = centerOfMass(overlapping.features[i]);
-          if (booleanPointInPolygon(pointInCenter, poly))
-            intersectionLength2 += length(overlapping.features[i].geometry);
+        if (overlapping.features.length === 0)
+        {
+           var lineIsInsidePoly = booleanPointInPolygon(point(line.coordinates[0]), poly2);
+           // Line is completely inside of polygon:
+           if (lineIsInsidePoly)
+           {
+               var lengthOfLine = length(line);
+               var linePolygon = polygonToLine(poly2);
+               var lengthOfPolygon = length(linePolygon);
+               if (lengthOfLine > lengthOfPolygon*0.33)
+                   intersectionLength2 = lengthOfLine;
+               else
+                   intersectionLength2 = lengthOfLine*(lengthOfLine/(lengthOfPolygon*0.33));               
+           }
         }
-        const lineLength = length(line);
+        else
+        {
+           for (let i = 0; i < overlapping.features.length; i++) 
+           {
+             let pointInCenter = centerOfMass(overlapping.features[i]);
+             if (booleanPointInPolygon(pointInCenter, poly2)) // Check if the point is inside the polygon
+               intersectionLength2 += length(overlapping.features[i].geometry);
+           }
+        }
+        const lineLength = length(line);        
         let percentage = (intersectionLength2 / lineLength) * 100;
         if (Math.round(percentage) > acceptableMin) {
           var scoreRange = Math.round(percentage) / 100;
