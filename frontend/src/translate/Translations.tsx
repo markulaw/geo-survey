@@ -38,7 +38,7 @@ export const translations = {
     // Login.tsx
     hi: "Hello!",
     // Answers.tsx
-    surveyResponses: "Responses for survey",
+    surveyResponses: "Responses to survey",
     // AnswersList.tsx
     name: "Name",
     age: "Age",

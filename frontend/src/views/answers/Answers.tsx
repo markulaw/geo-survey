@@ -50,10 +50,18 @@ const AnswersHeader = styled.h2`
   justify-content: center;
 `;
 
+const AnswersSubHeader = styled.h4`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 // Functional component for displaying survey responses
 const Answers = () => {
   const [answers, setAnswers] = useState([]);
   const [survey, setSurvey] = useState<any>();
+  const [surveyTitle, setSurveyTitle] = useState(survey);
+  const [surveyDescription, setSurveyDescription] = useState(survey);
   let { id: surveyId } = useParams();
     
   const fetchAnswers = async (surveyId: number) => {
@@ -64,6 +72,10 @@ const Answers = () => {
   const fetchSurvey = async (surveyId: number) => {
     const survey = await getSurvey(surveyId);
     setSurvey(survey);
+    if (survey.title !== undefined)
+        setSurveyTitle(survey.title);
+    if (survey.description !== undefined)
+        setSurveyDescription(survey.description);
   };
 
   // Fetch survey answers and survey data on component mount
@@ -87,6 +99,9 @@ const Answers = () => {
         <AnswersHeader>
           {(translations as any)[language]["surveyResponses"]} {surveyId}
         </AnswersHeader>
+        <AnswersSubHeader>
+        {surveyTitle} : {surveyDescription}
+        </AnswersSubHeader>
         <AnswersList answers={answers} survey={survey} />
       </Content>
         <ColorButton
