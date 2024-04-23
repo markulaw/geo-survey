@@ -10,7 +10,7 @@ The app can operate as a **spatial questionnaire tool**, which combines survey c
 <img src='https://github.com/markulaw/geo-survey/assets/62136542/801e88d0-ec3e-458e-b97a-5db82a773085' width="45%"/>
 <img src='https://github.com/markulaw/geo-survey/assets/61965733/f9699f04-ffbe-4763-bf8e-91a660e788f2' width="45%"/>
 <img src='https://github.com/markulaw/geo-survey/assets/62136542/7dc74b90-8cc2-4d84-a1d0-903db266f652' width="45%"/>
-<img src='https://github.com/markulaw/geo-survey/assets/62136542/4024c4a2-fdb7-49cc-8605-3be82dc483af' width="45%"/>
+<img src='https://github.com/markulaw/geo-survey/assets/61965733/7fa591d1-d68a-4c7c-af0c-628ba05b5ac1' width="45%"/>
 
 </p>
 
