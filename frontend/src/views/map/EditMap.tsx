@@ -66,6 +66,8 @@ const EditMap = ({
   // Function to handle clicks on the map
   const handleClick = () => {
     if (!editRef?.current) return;
+    if (currentLayer.current !== null && currentLayer.current !== undefined) 
+      map.removeLayer(currentLayer.current);
     if (!drawing) {
       isDrawing.current = true;
       if (currentAnswerType.current === "Point")
