@@ -281,8 +281,8 @@ const AdminPanel = () => {
     const csvContent = `${headers.join(",")}\n${answers
       .map((entry: any) => {
         const userValues = Object.values(entry.user);
-        const answersValues = entry.answers
-          .map((ans: any) => Object.values(ans))
+        var answersValues = entry.answers
+          .map((ans: any) => { var output=''; var len=0; for (var key in ans) { if (key=='geoJSON') {output+="'"+JSON.stringify(ans[key])+"'";} else {output+=ans[key].toString();} len++; if (len<Object.keys(ans).length) output+=',';} return output;})
           .flat();
         return [...userValues, ...answersValues].join(",");
       })
