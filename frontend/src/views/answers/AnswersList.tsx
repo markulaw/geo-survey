@@ -435,8 +435,8 @@ const AnswersList = ({ answers, survey }: any) => {
           answer.geoJSON.geometry,
           questionAnswer.geometry
         )
-          ? "należy " + text
-          : "nie należy " + text;
+          ? (translations as any)[language]["within"] + " " + text
+          : (translations as any)[language]["outside"] + " " + text;
       }
       if (
         questionAnswer?.geometry?.type === "Polygon" &&

@@ -183,7 +183,7 @@ const Survey = () => {
       questionId: survey?.questions[questionIndex].id,
       type: survey?.questions[questionIndex].answerType,
       geoJSON: geoJSONAnswer,
-      zoomLevel: zoomLevel,
+      zoomLevel: zoom_Level,
     };
     setAnswers((prevValues: any) => {
       return { ...prevValues, [questionIndex]: newAnswer };

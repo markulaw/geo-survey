@@ -54,6 +54,8 @@ export const translations = {
     detailedPerQue: "Detailed points per question",
     detailedPerRPerQ: "Detailed points per respondent and question",
     score: "Score",
+    within: "within",
+    outside: "outside",
     // SurveyItem.tsx
     description: "Description",
     showAnswers: "Show answers",
@@ -148,6 +150,8 @@ export const translations = {
     detailedPerQue: "Szczegóły punktacji dla pytania",
     detailedPerRPerQ: "Szczegóły punktacji dla respondenta i pytania",
     score: "Punktacja",
+    within: "należy",
+    outside: "nie należy",
     // SurveyItem.tsx
     description: "Opis",
     showAnswers: "Pokaż odpowiedzi",
