@@ -163,7 +163,7 @@ const Survey = () => {
   };
 
   // Function to update answer based on (and after) user interaction with the map
-  const updateAnswer = (geoJSONAnswer: any, layer: any, questionIndex: any) => {
+  const updateAnswer = (geoJSONAnswer: any, layer: any, questionIndex: any, zoom_Level: any) => {
     // Update clickedAnswers state with the clicked layer
     setClickedAnswers((prevClickedValues: any) => {
       return { ...prevClickedValues, [questionIndex]: layer };
@@ -183,6 +183,7 @@ const Survey = () => {
       questionId: survey?.questions[questionIndex].id,
       type: survey?.questions[questionIndex].answerType,
       geoJSON: geoJSONAnswer,
+      zoomLevel: zoomLevel,
     };
     setAnswers((prevValues: any) => {
       return { ...prevValues, [questionIndex]: newAnswer };

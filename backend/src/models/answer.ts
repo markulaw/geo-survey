@@ -52,6 +52,10 @@ const answerSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.Mixed,
         required: false,
       },
+      zoomLevel: {
+        type: Number,
+        required: false,
+      },
       sliderValue: {
         type: Number,
         required: false,

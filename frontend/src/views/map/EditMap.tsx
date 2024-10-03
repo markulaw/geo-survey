@@ -100,7 +100,7 @@ const EditMap = ({
   // Function to handle creation of a new shape
   const createHandler = (e: any) => {
     const { layer } = e;
-    updateAnswer(layer.toGeoJSON(), layer, currentQuestionIndex.current);
+    updateAnswer(layer.toGeoJSON(), layer, currentQuestionIndex.current, layer._map._zoom);
     currentLayer.current = layer;
     isDrawing.current = false;
   };
