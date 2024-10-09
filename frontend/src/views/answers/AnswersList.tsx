@@ -414,12 +414,19 @@ const AnswersList = ({ answers, survey }: any) => {
           ? questionAnswer.acceptableMin
           : 30;
 
+      // If we recorded the answer's map zoom level, display it
+      var zoom = "";
+      if (answer?.zoomLevel !== undefined)
+      {
+         zoom = ", zoom: " + answer?.zoomLevel;
+      }
+
       // Calculate answer based on question and answer types
       if (questionAnswer.geometry.type === "Point" && answer.type === "Point") {
         // Calculate distance between two points in meters
         return `${distance(answer.geoJSON.geometry, questionAnswer.geometry, {
           units: "meters",
-        }).toFixed(0)} m`;
+        }).toFixed(0)} m` + zoom;
       }
       if (
         questionAnswer?.geometry?.type === "Polygon" &&
@@ -435,8 +442,8 @@ const AnswersList = ({ answers, survey }: any) => {
           answer.geoJSON.geometry,
           questionAnswer.geometry
         )
-          ? (translations as any)[language]["within"] + " " + text
-          : (translations as any)[language]["outside"] + " " + text;
+          ? (translations as any)[language]["within"] + " " + text + zoom
+          : (translations as any)[language]["outside"] + " " + text + zoom;
       }
       if (
         questionAnswer?.geometry?.type === "Polygon" &&
@@ -461,7 +468,6 @@ const AnswersList = ({ answers, survey }: any) => {
                    intersectionLength2 = lengthOfLine;
                else
                    intersectionLength2 = lengthOfLine*(lengthOfLine/(lengthOfPolygon*0.33));
-               
            }
         }
         else
@@ -475,7 +481,7 @@ const AnswersList = ({ answers, survey }: any) => {
         }
         const lineLength = length(line);
         let percentage = (intersectionLength2 / lineLength) * 100;
-        return Math.round(percentage) + "%";
+        return Math.round(percentage) + "%" + zoom;
       }
       if (
         questionAnswer?.geometry?.type === "Polygon" &&
@@ -484,13 +490,14 @@ const AnswersList = ({ answers, survey }: any) => {
         let answerPoly = answer.geoJSON.geometry;
         let questionPoly = questionAnswer.geometry;
         const intersectedPoly = intersect(answerPoly, questionPoly);
-        if (!intersectedPoly) return 0 + "%";
+        if (!intersectedPoly) return 0 + "%" + zoom;
+
         const questionArea = area(questionPoly);
         const commonArea = area(intersectedPoly);
         const answerArea = area(answerPoly);
         const basicPercentage = Math.round((commonArea / questionArea) * 100);
         const areaRatio = Math.round((commonArea / answerArea) * 100);
-        return Math.min(basicPercentage, areaRatio) + "%";
+        return Math.min(basicPercentage, areaRatio) + "%" + zoom;
       }
       if (
         questionAnswer?.geometry?.type === "Slider" &&
