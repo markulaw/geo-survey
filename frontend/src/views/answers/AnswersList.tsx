@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -896,6 +896,7 @@ const AnswersList = ({ answers, survey }: any) => {
               <TableCell>{(translations as any)[language]["name"]}</TableCell>
               <TableCell>{(translations as any)[language]["age"]}</TableCell>
               <TableCell>{(translations as any)[language]["gender"]}</TableCell>
+              <TableCell>{(translations as any)[language]["total"]}</TableCell>
               <TableCell>
                 {(translations as any)[language]["questionId"]}
               </TableCell>
@@ -903,8 +904,6 @@ const AnswersList = ({ answers, survey }: any) => {
                 {(translations as any)[language]["answerType"]}
               </TableCell>
               <TableCell>{(translations as any)[language]["answer"]}</TableCell>
-
-              
 
               {categories && (
                 <>
@@ -920,16 +919,16 @@ const AnswersList = ({ answers, survey }: any) => {
                 </TableCell>
               )}
 
-              <TableCell>{(translations as any)[language]["sum"]}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {answers.map((answer: any) => (
+             <Fragment>
               <TableRow
                 key={answer.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell rowSpan={answer.answers.length+1}>
                   {answer.user.name}
                   <div>
                     {answer.user.name !== undefined &&
@@ -937,87 +936,56 @@ const AnswersList = ({ answers, survey }: any) => {
                   </div>
                   <div>{answer.user.name !== undefined && points.push(0)}</div>
                 </TableCell>
-                <TableCell>{answer.user.age}</TableCell>
-                <TableCell>{answer.user.gender}</TableCell>
-                <TableCell>
-                  {answer.answers.map((answer: any) => {
-                    return (
-                      <div key={answer.id}>
-                        <div>{answer.questionId}</div>
-                      </div>
-                    );
-                  })}
-                </TableCell>
-                <TableCell>
-                  {answer.answers.map((answer: any) => {
-                    return (
-                      <div key={answer.id}>
-                        <div>{answer.type}</div>
-                      </div>
-                    );
-                  })}
-                </TableCell>
-                <TableCell>
-                  {answer.answers.map((answer: any) => {
-                    return (
-                      <div key={answer.id}>
-                        <div>{calculateAnswer(answer)}</div>
-                      </div>
-                    );
-                  })}
-                </TableCell>
+                <TableCell rowSpan={answer.answers.length+1}>{answer.user.age}</TableCell>
+                <TableCell rowSpan={answer.answers.length+1}>{answer.user.gender}</TableCell>
 
-                {categories && (
-                  <>
-                    {[...allPointsLabels].map((_, index) => (
-                      <TableCell key={index}>
-                        {answer.answers.map((answer: any) => (
-                          <div key={answer.id}>
-                            <div>{calculateScore(answer, index)}</div>
-                          </div>
-                        ))}
-                      </TableCell>
-                    ))}
-                  </>
-                )}
-
-                {!categories && (
-                  <TableCell>
-                    {answer.answers.map((answer: any) => {
-                      return (
-                        <div key={answer.id}>
-                          <div>{calculateScore(answer, 0)}</div>
-                        </div>
-                      );
-                    })}
-                  </TableCell>
-                )}
-
-                {categories && (
-                  <TableCell>
-                    <div key={answer.id}>
+               {categories && (
+                  <TableCell rowSpan={answer.answers.length+1}>
                       {allPointsLabels.map((label, index) => (
                         <div key={index}>
-                          {(translations as any)[language]["sum"]} {label}:{" "}
-                          {totalPointsByCategories[index]}
+                          {label}:{" "}{totalPointsByCategories[index]}
                         </div>
                       ))}
-                    </div>
                   </TableCell>
                 )}
                 {!categories && (
-                  <TableCell>
-                    <div key={answer.id}>
-                      <div>
-                        {(translations as any)[language]["sum"]} {": "}
+                  <TableCell rowSpan={answer.answers.length+1} key={answer.id}>
                         {totalPointsByCategories[0]}
-                      </div>
-                      <div></div>
-                    </div>
                   </TableCell>
                 )}
                 {clearScoreSum(answer)}
-              </TableRow>
+
+               </TableRow>
+
+                  {answer.answers.map((answer: any) => (
+                    <TableRow>
+                     <TableCell key={answer.id}>
+                        {answer.questionId}
+                      </TableCell>
+                      <TableCell key={answer.id}>
+                        {answer.type}
+                      </TableCell>
+                      <TableCell key={answer.id}>
+                        {calculateAnswer(answer)}
+                      </TableCell>
+		       {categories && (
+		          <>
+		            {[...allPointsLabels].map((_, index) => (
+		              <TableCell key={index}>
+		                    {calculateScore(answer, index)}
+		              </TableCell>
+		            ))}
+		          </>
+		        )}
+		        {!categories && (
+ 	                 <TableCell key={answer.id}>
+	                  {calculateScore(answer, 0)}
+	                 </TableCell>
+		        )}
+		    </TableRow>                    
+		   ))}
+                    
+           </Fragment>
             ))}
           </TableBody>
         </Table>

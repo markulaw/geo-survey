@@ -56,6 +56,7 @@ export const translations = {
     score: "Score",
     within: "within",
     outside: "outside",
+    total: "Total score",
     // SurveyItem.tsx
     description: "Description",
     showAnswers: "Show answers",
@@ -152,6 +153,7 @@ export const translations = {
     score: "Punktacja",
     within: "należy",
     outside: "nie należy",
+    total: "Wynik całkowity",
     // SurveyItem.tsx
     description: "Opis",
     showAnswers: "Pokaż odpowiedzi",
