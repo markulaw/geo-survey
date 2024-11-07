@@ -53,6 +53,7 @@ ChartJS.register(
   Legend
 );
 
+
 // Component for displaying survey answers
 const AnswersList = ({ answers, survey }: any) => {
 
@@ -105,6 +106,8 @@ const AnswersList = ({ answers, survey }: any) => {
   var respondentPoints: any[];
   // Categories labels or just "score"
   var allPointsLabels: string[] = [""];
+
+  var counter = 0;
 
   // Number of questions
   var questionsLen = 0;
@@ -260,6 +263,7 @@ const AnswersList = ({ answers, survey }: any) => {
       { length: allPointsLabels.length },
       () => []
     );
+
     answers.map((answer: any) => (questionsLen = survey.questions.length));
     questionsLenArray.length = 0;
     for (var i = 1; i < questionsLen; i++) {
@@ -277,6 +281,7 @@ const AnswersList = ({ answers, survey }: any) => {
     totalPointsByCategories = totalPointsByCategories = new Array(
       allPointsLabels.length
     ).fill(0);
+
     avgData.length = 0; // Clear existing array without destroying references to original array
     var tmpAvgData = calculateDataDetailed();
 
@@ -896,7 +901,6 @@ const AnswersList = ({ answers, survey }: any) => {
               <TableCell>{(translations as any)[language]["name"]}</TableCell>
               <TableCell>{(translations as any)[language]["age"]}</TableCell>
               <TableCell>{(translations as any)[language]["gender"]}</TableCell>
-              <TableCell>{(translations as any)[language]["total"]}</TableCell>
               <TableCell>
                 {(translations as any)[language]["questionId"]}
               </TableCell>
@@ -918,6 +922,7 @@ const AnswersList = ({ answers, survey }: any) => {
                   {(translations as any)[language]["score"]}
                 </TableCell>
               )}
+              <TableCell>{(translations as any)[language]["total"]}</TableCell>
 
             </TableRow>
           </TableHead>
@@ -939,51 +944,56 @@ const AnswersList = ({ answers, survey }: any) => {
                 <TableCell rowSpan={answer.answers.length+1}>{answer.user.age}</TableCell>
                 <TableCell rowSpan={answer.answers.length+1}>{answer.user.gender}</TableCell>
 
-               {categories && (
-                  <TableCell rowSpan={answer.answers.length+1}>
-                      {allPointsLabels.map((label, index) => (
-                        <div key={index}>
-                          {label}:{" "}{totalPointsByCategories[index]}
-                        </div>
-                      ))}
-                  </TableCell>
-                )}
-                {!categories && (
-                  <TableCell rowSpan={answer.answers.length+1} key={answer.id}>
-                        {totalPointsByCategories[0]}
-                  </TableCell>
-                )}
-                {clearScoreSum(answer)}
-
                </TableRow>
 
-                  {answer.answers.map((answer: any) => (
+                  {answer.answers.map((userAnswer: any, answerIndex: number) => (
                     <TableRow>
-                     <TableCell key={answer.id}>
-                        {answer.questionId}
+                     <TableCell key={userAnswer.id}>
+                        {userAnswer.questionId}
                       </TableCell>
                       <TableCell key={answer.id}>
-                        {answer.type}
+                        {userAnswer.type}
                       </TableCell>
-                      <TableCell key={answer.id}>
-                        {calculateAnswer(answer)}
+                      <TableCell key={userAnswer.id}>
+                        {calculateAnswer(userAnswer)}
                       </TableCell>
 		       {categories && (
 		          <>
 		            {[...allPointsLabels].map((_, index) => (
 		              <TableCell key={index}>
-		                    {calculateScore(answer, index)}
+                                    {calculateScore(userAnswer, index)}
 		              </TableCell>
 		            ))}
 		          </>
 		        )}
 		        {!categories && (
- 	                 <TableCell key={answer.id}>
-	                  {calculateScore(answer, 0)}
+ 	                 <TableCell key={userAnswer.id}>
+                          {calculateScore(userAnswer, 0)}
 	                 </TableCell>
 		        )}
+
+		       {(answerIndex == answer.answers.length-1) && categories && (
+		          //<TableCell rowSpan={answer.answers.length+1}>
+		          <TableCell>
+		              {allPointsLabels.map((label, index) => (
+		                //<div key={index} ref={state.myTableCell as React.RefObject<HTMLDivElement>}>
+		                <div key={index} >
+		                  {label}:{" "}{totalPointsByCategories[index]}
+		                </div>
+		              ))}
+		          </TableCell>
+		        )}
+		        {(answerIndex == answer.answers.length-1) && !categories && (
+		          //<TableCell rowSpan={answer.answers.length+1} key={answer.id}>
+		          <TableCell key={answer.id}>
+			          {totalPointsByCategories[0]}
+		          </TableCell>
+		        )}
+
 		    </TableRow>                    
 		   ))}
+
+                {clearScoreSum(answer)}
                     
            </Fragment>
             ))}
