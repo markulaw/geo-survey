@@ -11,6 +11,7 @@ export type SurveyType = {
   mapUrl: string;
   wmsParams: wmsParamsType;
   mapAttribution: string;
+  tileSize: number;
   questions: QuestionType[];
   summary: boolean | undefined;
   summaryDetails: any | undefined;
@@ -39,6 +40,7 @@ export type QuestionType = {
   wmsParams: wmsParamsType;
   mapAttribution: string;
   mapZoom: number;
+  tileSize: number;
   answer: any;
   points: number[];
 };

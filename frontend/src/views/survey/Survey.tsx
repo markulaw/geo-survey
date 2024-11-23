@@ -877,6 +877,11 @@ const Survey = () => {
           survey?.mapAttribution ||
           " "
         }
+        tileSize={
+          survey?.questions[currentQuestionId].tileSize ||
+          survey?.tileSize ||
+          256
+        }
       />
     </Container>
   );

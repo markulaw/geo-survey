@@ -17,6 +17,7 @@ const Map = ({
   mapUrl,
   wmsParams,
   mapAttribution,
+  tileSize,
 }: any) => {
 
   if (!mapUrl || !zoom || !center) return null;
@@ -25,7 +26,7 @@ const Map = ({
     <MapContainer scrollWheelZoom zoom={zoom} center={center}>
       {/* Rendering TileLayer or WMSTileLayer based on wmsParams */}
       {wmsParams === undefined ? (
-        <TileLayer url={mapUrl} attribution={mapAttribution} />
+        <TileLayer url={mapUrl} attribution={mapAttribution} tileSize={tileSize} />
       ) : (
         <WMSTileLayer
           url={mapUrl}
