@@ -481,7 +481,7 @@ const Survey = () => {
       ) {
         if (
           booleanPointInPolygon(
-            survey?.questions[questionIndex]?.answer.geoJSON,
+            point(answer.geometry.coordinates),
             survey?.questions[questionIndex]?.answer.geometry
           )
         ) {
