@@ -247,8 +247,8 @@ const Question = ({
   const onClick = (type: ClickType) => {
     if (type === CLICK_TYPE.next) {
       changeQuestion(currentQuestionId + 1);
-      setSingleChoiceVal("0");
-      setSingleImageVal("0");
+      setSingleChoiceVal("-1");
+      setSingleImageVal("-1");
       setMultipleChoiceVal([]);
       setTableChoices([]);
       tableChoicesTmp = [];
@@ -257,8 +257,8 @@ const Question = ({
         question.img.slice(0, question.img.length);
     } else if (type === CLICK_TYPE.prev) {
       changeQuestion(currentQuestionId - 1);
-      setSingleChoiceVal("0");
-      setSingleImageVal("0");
+      setSingleChoiceVal("-1");
+      setSingleImageVal("-1");
       setTableChoices([]);
       tableChoicesTmp = [];
       setSelectedOptions([]);
@@ -272,8 +272,8 @@ const Question = ({
 
   // Variables storing answers to questions of various types
   const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
-  const [singleChoiceVal, setSingleChoiceVal] = useState<String>("0");
-  const [singleImageVal, setSingleImageVal] = useState<String>("0");
+  const [singleChoiceVal, setSingleChoiceVal] = useState<String>("-1");
+  const [singleImageVal, setSingleImageVal] = useState<String>("-1");
   const [multipleChoiceVal, setMultipleChoiceVal] = useState<number[]>([]);
   const [tableChoices, setTableChoices] = useState<number[]>([]);
   var tableChoicesTmp = [];
