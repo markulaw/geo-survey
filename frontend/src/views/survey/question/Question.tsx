@@ -542,7 +542,7 @@ const Question = ({
               <TableBody>
                 {question?.answer.table.map((table: any, i: number) => (
                   <TableRow key={table}>
-                    <TableCell
+                   {!table.includes("/api/images/") && (<TableCell
                       style={{
                         fontSize: "1rem",
                         backgroundColor: i % 2 === 0 ? "#C3C8DA" : "ffffff",
@@ -550,6 +550,20 @@ const Question = ({
                     >
                       {table}
                     </TableCell>
+                    )}
+                   {table.includes("/api/images/") && (<TableCell
+                      style={{
+                        fontSize: "1rem",
+                        backgroundColor: i % 2 === 0 ? "#C3C8DA" : "ffffff",
+                      }}
+                    >
+                      <img
+                      src={table}
+                      className="img"
+                      style={styles.image}
+                    />
+                    </TableCell>
+                    )}
                     <TableCell
                       style={{
                         backgroundColor: i % 2 === 0 ? "#C3C8DA" : "ffffff",
