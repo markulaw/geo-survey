@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FeatureGroup, useMap } from "react-leaflet";
+import { FeatureGroup, useMap, useMapEvent } from "react-leaflet";
 import { EditControl } from "react-leaflet-draw";
 import L from "leaflet";
 
@@ -19,6 +19,12 @@ const EditMap = ({
   const currentLayer = useRef(actualAnswer);
   const currentAnswerType = useRef(answerType);
   const isDrawing = useRef(false);
+  const clicksRef = useRef(0);
+  const dragsRef = useRef(0);
+  const zoomInsRef = useRef(0);
+  const zoomOutsRef = useRef(0);
+  const prevZoom = useRef(map.getZoom());
+
 
   // Effect to handle changes in actualAnswer
   useEffect(() => {
@@ -52,6 +58,31 @@ const EditMap = ({
   useEffect(() => {
     mapEndDrawFunc.current = handleEndStringDraw;
   }, []);
+
+  // Effect to track map interactions: clicks, zooms, drags
+  useMapEvent("click", () => {
+    clicksRef.current += 1;
+  });
+  useMapEvent("zoomend", () => {
+    const currentZoom = map.getZoom();
+    if (currentZoom > prevZoom.current) {
+      zoomInsRef.current += 1
+    } else if (currentZoom < prevZoom.current) {
+      zoomOutsRef.current += 1
+    }
+    prevZoom.current = currentZoom;
+  });
+  useMapEvent("dragend", () => {
+    dragsRef.current += 1;
+  });
+
+  // Effect to reset map interactions after each question: clicks, zooms, drags
+  useEffect(() => {
+    clicksRef.current = 0;
+    zoomInsRef.current = 0;
+    zoomInsRef.current = 0;
+    dragsRef.current = 0;
+  }, [questionIndex]);
 
   // Function to handle the end of drawing strings
   const handleEndStringDraw = () => {
@@ -100,7 +131,13 @@ const EditMap = ({
   // Function to handle creation of a new shape
   const createHandler = (e: any) => {
     const { layer } = e;
-    updateAnswer(layer.toGeoJSON(), layer, currentQuestionIndex.current, layer._map._zoom);
+    updateAnswer(
+        layer.toGeoJSON(),
+        layer,
+        currentQuestionIndex.current,
+        layer._map._zoom,
+        { clicks: clicksRef.current, zoomIns: zoomInsRef.current, zoomOuts: zoomOutsRef.current, drags: dragsRef.current }
+    );
     currentLayer.current = layer;
     isDrawing.current = false;
   };

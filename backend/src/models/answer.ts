@@ -80,6 +80,38 @@ const answerSchema = new mongoose.Schema({
         type: String,
         required: false,
       },
+      timeSpent: {
+        type: Number,
+        required: false,
+      },
+      attempts: {
+        type: Number,
+        required: false,
+      },
+      leftTab: {
+        type: Boolean,
+        required: false,
+      },
+      zoomOuts: {
+        type: Number,
+        required: false,
+      },
+      zoomIns: {
+        type: Number,
+        required: false,
+      },
+      drags: {
+        type: Number,
+        required: false,
+      },
+      clicks: {
+        type: Number,
+        required: false,
+      },
+      timeStamps: {
+        type: [Number],
+        required: false,
+      }
     },
   ],
 });

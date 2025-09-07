@@ -44,6 +44,7 @@ const Survey = () => {
   const mapEndDrawFunc = useRef<() => void>();
   const [clicked, setClicked] = useState<boolean>(false);
   const [completedSurvey, setCompletedSurvey] = useState<boolean>(false);
+  const [startTime, setStartTime] = useState<number>(Date.now());
 
   // Initialize arrays and states for scoring
   var maxPoints: number[][] = [];
@@ -95,6 +96,10 @@ const Survey = () => {
     setCurrentQuestionId(0);
     setCompletedSurvey(false);
   }, []);
+
+  useEffect(() => {
+    setStartTime(Date.now());
+  }, [currentQuestionId]);
 
   // Function to fetch survey data based on survey ID
   const fetchSurvey = async (id: number) => {
@@ -163,7 +168,8 @@ const Survey = () => {
   };
 
   // Function to update answer based on (and after) user interaction with the map
-  const updateAnswer = (geoJSONAnswer: any, layer: any, questionIndex: any, zoom_Level: any) => {
+  const updateAnswer = (geoJSONAnswer: any, layer: any, questionIndex: any,
+                        zoom_Level: any, interactions: any) => {
     // Update clickedAnswers state with the clicked layer
     setClickedAnswers((prevClickedValues: any) => {
       return { ...prevClickedValues, [questionIndex]: layer };
@@ -184,6 +190,11 @@ const Survey = () => {
       type: survey?.questions[questionIndex].answerType,
       geoJSON: geoJSONAnswer,
       zoomLevel: zoom_Level,
+      timeSpent: Date.now() - startTime,
+      zoomIns: interactions.zoomIns,
+      zoomOuts: interactions.zoomOuts,
+      drags: interactions.drags,
+      clicks: interactions.clicks,
     };
     setAnswers((prevValues: any) => {
       return { ...prevValues, [questionIndex]: newAnswer };
@@ -246,6 +257,7 @@ const Survey = () => {
       type: survey?.questions[questionIndex].answerType,
       geoJSON: null,
       imagesChoose: selectedImages.toString(),
+      timeSpent: Date.now() - startTime,
     };
     // Click detected (you can go to the next question)
     setAnswers((prevValues: any) => {
@@ -274,6 +286,7 @@ const Survey = () => {
       type: survey?.questions[questionIndex].answerType,
       geoJSON: null,
       sliderValue: sliderValue,
+      timeSpent: Date.now() - startTime,
     };
 
     setAnswers((prevValues: any) => {
@@ -305,6 +318,7 @@ const Survey = () => {
       type: survey?.questions[questionIndex].answerType,
       geoJSON: null,
       singleChoice: selectedAnswer.toString(),
+      timeSpent: Date.now() - startTime,
     };
 
     setAnswers((prevValues: any) => {
@@ -333,6 +347,7 @@ const Survey = () => {
       type: survey?.questions[questionIndex].answerType,
       geoJSON: null,
       singleImage: selectedImage.toString(),
+      timeSpent: Date.now() - startTime,
     };
 
     setAnswers((prevValues: any) => {
@@ -364,6 +379,7 @@ const Survey = () => {
       type: survey?.questions[questionIndex].answerType,
       geoJSON: null,
       multipleChoice: selectedAnswers.toString(),
+      timeSpent: Date.now() - startTime,
     };
 
     setAnswers((prevValues: any) => {
@@ -395,6 +411,7 @@ const Survey = () => {
       type: survey?.questions[questionIndex].answerType,
       geoJSON: null,
       table: tableChoices.toString(),
+      timeSpent: Date.now() - startTime,
     };
 
     setAnswers((prevValues: any) => {
