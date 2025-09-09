@@ -24,7 +24,7 @@ const EditMap = ({
   const zoomInsRef = useRef(0);
   const zoomOutsRef = useRef(0);
   const prevZoom = useRef(map.getZoom());
-
+  const clickTimestampsRef = useRef<number[]>([]);
 
   // Effect to handle changes in actualAnswer
   useEffect(() => {
@@ -104,6 +104,7 @@ const EditMap = ({
       if (currentAnswerType.current === "Point")
         editRef.current._toolbars.draw._modes.marker.handler.enable();
       else if (currentAnswerType.current === "LineString") {
+        clickTimestampsRef.current = [];
         (function () {
           var originalOnTouch =
             editRef.current._toolbars.draw._modes.polyline.handler._onTouch;
@@ -115,14 +116,26 @@ const EditMap = ({
             };
         })();
         editRef.current._toolbars.draw._modes.polyline.handler.enable();
+
+        map.on("click", lineStringClickHandler);
       } else if (currentAnswerType.current === "Polygon")
         editRef.current._toolbars.draw._modes.rectangle.handler.enable();
     } else {
+      if (currentAnswerType.current === "LineString") {
+        map.off("click", lineStringClickHandler);
+      }
+
       editRef.current._toolbars.draw._modes.polygon.handler.completeShape();
       editRef.current._toolbars.draw._modes.polygon.handler.disable();
     }
     setDrawing(!drawing);
   };
+
+  // Function to handle clicks when drawing a line string
+  const lineStringClickHandler = () => {
+    clickTimestampsRef.current.push(Date.now());
+  };
+
   // Function to handle mounting of the EditControl
   const onMountedRect = (e: any) => {
     editRef.current = e;
@@ -131,12 +144,26 @@ const EditMap = ({
   // Function to handle creation of a new shape
   const createHandler = (e: any) => {
     const { layer } = e;
+
+    let intervals: number[] = [];
+    if (currentAnswerType.current === "LineString" && clickTimestampsRef.current.length > 1) {
+      intervals = clickTimestampsRef.current
+          .slice(1)
+          .map((t, i) => t - clickTimestampsRef.current[i]);
+    }
+
     updateAnswer(
         layer.toGeoJSON(),
         layer,
         currentQuestionIndex.current,
         layer._map._zoom,
-        { clicks: clicksRef.current, zoomIns: zoomInsRef.current, zoomOuts: zoomOutsRef.current, drags: dragsRef.current }
+        {
+          clicks: clicksRef.current,
+          zoomIns: zoomInsRef.current,
+          zoomOuts: zoomOutsRef.current,
+          drags: dragsRef.current,
+          timeStamps: intervals.length === 0 ? undefined : intervals,
+        }
     );
     currentLayer.current = layer;
     isDrawing.current = false;

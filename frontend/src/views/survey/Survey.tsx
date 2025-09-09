@@ -198,6 +198,7 @@ const Survey = () => {
       zoomOuts: interactions.zoomOuts,
       drags: interactions.drags,
       clicks: interactions.clicks,
+      timeStamps: interactions.timeStamps,
     };
     setAnswers((prevValues: any) => {
       return { ...prevValues, [questionIndex]: newAnswer };
