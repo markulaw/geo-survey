@@ -45,6 +45,7 @@ const Survey = () => {
   const [clicked, setClicked] = useState<boolean>(false);
   const [completedSurvey, setCompletedSurvey] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<number>(Date.now());
+  const attemptsRef = useRef(0);
 
   // Initialize arrays and states for scoring
   var maxPoints: number[][] = [];
@@ -99,6 +100,7 @@ const Survey = () => {
 
   useEffect(() => {
     setStartTime(Date.now());
+    attemptsRef.current = 0;
   }, [currentQuestionId]);
 
   // Function to fetch survey data based on survey ID
@@ -191,6 +193,7 @@ const Survey = () => {
       geoJSON: geoJSONAnswer,
       zoomLevel: zoom_Level,
       timeSpent: Date.now() - startTime,
+      attempts: attemptsRef.current,
       zoomIns: interactions.zoomIns,
       zoomOuts: interactions.zoomOuts,
       drags: interactions.drags,
@@ -229,6 +232,7 @@ const Survey = () => {
   };
 
   const selectLayer = () => {
+    attemptsRef.current += 1
     if (!mapFunc?.current) return;
     mapFunc.current();
   };
@@ -244,6 +248,10 @@ const Survey = () => {
     // Click detected (you can go to the next question)
     setClicked(true);
 
+    if (wasAnswerUnclicked(!!answers[questionIndex] ? answers[questionIndex].imagesChoose : '', selectedImages.toString())) {
+      attemptsRef.current += 1;
+    }
+
     // Recalculate the current scores for all categories if they exisist
     if (survey && survey?.categoriesNames !== undefined) {
       for (let id = 0; id < survey?.categoriesNames?.length; id++) {
@@ -258,7 +266,9 @@ const Survey = () => {
       geoJSON: null,
       imagesChoose: selectedImages.toString(),
       timeSpent: Date.now() - startTime,
+      attempts: attemptsRef.current + 1,
     };
+
     // Click detected (you can go to the next question)
     setAnswers((prevValues: any) => {
       return { ...prevValues, [questionIndex]: newAnswer };
@@ -272,6 +282,8 @@ const Survey = () => {
     });
     // Click detected (you can go to the next question)
     setClicked(true);
+
+    attemptsRef.current += 1;
 
     // Recalculate the current scores for all categories if they exisist
     if (survey && survey?.categoriesNames !== undefined) {
@@ -287,6 +299,7 @@ const Survey = () => {
       geoJSON: null,
       sliderValue: sliderValue,
       timeSpent: Date.now() - startTime,
+      attempts: attemptsRef.current,
     };
 
     setAnswers((prevValues: any) => {
@@ -305,6 +318,8 @@ const Survey = () => {
     // Click detected (you can go to the next question)
     setClicked(true);
 
+    attemptsRef.current += 1;
+
     // Recalculate the current scores for all categories if they exisist
     if (survey && survey?.categoriesNames !== undefined) {
       for (let id = 0; id < survey?.categoriesNames?.length; id++) {
@@ -319,6 +334,7 @@ const Survey = () => {
       geoJSON: null,
       singleChoice: selectedAnswer.toString(),
       timeSpent: Date.now() - startTime,
+      attempts: attemptsRef.current,
     };
 
     setAnswers((prevValues: any) => {
@@ -334,6 +350,8 @@ const Survey = () => {
     // Click detected (you can go to the next question)
     setClicked(true);
 
+    attemptsRef.current += 1;
+
     // Recalculate the current scores for all categories if they exisist
     if (survey && survey?.categoriesNames !== undefined) {
       for (let id = 0; id < survey?.categoriesNames?.length; id++) {
@@ -348,6 +366,7 @@ const Survey = () => {
       geoJSON: null,
       singleImage: selectedImage.toString(),
       timeSpent: Date.now() - startTime,
+      attempts: attemptsRef.current,
     };
 
     setAnswers((prevValues: any) => {
@@ -366,6 +385,10 @@ const Survey = () => {
     // Click detected (you can go to the next question)
     setClicked(true);
 
+    if (wasAnswerUnclicked(!!answers[questionIndex] ? answers[questionIndex].multipleChoice : '', selectedAnswers.toString())) {
+      attemptsRef.current += 1;
+    }
+
     // Recalculate the current scores for all categories if they exisist
     if (survey && survey?.categoriesNames !== undefined) {
       for (let id = 0; id < survey?.categoriesNames?.length; id++) {
@@ -380,6 +403,7 @@ const Survey = () => {
       geoJSON: null,
       multipleChoice: selectedAnswers.toString(),
       timeSpent: Date.now() - startTime,
+      attempts: attemptsRef.current + 1,
     };
 
     setAnswers((prevValues: any) => {
@@ -398,6 +422,8 @@ const Survey = () => {
     // Click detected (you can go to the next question)
     setClicked(true);
 
+    attemptsRef.current += 1;
+
     // Recalculate the current scores for all categories if they exisist
     if (survey && survey?.categoriesNames !== undefined) {
       for (let id = 0; id < survey?.categoriesNames?.length; id++) {
@@ -411,6 +437,7 @@ const Survey = () => {
       type: survey?.questions[questionIndex].answerType,
       geoJSON: null,
       table: tableChoices.toString(),
+      attempts: attemptsRef.current,
       timeSpent: Date.now() - startTime,
     };
 
@@ -432,6 +459,13 @@ const Survey = () => {
         return accumulator;
       }
     }, 0);
+  }
+
+  function wasAnswerUnclicked(previousAnswers: string, selectedAnswers: string): boolean {
+    if (previousAnswers === "") return false;
+
+    return previousAnswers.split(',').filter((item: string) => item.trim() === 'true').length
+    > selectedAnswers.split(',').filter(item => item.trim() === 'true').length;
   }
 
   // Function to calculate the score obtained by the respondent, the calculation of points is optional and is used when displaying the summary
