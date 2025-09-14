@@ -86,7 +86,8 @@ const AnswersList = ({ answers, survey }: any) => {
   var totalPointsByCategories: number[] = [];
   // An array of points obtained in individual and questions
   var allPointsByCategories: number[][] = [];
-
+  // Credibility total score
+  var totalCredibility = 0;
   // Acceptable distance from the correct answer (coordinates), which will be scored
   var acceptableDistance = 30;
   // Acceptable percentage of correct polygon/linestring to be scored
@@ -281,6 +282,10 @@ const AnswersList = ({ answers, survey }: any) => {
     totalPointsByCategories = totalPointsByCategories = new Array(
       allPointsLabels.length
     ).fill(0);
+
+     totalCredibility = calculateTotalCredibility(
+       answer.answers.map((questionAnswer: any) => calculateCredibility(questionAnswer))
+     );
 
     avgData.length = 0; // Clear existing array without destroying references to original array
     var tmpAvgData = calculateDataDetailed();
@@ -550,6 +555,14 @@ const AnswersList = ({ answers, survey }: any) => {
    }    
     return null;
   };
+
+  const calculateCredibility = (answer: any): number => {
+      return 50;
+  }
+
+  const calculateTotalCredibility = (credibilities: number[]): any => {
+      return credibilities.reduce((p: number, c: number) => p + c, 0);
+  }
 
   // Function to calculate score based on answer and categories' index
   const calculateScore = (answer: any, index: number): any => {
@@ -922,13 +935,21 @@ const AnswersList = ({ answers, survey }: any) => {
                   {(translations as any)[language]["score"]}
                 </TableCell>
               )}
-              <TableCell>{(translations as any)[language]["total"]}</TableCell>
-
+                <>
+                  <TableCell>{(translations as any)[language]["credibility"]}</TableCell>
+                  <TableCell>
+                      {(translations as any)[language]["total"]}
+                  </TableCell>
+                  <TableCell>
+                      {(translations as any)[language]["totalCredibility"]}
+                  </TableCell>
+                </>
             </TableRow>
           </TableHead>
           <TableBody>
             {answers.map((answer: any) => (
              <Fragment>
+              {clearScoreSum(answer)}
               <TableRow
                 key={answer.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -971,7 +992,9 @@ const AnswersList = ({ answers, survey }: any) => {
                           {calculateScore(userAnswer, 0)}
 	                 </TableCell>
 		        )}
-
+                   <TableCell key={userAnswer.id}>
+                     {calculateCredibility(userAnswer)}
+                   </TableCell>
 		       {(answerIndex == answer.answers.length-1) && categories && (
 		          //<TableCell rowSpan={answer.answers.length+1}>
 		          <TableCell>
@@ -989,12 +1012,16 @@ const AnswersList = ({ answers, survey }: any) => {
 			          {totalPointsByCategories[0]}
 		          </TableCell>
 		        )}
+            {answerIndex == answer.answers.length-1 && (
 
+              <TableCell>
+
+                {totalCredibility}
+
+              </TableCell>
+            )}
 		    </TableRow>                    
 		   ))}
-
-                {clearScoreSum(answer)}
-                    
            </Fragment>
             ))}
           </TableBody>
