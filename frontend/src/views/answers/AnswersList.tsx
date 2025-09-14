@@ -557,11 +557,93 @@ const AnswersList = ({ answers, survey }: any) => {
   };
 
   const calculateCredibility = (answer: any): number => {
-      return 50;
-  }
+    // All thresholds and penalties in one place for easy tuning
+    const CONFIG = {
+      baseScore: 100,
+
+      // Penalties
+      penalties: {
+        leftTab: 40,
+        tooFast: 20,
+        tooSlow: 10,
+        attemptPerExtra: 10,
+        clickPerExtra: 2,
+        maxClickPenalty: 20,
+        fastClicking: 15,
+        zoomPenalty: 5,
+        dragPerExtra: 5,
+        maxDragPenalty: 15,
+      },
+
+      // Thresholds
+      thresholds: {
+        minTime: 2000, // ms
+        maxTime: 120000, // ms
+        maxClicks: 5,
+        fastClickInterval: 300, // ms
+        maxZooms: 2,
+        maxDrags: 3,
+      },
+    };
+
+    let score = CONFIG.baseScore;
+
+    // 1. Tab switch detected → big penalty
+    if (answer.leftTab) score -= CONFIG.penalties.leftTab;
+
+    // 2. Time spent on question (ms)
+    if (typeof answer.timeSpent === "number") {
+      if (answer.timeSpent < CONFIG.thresholds.minTime)
+        score -= CONFIG.penalties.tooFast;
+      if (answer.timeSpent > CONFIG.thresholds.maxTime)
+        score -= CONFIG.penalties.tooSlow;
+    }
+
+    // 3. Multiple attempts → penalize each extra try
+    if (typeof answer.attempts === "number" && answer.attempts > 1) {
+      score -= (answer.attempts - 1) * CONFIG.penalties.attemptPerExtra;
+    }
+
+    // 4. Too many clicks → suspicious
+    if (typeof answer.clicks === "number" && answer.clicks > CONFIG.thresholds.maxClicks) {
+      score -= Math.min(
+        (answer.clicks - CONFIG.thresholds.maxClicks) * CONFIG.penalties.clickPerExtra,
+        CONFIG.penalties.maxClickPenalty
+      );
+    }
+
+    // 5. Analyze time intervals between clicks
+    if (Array.isArray(answer.timeStamps) && answer.timeStamps.length > 1) {
+      const avgInterval =
+        answer.timeStamps.reduce((acc: number, val: number) => acc + val, 0) /
+        answer.timeStamps.length;
+
+      if (avgInterval < CONFIG.thresholds.fastClickInterval)
+        score -= CONFIG.penalties.fastClicking;
+    }
+
+    // 6. Extra interactions (zoom/drag) → small penalty if too many
+    if (typeof answer.zoomIns === "number" && answer.zoomIns > CONFIG.thresholds.maxZooms)
+      score -= CONFIG.penalties.zoomPenalty;
+
+    if (typeof answer.zoomOuts === "number" && answer.zoomOuts > CONFIG.thresholds.maxZooms)
+      score -= CONFIG.penalties.zoomPenalty;
+
+    if (typeof answer.drags === "number" && answer.drags > CONFIG.thresholds.maxDrags)
+      score -= Math.min(
+        (answer.drags - CONFIG.thresholds.maxDrags) * CONFIG.penalties.dragPerExtra,
+        CONFIG.penalties.maxDragPenalty
+      );
+
+    // Ensure result stays in [0, 100]
+    if (score < 0) score = 0;
+    if (score > 100) score = 100;
+
+    return Math.round(score);
+  };
 
   const calculateTotalCredibility = (credibilities: number[]): any => {
-      return credibilities.reduce((p: number, c: number) => p + c, 0);
+      return credibilities.reduce((p: number, c: number) => p + c, 0) / credibilities.length;
   }
 
   // Function to calculate score based on answer and categories' index
@@ -993,7 +1075,7 @@ const AnswersList = ({ answers, survey }: any) => {
 	                 </TableCell>
 		        )}
                    <TableCell key={userAnswer.id}>
-                     {calculateCredibility(userAnswer)}
+                       {`${calculateCredibility(userAnswer)}%`}
                    </TableCell>
 		       {(answerIndex == answer.answers.length-1) && categories && (
 		          //<TableCell rowSpan={answer.answers.length+1}>
@@ -1016,7 +1098,7 @@ const AnswersList = ({ answers, survey }: any) => {
 
               <TableCell>
 
-                {totalCredibility}
+                {`${Math.round(totalCredibility)}%`}
 
               </TableCell>
             )}
