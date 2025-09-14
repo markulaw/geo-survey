@@ -97,6 +97,8 @@ const AnswersList = ({ answers, survey }: any) => {
 
   // An array of respondents' point totals
   var points = [0];
+  // An array of respondents' total credibility scores
+  var credibilities = [0];
   // Chart labels
   var labels = [""];
   // An array of average points in categories
@@ -177,6 +179,11 @@ const AnswersList = ({ answers, survey }: any) => {
         label: "points",
         data: points,
         backgroundColor: "rgba(49, 55, 115, 0.9)",
+      },
+      {
+        label: "credibility",
+        data: credibilities,
+        backgroundColor: "rgba(0, 200, 83, 0.7)",
       },
     ],
   };
@@ -286,6 +293,7 @@ const AnswersList = ({ answers, survey }: any) => {
      totalCredibility = calculateTotalCredibility(
        answer.answers.map((questionAnswer: any) => calculateCredibility(questionAnswer))
      );
+     credibilities.push(totalCredibility);
 
     avgData.length = 0; // Clear existing array without destroying references to original array
     var tmpAvgData = calculateDataDetailed();
