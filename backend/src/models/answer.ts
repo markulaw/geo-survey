@@ -88,8 +88,8 @@ const answerSchema = new mongoose.Schema({
         type: Number,
         required: false,
       },
-      leftTab: {
-        type: Boolean,
+      timeOutsideTab: {
+        type: Number,
         required: false,
       },
       zoomOuts: {

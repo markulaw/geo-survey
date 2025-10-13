@@ -571,7 +571,7 @@ const AnswersList = ({ answers, survey }: any) => {
 
       // Penalties
       penalties: {
-        leftTab: 40,
+        timeOutsideTab: 40,
         tooFast: 20,
         tooSlow: 10,
         attemptPerExtra: 10,
@@ -587,6 +587,7 @@ const AnswersList = ({ answers, survey }: any) => {
       thresholds: {
         minTime: 2000, // ms
         maxTime: 120000, // ms
+        timeOutsideTab: 5000, // ms
         maxClicks: 5,
         fastClickInterval: 300, // ms
         maxZooms: 2,
@@ -596,8 +597,8 @@ const AnswersList = ({ answers, survey }: any) => {
 
     let score = CONFIG.baseScore;
 
-    // 1. Tab switch detected → big penalty
-    if (answer.leftTab) score -= CONFIG.penalties.leftTab;
+    // 1. Too much time spent outside of survey browser tab → big penalty
+    if (answer.timeOutsideTab > CONFIG.thresholds.timeOutsideTab) score -= CONFIG.penalties.timeOutsideTab;
 
     // 2. Time spent on question (ms)
     if (typeof answer.timeSpent === "number") {

@@ -45,7 +45,8 @@ const Survey = () => {
   const [clicked, setClicked] = useState<boolean>(false);
   const [completedSurvey, setCompletedSurvey] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<number>(Date.now());
-  const [leftTab, setLeftTab] = useState<boolean>(false);
+  const [timeOutsideTab, setTimeOutsideTab] = useState(0);
+  const lastTimeLeftTab = useRef<number | null>(null);
   const attemptsRef = useRef(0);
 
   // Initialize arrays and states for scoring
@@ -103,21 +104,21 @@ const Survey = () => {
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === "hidden") {
-        setLeftTab(true);
+        lastTimeLeftTab.current = Date.now();
+      } else if (lastTimeLeftTab.current) {
+        const diff = Date.now() - lastTimeLeftTab.current;
+        setTimeOutsideTab(t => t + diff);
       }
     };
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, []);
 
   // Effect hook to left tab and attempts variables when current question changes
   useEffect(() => {
     setStartTime(Date.now());
-    setLeftTab(false);
+    setTimeOutsideTab(0);
     attemptsRef.current = 0;
   }, [currentQuestionId]);
 
@@ -217,7 +218,7 @@ const Survey = () => {
       drags: interactions.drags,
       clicks: interactions.clicks,
       timeStamps: interactions.timeStamps,
-      leftTab: leftTab,
+      timeOutsideTab: timeOutsideTab,
     };
     setAnswers((prevValues: any) => {
       return { ...prevValues, [questionIndex]: newAnswer };
@@ -287,7 +288,7 @@ const Survey = () => {
       imagesChoose: selectedImages.toString(),
       timeSpent: Date.now() - startTime,
       attempts: attemptsRef.current + 1,
-      leftTab: leftTab,
+      timeOutsideTab: timeOutsideTab,
     };
 
     // Click detected (you can go to the next question)
@@ -321,7 +322,7 @@ const Survey = () => {
       sliderValue: sliderValue,
       timeSpent: Date.now() - startTime,
       attempts: attemptsRef.current,
-      leftTab: leftTab,
+      timeOutsideTab: timeOutsideTab,
     };
 
     setAnswers((prevValues: any) => {
@@ -357,7 +358,7 @@ const Survey = () => {
       singleChoice: selectedAnswer.toString(),
       timeSpent: Date.now() - startTime,
       attempts: attemptsRef.current,
-      leftTab: leftTab,
+      timeOutsideTab: timeOutsideTab,
     };
 
     setAnswers((prevValues: any) => {
@@ -390,7 +391,7 @@ const Survey = () => {
       singleImage: selectedImage.toString(),
       timeSpent: Date.now() - startTime,
       attempts: attemptsRef.current,
-      leftTab: leftTab,
+      timeOutsideTab: timeOutsideTab,
     };
 
     setAnswers((prevValues: any) => {
@@ -428,7 +429,7 @@ const Survey = () => {
       multipleChoice: selectedAnswers.toString(),
       timeSpent: Date.now() - startTime,
       attempts: attemptsRef.current + 1,
-      leftTab: leftTab,
+      timeOutsideTab: timeOutsideTab,
     };
 
     setAnswers((prevValues: any) => {
@@ -463,7 +464,7 @@ const Survey = () => {
       geoJSON: null,
       table: tableChoices.toString(),
       attempts: attemptsRef.current,
-      leftTab: leftTab,
+      timeOutsideTab: timeOutsideTab,
       timeSpent: Date.now() - startTime,
     };
 
