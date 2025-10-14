@@ -478,6 +478,30 @@ const Question = ({
           </ColorButton>
         )}
         <QuestionLabel>{getTranslatedValue(question?.question)}</QuestionLabel>
+
+        {question?.hintUrl && (
+          <QuestionLabel
+            style={{
+              wordBreak: "break-word",
+              maxWidth: "100%",
+              overflowWrap: "anywhere",
+            }}
+          >
+            <a
+              href={question.hintUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: "#1a73e8",
+                textDecoration: "underline",
+                wordBreak: "break-word",
+              }}
+            >
+              {question.hintUrl}
+            </a>
+          </QuestionLabel>
+        )}
+
         {question?.img && (
           <CustomImage src={process.env.PUBLIC_URL + question?.img} />
         )}

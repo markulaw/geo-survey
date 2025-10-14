@@ -7,7 +7,7 @@ export type MultiLingual<T> = {
 export interface SurveyEntry {
   surveyId: number;
   title: string | MultiLingual<string>;
-  description: string| MultiLingual<string>;
+  description: string | MultiLingual<string>;
   categories: boolean | undefined;
   categoriesNames: (string | MultiLingual<string>)[] | undefined;
   questions: QuestionType[];
@@ -17,5 +17,5 @@ export interface SurveyEntry {
 export interface QuestionType {
   id: number;
   answerType: string;
-  question: string;
+  question: string | MultiLingual<string>;
 }

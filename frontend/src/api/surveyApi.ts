@@ -38,7 +38,8 @@ export type wmsParamsType = {
 export type QuestionType = {
   id: number;
   answerType: string;
-  question: string| MultiLingual<string>;
+  question: string | MultiLingual<string>;
+  hintUrl: string;
   img: string;
   mapCenter: number[];
   mapUrlForQuestion: string;

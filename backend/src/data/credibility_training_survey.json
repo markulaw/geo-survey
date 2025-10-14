@@ -1,0 +1,245 @@
+[
+  {
+    "surveyId": 3,
+    "title": {
+      "pl": "Przykładowa Geoankieta 2025",
+      "en": "Sample Geosurvey 2025"
+    },
+    "description": {
+      "pl": "Sprawdza wiedzę o mieście Gdańsku.",
+      "en": "Tests the knowledge of the City of Gdansk."
+    },
+    "zoom": 12,
+    "center": [54.35, 18.64],
+    "mapUrl": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "mapAttribution": "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
+    "summary": false,
+    "categories": false,
+    "categoriesNames": [],
+    "questions": [
+      {
+        "id": 1,
+        "answerType": "SingleChoice",
+        "question": {
+          "pl": "Jak oceniasz swoją wiedzę o geografii Gdańska?",
+          "en": "How would you rate your knowledge of Gdansk's geography?"
+        },
+        "answer": {
+          "geometry": { "type": "SingleChoice" },
+          "answers": [
+            { "pl": "Wysoka", "en": "High" },
+            { "pl": "Średnia", "en": "Medium" },
+            { "pl": "Niska", "en": "Low" }
+          ],
+          "points": [0, 0, 0]
+        }
+      },
+      {
+        "id": 2,
+        "answerType": "Table",
+        "question": {
+          "pl": "Czy odwiedziłeś Gdańsk przy użyciu:",
+          "en": "Have you visited Gdansk via:"
+        },
+        "answer": {
+          "geometry": { "type": "Table" },
+          "table": [
+            { "pl": "Samolotu", "en": "Airplane" },
+            { "pl": "Pociągu", "en": "Train" },
+            { "pl": "Autobusu", "en": "Bus" },
+            { "pl": "Samochodu", "en": "Car" }
+          ],
+          "answers": [
+            { "pl": "Nigdy", "en": "Never" },
+            { "pl": "Raz", "en": "Once" },
+            { "pl": "Kilka razy", "en": "Several times" }
+          ],
+          "points": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        }
+      },
+      {
+        "id": 3,
+        "answerType": "SingleImage",
+        "question": {
+          "pl": "Który obraz przedstawia miasto Gdańsk?",
+          "en": "Which image shows the City of Gdansk?"
+        },
+        "answer": {
+          "geometry": { "type": "SingleImage" },
+          "answers": [
+            "/api/images/Puck",
+            "/api/images/Warszawa",
+            "/api/images/Gdansk",
+            "/api/images/Krakow",
+            "/api/images/I_dont_know"
+          ],
+          "points": [0, 0, 1, 0, 0]
+        }
+      },
+      {
+        "id": 4,
+        "answerType": "Point",
+        "question": {
+          "pl": "Zaznacz budynek Ratusza Głównego Miasta w Gdańsku.",
+          "en": "Select the building of the City Hall in Gdańsk."
+        },
+        "answer": {
+          "geometry": {
+            "type": "Point",
+            "coordinates": [18.652687668800354, 54.34889670772674]
+          }
+        }
+      },
+      {
+        "id": 5,
+        "answerType": "Point",
+        "question": {
+          "pl": "Zaznacz budynek Dworca Głównego w Gdańsku.",
+          "en": "Select the building of the Main Railway Station in Gdańsk."
+        },
+        "mapUrlForQuestion": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "mapAttribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+        "answer": {
+          "geometry": {
+            "type": "Point",
+            "coordinates": [18.644563257694244, 54.35552777635103]
+          }
+        }
+      },
+      {
+        "id": 6,
+        "answerType": "LineString",
+        "question": {
+          "pl": "Pokaż najkrótszą trasę z Ratusza do Forum Gdańsk.",
+          "en": "Show the shortest route from City Hall to Forum Gdańsk."
+        },
+        "answer": {
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [18.652961254119873, 54.348702855583035],
+                [18.651373386383057, 54.34913433168772],
+                [18.64781141281128, 54.34984094219094],
+                [18.647468090057373, 54.35000352341927],
+                [18.646620512008667, 54.350191116345016],
+                [18.64616721868515, 54.350264590007555],
+                [18.64429235458374, 54.35038496146865],
+                [18.64380955696106, 54.34947825867151],
+                [18.644195795059204, 54.34944699270101],
+                [18.644474744796753, 54.3499847640796],
+                [18.6468243598938, 54.34971587926996],
+                [18.647403717041016, 54.349603322315645],
+                [18.647607564926147, 54.34970337295693],
+                [18.65280032157898, 54.348552775876065],
+                [18.652961254119873, 54.348702855583035]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "id": 7,
+        "answerType": "Polygon",
+        "question": {
+          "pl": "Zaznacz obszar dzielnicy Główne Miasto w Gdańsku.",
+          "en": "Select the area of the Main City district in Gdańsk."
+        },
+        "answer": {
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [18.64658832550049, 54.34627649979566],
+                [18.657360076904297, 54.34627649979566],
+                [18.657360076904297, 54.35305492868306],
+                [18.64658832550049, 54.35305492868306],
+                [18.64658832550049, 54.34627649979566]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "id": 8,
+        "answerType": "Point",
+        "question": {
+          "pl": "Pokaż lokalizację tego obiektu na mapie.",
+          "en": "Show the location of this object on the map."
+        },
+        "img": "/api/images/neptun",
+        "answer": {
+          "geometry": {
+            "type": "Point",
+            "coordinates": [18.653107434511185, 54.34850196751777]
+          }
+        }
+      },
+      {
+        "id": 9,
+        "answerType": "Point",
+        "question": {
+          "pl": "Zaznacz na mapie lokalizację załączonego obiektu.",
+          "en": "Mark the location of the attached object on the map."
+        },
+        "hintUrl": "https://www.openstreetmap.org/?mlat=54.37946640934679&mlon=18.61621975183676&zoom=16#map=16/54.37946640934679/18.61621975183676",
+        "answer": {
+          "geometry": {
+            "type": "Point",
+            "coordinates": [18.61621975183676, 54.37946640934679]
+          }
+        }
+      },
+      {
+        "id": 10,
+        "answerType": "LineString",
+        "question": {
+          "pl": "Postaraj się maksymalnie odtworzyć trasę z poniższego linku",
+          "en": "Try to recreate the route from the link below as accurately as possible."
+        },
+        "hintUrl": "https://umap.openstreetmap.fr/pl/map/geo-survey_1297512?scaleControl=false&miniMap=false&scrollWheelZoom=false&zoomControl=true&editMode=disabled&moreControl=true&searchControl=null&tilelayersControl=null&embedControl=null&datalayersControl=true&onLoadPanel=none&captionBar=false&captionMenus=true#14/54.3903/18.6338",
+        "answer": {
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [18.649292,54.38748],[18.640666,54.383806],[18.634658,54.38843],[18.639894,54.393202],[18.626676,54.399748]
+              ]
+            ]
+          }
+        }
+      },
+      {
+        "id": 11,
+        "answerType": "Slider",
+        "question": {
+          "pl": "Jak oceniłbyś/abyś swój poziom zaangażowania w tę ankietę, jak dokładnie odpowiadałeś na pytania?",
+          "en": "How would you rate your level of engagement in this survey, how accurately did you answer the questions?"
+        },
+        "answer": {
+          "geometry": { "type": "Slider" },
+          "minSlider": 0,
+          "maxSlider": 100,
+          "goodAnswer": 50
+        }
+      },
+      {
+        "id": 12,
+        "answerType": "SingleChoice",
+        "question": {
+          "pl": "Czy w pytaniach, w których nie podano, że można korzystać z internetu, używałeś takich źródeł? (odpowiedź nie wpłynie negatywnie na wynik ankiety, służy jedynie do celów badawczych)",
+          "en": "Did you use the internet for questions that did not mention it? (your answer will not affect the survey results, it is used for research purposes only)"
+        },
+        "answer": {
+          "geometry": { "type": "SingleChoice" },
+          "answers": [
+            { "pl": "Kilkukrotnie", "en": "More than once" },
+            { "pl": "Raz", "en": "Once" },
+            { "pl": "Ani razu", "en": "Never" }
+          ],
+          "points": [0, 0, 0]
+        }
+      }
+    ]
+  }
+]
