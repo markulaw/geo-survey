@@ -43,6 +43,7 @@ import {
   center,
   feature,
 } from "@turf/turf";
+import {getTranslatedValue} from "../../helpers/GetTranslatedValue";
 
 ChartJS.register(
   CategoryScale,
@@ -260,11 +261,11 @@ const AnswersList = ({ answers, survey }: any) => {
     } else {
       allPointsLabels.push("score");
     }
-    dataDetailed.labels = allPointsLabels.slice();
-    dataQuestionDetailed.labels = allPointsLabels.slice();
-    dataQuestionDetailedAllResponders.labels = allPointsLabels.slice();
-    dataRespondentDetailed.labels = allPointsLabels.slice();
-    dataRespondentDetailedPerQuestion.labels = allPointsLabels.slice();
+    dataDetailed.labels = allPointsLabels.slice().map(getTranslatedValue);
+    dataQuestionDetailed.labels = allPointsLabels.slice().map(getTranslatedValue);
+    dataQuestionDetailedAllResponders.labels = allPointsLabels.slice().map(getTranslatedValue);
+    dataRespondentDetailed.labels = allPointsLabels.slice().map(getTranslatedValue);
+    dataRespondentDetailedPerQuestion.labels = allPointsLabels.slice().map(getTranslatedValue);
 
     totalPointsByCategories = new Array(allPointsLabels.length).fill(0);
     allPointsByCategories = Array.from(
@@ -1016,7 +1017,7 @@ const AnswersList = ({ answers, survey }: any) => {
               {categories && (
                 <>
                   {allPointsLabels.slice(0).map((label, index) => (
-                    <TableCell key={index}>{label}</TableCell>
+                    <TableCell key={index}>{getTranslatedValue(label)}</TableCell>
                   ))}
                 </>
               )}
@@ -1092,7 +1093,7 @@ const AnswersList = ({ answers, survey }: any) => {
 		              {allPointsLabels.map((label, index) => (
 		                //<div key={index} ref={state.myTableCell as React.RefObject<HTMLDivElement>}>
 		                <div key={index} >
-		                  {label}:{" "}{totalPointsByCategories[index]}
+		                  {getTranslatedValue(label)}:{" "}{totalPointsByCategories[index]}
 		                </div>
 		              ))}
 		          </TableCell>

@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import { getAnswers, getSurvey } from "../../api/surveyApi";
 import AnswersList from "./AnswersList";
 import { translations } from "../../translate/Translations";
+import {getTranslatedValue} from "../../helpers/GetTranslatedValue";
 
 // Styled components for styling the components
 const Container = styled.div`
@@ -100,7 +101,7 @@ const Answers = () => {
           {(translations as any)[language]["surveyResponses"]} {surveyId}
         </AnswersHeader>
         <AnswersSubHeader>
-        {surveyTitle} : {surveyDescription}
+        {getTranslatedValue(surveyTitle)} : {getTranslatedValue(surveyDescription)}
         </AnswersSubHeader>
         <AnswersList answers={answers} survey={survey} />
       </Content>
