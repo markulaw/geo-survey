@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getSurveys } from "../../api/surveyApi";
+import {getSurveys, MultiLingual} from "../../api/surveyApi";
 import { SurveyType } from "../../api/surveyApi";
 import SurveyItem from "./SurveyItem/SurveyItem";
 import styled from "styled-components";
@@ -90,7 +90,7 @@ const Dashoard = () => {
        </FormControl>
       </Box>
       <div style={{ height: "100px", width: "100%" }} className="spacer"></div>
-      {surveys.filter((survey) => survey.title.includes(surveyName)).map((survey) => (
+      {surveys.filter((survey) => JSON.stringify(survey.title).includes(surveyName)).map((survey) => (
         <SurveyItem
           survey={survey}
           key={survey.surveyId}

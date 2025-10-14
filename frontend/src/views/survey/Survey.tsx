@@ -24,6 +24,7 @@ import {
   center,
   feature,
 } from "@turf/turf";
+import {getTranslatedValue} from "../../helpers/GetTranslatedValue";
 
 const _ = require("lodash");
 
@@ -809,8 +810,8 @@ const Survey = () => {
       survey?.categoriesNames !== undefined
     ) {
       for (let i = 0; i < percentages.length; i++) {
-        pointsSummary+= survey?.categoriesNames[i] + ": "+scored+flattenedTotalArray[i]+"/"+flattenedMaxArray[i]+" "+points+"\n";
-        percentagesSummary+= survey?.categoriesNames[i] + ": "+scored+percentages[i]+"%"+"\n";
+        pointsSummary+= getTranslatedValue(survey?.categoriesNames[i]) + ": "+scored+flattenedTotalArray[i]+"/"+flattenedMaxArray[i]+" "+points+"\n";
+        percentagesSummary+= getTranslatedValue(survey?.categoriesNames[i]) + ": "+scored+percentages[i]+"%"+"\n";
         if (percentages[i] > maxValue) {
           maxValue = percentages[i];
           maxIndex = i;
@@ -831,7 +832,7 @@ const Survey = () => {
             {survey?.summaryDetails.thanks?.generic && <h2>{genericThanks}</h2>}
             <div></div>
             {survey?.summaryDetails.thanks?.custom !== undefined && (
-              <h2>{survey?.summaryDetails.thanks?.custom}</h2>
+              <h2>{getTranslatedValue(survey?.summaryDetails.thanks?.custom)}</h2>
             )}
             <br></br>
             {survey?.summaryDetails?.points !== undefined &&
@@ -882,7 +883,7 @@ const Survey = () => {
               survey?.categoriesNames && (
                 <p>
                   {scoredCategories}
-                  {survey?.categoriesNames[maxIndex]} : {percentages[maxIndex]}%
+                  {getTranslatedValue(survey?.categoriesNames[maxIndex])} : {percentages[maxIndex]}%
                 </p>
               )}
             {survey?.summaryDetails?.categories
@@ -891,8 +892,8 @@ const Survey = () => {
               survey?.categoriesNames && (
                 <p>
                   {
-                    survey?.scoringCategoriesDescription[maxIndex]
-                      .theBestCategorySummaryDescription
+                    getTranslatedValue(survey?.scoringCategoriesDescription[maxIndex]
+                      .theBestCategorySummaryDescription)
                   }
                 </p>
               )}

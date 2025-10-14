@@ -19,6 +19,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import {getTranslatedValue} from "../../../helpers/GetTranslatedValue";
 
 type QuestionProps = {
   question?: QuestionType;
@@ -476,7 +477,7 @@ const Question = ({
             {endDrawing}
           </ColorButton>
         )}
-        <QuestionLabel>{question?.question}</QuestionLabel>
+        <QuestionLabel>{getTranslatedValue(question?.question)}</QuestionLabel>
         {question?.img && (
           <CustomImage src={process.env.PUBLIC_URL + question?.img} />
         )}
@@ -540,25 +541,25 @@ const Question = ({
                 </TableRow>
               </TableHead>
               <TableBody>
-                {question?.answer.table.map((table: any, i: number) => (
-                  <TableRow key={table}>
-                   {!table.includes("/api/images/") && (<TableCell
+                {question?.answer.table.map((answer: any, i: number) => (
+                  <TableRow key={getTranslatedValue(answer)}>
+                   {!getTranslatedValue(answer).includes("/api/images/") && (<TableCell
                       style={{
                         fontSize: "1rem",
                         backgroundColor: i % 2 === 0 ? "#C3C8DA" : "ffffff",
                       }}
                     >
-                      {table}
+                      {getTranslatedValue(answer)}
                     </TableCell>
                     )}
-                   {table.includes("/api/images/") && (<TableCell
+                   {getTranslatedValue(answer).includes("/api/images/") && (<TableCell
                       style={{
                         fontSize: "1rem",
                         backgroundColor: i % 2 === 0 ? "#C3C8DA" : "ffffff",
                       }}
                     >
                       <img
-                      src={table}
+                      src={getTranslatedValue(answer)}
                       className="img"
                       style={styles.image}
                     />
@@ -590,7 +591,7 @@ const Question = ({
                                 checked={tableChoices[i] === j}
                                 value={j}
                                 control={<Radio />}
-                                label={answer}
+                                label={getTranslatedValue(answer)}
                               />
                             )
                           )}
@@ -622,11 +623,11 @@ const Question = ({
         {question?.answerType === "SingleChoice" && (
           <FormControl>
             <RadioGroup onChange={changeSingleVal} value={singleChoiceVal}>
-              {question?.answer.answers.map((answers: any, i: number) => (
+              {question?.answer.answers.map((answer: any, i: number) => (
                 <CustomFormControlLabel
                   key={i}
                   value={i}
-                  label={answers}
+                  label={getTranslatedValue(answer)}
                   control={<Radio />}
                 />
               ))}
@@ -636,7 +637,7 @@ const Question = ({
 
         {question?.answerType === "MultipleChoice" && (
           <FormGroup>
-            {question?.answer.answers.map((answers: any, i: number) => (
+            {question?.answer.answers.map((answer: any, i: number) => (
               <CustomFormControlLabel
                 key={i}
                 value={i}
@@ -646,7 +647,7 @@ const Question = ({
                     onChange={() => changeMultipleVal(i)}
                   />
                 }
-                label={answers}
+                label={getTranslatedValue(answer)}
               />
             ))}
           </FormGroup>

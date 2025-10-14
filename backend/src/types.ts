@@ -1,10 +1,15 @@
+export type MultiLingual<T> = {
+  pl: T;
+  en: T;
+}
+
 // Interface defining the structure of a survey entry
 export interface SurveyEntry {
   surveyId: number;
-  title: string;
-  description: string;
+  title: string | MultiLingual<string>;
+  description: string| MultiLingual<string>;
   categories: boolean | undefined;
-  categoriesNames: string[] | undefined;
+  categoriesNames: (string | MultiLingual<string>)[] | undefined;
   questions: QuestionType[];
 }
 

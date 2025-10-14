@@ -1,11 +1,16 @@
 // Import the axios instance for making HTTP requests
 import axiosSurveyApp from "./axiosApi";
 
+export type MultiLingual<T> = {
+  pl: T;
+  en: T;
+}
+
 // Define the SurveyType interface
 export type SurveyType = {
   surveyId: number;
-  title: string;
-  description: string;
+  title: string | MultiLingual<string>;
+  description: string| MultiLingual<string>;
   zoom: number;
   center: number[];
   mapUrl: string;
@@ -16,8 +21,8 @@ export type SurveyType = {
   summary: boolean | undefined;
   summaryDetails: any | undefined;
   categories: boolean | undefined;
-  categoriesNames: string[];
-  scoringCategoriesDescription: any | undefined;
+  categoriesNames: (string| MultiLingual<string>)[];
+  scoringCategoriesDescription: any | undefined | MultiLingual<string>;
 };
 
 // Define the wmsParamsType interface
@@ -33,7 +38,7 @@ export type wmsParamsType = {
 export type QuestionType = {
   id: number;
   answerType: string;
-  question: string;
+  question: string| MultiLingual<string>;
   img: string;
   mapCenter: number[];
   mapUrlForQuestion: string;

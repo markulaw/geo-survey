@@ -1,8 +1,8 @@
 [
   {
     "surveyId": 2,
-    "title": "Sample geosurvey with scoring and summary",
-    "description": "Tests the knowledge of the City of Gdansk",
+    "title": { "pl": "Przykładowa ankieta geosurvey z punktacją i podsumowaniem", "en": "Sample geosurvey with scoring and summary" },
+    "description": { "pl": "Testuje wiedzę o mieście Gdańsk", "en": "Tests the knowledge of the City of Gdansk" },
     "zoom": 12,
     "center": [54.35, 18.64],
     "mapUrl": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -11,94 +11,106 @@
     "summaryDetails": {
       "thanks": {
         "generic": true,
-        "custom": "We have analysed your answers in the following categories."
+        "custom": {
+          "pl": "Przeanalizowaliśmy Twoje odpowiedzi w następujących kategoriach.",
+          "en": "We have analysed your answers in the following categories."
+        }
       },
-      "points": {
-        "pointsWithoutConditions": true
-      },
+      "points": { "pointsWithoutConditions": true },
       "categories": {
-        "theBestCategoryPercentageDisplay" : true,
+        "theBestCategoryPercentageDisplay": true,
         "theBestCategorySummaryDescription": true
       }
     },
     "categories": true,
-    "categoriesNames": ["Spatiality", "Navigation", "Observation"],
+    "categoriesNames": [
+      { "pl": "Przestrzenność", "en": "Spatiality" },
+      { "pl": "Nawigacja", "en": "Navigation" },
+      { "pl": "Obserwacja", "en": "Observation" }
+    ],
     "scoringCategoriesDescription": [
       {
-        "name": "Spatiality",
-        "theBestCategorySummaryDescription": "You have good ability to understand and utilize spatial relationships and dimensions."
+        "name": { "pl": "Przestrzenność", "en": "Spatiality" },
+        "theBestCategorySummaryDescription": {
+          "pl": "Masz dobrą umiejętność rozumienia i wykorzystywania relacji przestrzennych i wymiarów.",
+          "en": "You have good ability to understand and utilize spatial relationships and dimensions."
+        }
       },
       {
-        "name": "Navigation",
-        "theBestCategorySummaryDescription": "You have good ability to determine and follow routes using maps, compasses, or GPS technology."
+        "name": { "pl": "Nawigacja", "en": "Navigation" },
+        "theBestCategorySummaryDescription": {
+          "pl": "Masz dobrą umiejętność wyznaczania i podążania trasami przy użyciu map, kompasów lub technologii GPS.",
+          "en": "You have good ability to determine and follow routes using maps, compasses, or GPS technology."
+        }
       },
       {
-        "name": "Observation",
-        "theBestCategorySummaryDescription": "You have good ability to attentively perceive and gather information about your surroundings."
+        "name": { "pl": "Obserwacja", "en": "Observation" },
+        "theBestCategorySummaryDescription": {
+          "pl": "Masz dobrą umiejętność uważnego postrzegania i gromadzenia informacji o otoczeniu.",
+          "en": "You have good ability to attentively perceive and gather information about your surroundings."
+        }
       }
     ],
     "questions": [
       {
         "id": 1,
         "answerType": "SingleChoice",
-        "question": "How would you rate your knowledge of Gdansk?",
+        "question": {
+          "pl": "Jak oceniasz swoją wiedzę o Gdańsku?",
+          "en": "How would you rate your knowledge of Gdansk?"
+        },
         "answer": {
-          "geometry": {
-            "type": "SingleChoice"
-          },
-          "answers": ["High", "Medium", "Low"],
+          "geometry": { "type": "SingleChoice" },
+          "answers": [
+            { "pl": "Wysoka", "en": "High" },
+            { "pl": "Średnia", "en": "Medium" },
+            { "pl": "Niska", "en": "Low" }
+          ],
           "points": [1, 0.5, 0],
           "scoringCategories": [
-            {
-              "name": "Spatiality",
-              "score": 1
-            },
-            {
-              "name": "Navigation",
-              "score": 1
-            },
-            {
-              "name": "Observation",
-              "score": 0
-            }
+            { "name": "Spatiality", "score": 1 },
+            { "name": "Navigation", "score": 1 },
+            { "name": "Observation", "score": 0 }
           ]
         }
       },
       {
         "id": 2,
         "answerType": "Table",
-        "question": "Have you visited Gdansk via:",
+        "question": {
+          "pl": "Czy odwiedziłeś Gdańsk korzystając z:",
+          "en": "Have you visited Gdansk via:"
+        },
         "answer": {
-          "geometry": {
-            "type": "Table"
-          },
-          "table": ["Airplane", "Train", "Bus", "Car"],
-          "answers": ["Never", "Once", "Several times"],
+          "geometry": { "type": "Table" },
+          "table": [
+            { "pl": "Samolot", "en": "Airplane" },
+            { "pl": "Pociąg", "en": "Train" },
+            { "pl": "Autobus", "en": "Bus" },
+            { "pl": "Samochód", "en": "Car" }
+          ],
+          "answers": [
+            { "pl": "Nigdy", "en": "Never" },
+            { "pl": "Raz", "en": "Once" },
+            { "pl": "Kilka razy", "en": "Several times" }
+          ],
           "points": [0, 0.5, 1, 0, 0.5, 1, 0, 0.5, 1, 0, 1, 1],
           "scoringCategories": [
-            {
-              "name": "Spatiality",
-              "score": 0
-            },
-            {
-              "name": "Navigation",
-              "score": 0
-            },
-            {
-              "name": "Observation",
-              "score": 1
-            }
+            { "name": "Spatiality", "score": 0 },
+            { "name": "Navigation", "score": 0 },
+            { "name": "Observation", "score": 1 }
           ]
         }
       },
       {
         "id": 3,
         "answerType": "SingleImage",
-        "question": "Which image shows the City of Gdansk?",
+        "question": {
+          "pl": "Który obraz przedstawia miasto Gdańsk?",
+          "en": "Which image shows the City of Gdansk?"
+        },
         "answer": {
-          "geometry": {
-            "type": "SingleImage"
-          },
+          "geometry": { "type": "SingleImage" },
           "answers": [
             "/api/images/Puck",
             "/api/images/Warszawa",
@@ -108,50 +120,38 @@
           ],
           "points": [0, 0, 1, 0, 0],
           "scoringCategories": [
-            {
-              "name": "Spatiality",
-              "score": 0
-            },
-            {
-              "name": "Navigation",
-              "score": 0
-            },
-            {
-              "name": "Observation",
-              "score": 1
-            }
+            { "name": "Spatiality", "score": 0 },
+            { "name": "Navigation", "score": 0 },
+            { "name": "Observation", "score": 1 }
           ]
         }
       },
       {
         "id": 4,
         "answerType": "Point",
-        "question": "Select the building of the City Hall in Gdańsk.",
+        "question": {
+          "pl": "Wskaż budynek Ratusza Głównego Miasta w Gdańsku.",
+          "en": "Select the building of the City Hall in Gdańsk."
+        },
         "answer": {
           "geometry": {
             "type": "Point",
             "coordinates": [18.652687668800354, 54.34889670772674]
           },
           "scoringCategories": [
-            {
-              "name": "Spatiality",
-              "score": 1
-            },
-            {
-              "name": "Navigation",
-              "score": 1
-            },
-            {
-              "name": "Observation",
-              "score": 0
-            }
+            { "name": "Spatiality", "score": 1 },
+            { "name": "Navigation", "score": 1 },
+            { "name": "Observation", "score": 0 }
           ]
         }
       },
       {
         "id": 5,
         "answerType": "Point",
-        "question": "Select the building of the Main Railway Station in Gdańsk.",
+        "question": {
+          "pl": "Wskaż budynek Dworca Głównego PKP w Gdańsku.",
+          "en": "Select the building of the Main Railway Station in Gdańsk."
+        },
         "mapUrlForQuestion": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         "mapAttribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
         "answer": {
@@ -160,102 +160,52 @@
             "coordinates": [18.644563257694244, 54.35552777635103]
           },
           "scoringCategories": [
-            {
-              "name": "Spatiality",
-              "score": 1
-            },
-            {
-              "name": "Navigation",
-              "score": 1
-            },
-            {
-              "name": "Observation",
-              "score": 0
-            }
+            { "name": "Spatiality", "score": 1 },
+            { "name": "Navigation", "score": 1 },
+            { "name": "Observation", "score": 0 }
           ]
         }
       },
       {
         "id": 6,
         "answerType": "LineString",
-        "question": "Show the shortest route from City Hall to Forum Gdańsk.",
+        "question": {
+          "pl": "Pokaż najkrótszą trasę z Ratusza do Forum Gdańsk.",
+          "en": "Show the shortest route from City Hall to Forum Gdańsk."
+        },
         "answer": {
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [
-              [
-                [18.652961254119873, 54.348702855583035],
-                [18.651373386383057, 54.34913433168772],
-                [18.64781141281128, 54.34984094219094],
-                [18.647468090057373, 54.35000352341927],
-                [18.646620512008667, 54.350191116345016],
-                [18.64616721868515, 54.350264590007555],
-                [18.64429235458374, 54.35038496146865],
-                [18.64380955696106, 54.34947825867151],
-                [18.644195795059204, 54.34944699270101],
-                [18.644474744796753, 54.3499847640796],
-                [18.6468243598938, 54.34971587926996],
-                [18.647403717041016, 54.349603322315645],
-                [18.647607564926147, 54.34970337295693],
-                [18.65280032157898, 54.348552775876065],
-                [18.652961254119873, 54.348702855583035]
-              ]
-            ]
-          },
+          "geometry": { "type": "Polygon", "coordinates": [[[18.652961254119873, 54.348702855583035], [18.651373386383057, 54.34913433168772], [18.64781141281128, 54.34984094219094], [18.647468090057373, 54.35000352341927], [18.646620512008667, 54.350191116345016], [18.64616721868515, 54.350264590007555], [18.64429235458374, 54.35038496146865], [18.64380955696106, 54.34947825867151], [18.644195795059204, 54.34944699270101], [18.644474744796753, 54.3499847640796], [18.6468243598938, 54.34971587926996], [18.647403717041016, 54.349603322315645], [18.647607564926147, 54.34970337295693], [18.65280032157898, 54.348552775876065], [18.652961254119873, 54.348702855583035]]] },
           "scoringCategories": [
-            {
-              "name": "Spatiality",
-              "score": 1
-            },
-            {
-              "name": "Navigation",
-              "score": 1
-            },
-            {
-              "name": "Observation",
-              "score": 1
-            }
+            { "name": "Spatiality", "score": 1 },
+            { "name": "Navigation", "score": 1 },
+            { "name": "Observation", "score": 1 }
           ]
         }
       },
       {
         "id": 7,
         "answerType": "Polygon",
-        "question": "Select the area of the Main City district in Gdańsk.",
+        "question": {
+          "pl": "Zaznacz obszar dzielnicy Główne Miasto w Gdańsku.",
+          "en": "Select the area of the Main City district in Gdańsk."
+        },
         "answer": {
           "acceptableMin": 0,
-          "geometry": {
-            "type": "Polygon",
-            "coordinates": [
-              [
-                [18.64658832550049, 54.34627649979566],
-                [18.657360076904297, 54.34627649979566],
-                [18.657360076904297, 54.35305492868306],
-                [18.64658832550049, 54.35305492868306],
-                [18.64658832550049, 54.34627649979566]
-              ]
-            ]
-          },
+          "geometry": { "type": "Polygon", "coordinates": [[[18.64658832550049, 54.34627649979566], [18.657360076904297, 54.34627649979566], [18.657360076904297, 54.35305492868306], [18.64658832550049, 54.35305492868306], [18.64658832550049, 54.34627649979566]]] },
           "scoringCategories": [
-            {
-              "name": "Spatiality",
-              "score": 0
-            },
-            {
-              "name": "Navigation",
-              "score": 1
-            },
-            {
-              "name": "Observation",
-              "score": 0
-            }
+            { "name": "Spatiality", "score": 0 },
+            { "name": "Navigation", "score": 1 },
+            { "name": "Observation", "score": 0 }
           ]
         }
       },
       {
         "id": 8,
         "answerType": "Point",
-        "question": "Show the location of this object on the map.",
+        "question": {
+          "pl": "Pokaż na mapie lokalizację tego obiektu.",
+          "en": "Show the location of this object on the map."
+        },
         "img": "/api/images/neptun",
         "answer": {
           "geometry": {
@@ -263,29 +213,21 @@
             "coordinates": [18.653107434511185, 54.34850196751777]
           },
           "scoringCategories": [
-            {
-              "name": "Spatiality",
-              "score": 0
-            },
-            {
-              "name": "Navigation",
-              "score": 1
-            },
-            {
-              "name": "Observation",
-              "score": 0
-            }
+            { "name": "Spatiality", "score": 0 },
+            { "name": "Navigation", "score": 1 },
+            { "name": "Observation", "score": 0 }
           ]
         }
       },
       {
         "id": 9,
         "answerType": "MultipleChoice",
-        "question": "Which of the following activities are available in Gdansk? (Select all that apply)",
+        "question": {
+          "pl": "Które z poniższych aktywności są dostępne w Gdańsku? (Zaznacz wszystkie, które pasują)",
+          "en": "Which of the following activities are available in Gdansk? (Select all that apply)"
+        },
         "answer": {
-          "geometry": {
-            "type": "MultipleChoice"
-          },
+          "geometry": { "type": "MultipleChoice" },
           "answers": [
             "Attending community events",
             "Exploring nature trails",
@@ -295,75 +237,46 @@
           ],
           "points": [1, 1, 1, 1, 1],
           "scoringCategories": [
-            {
-              "name": "Spatiality",
-              "score": 1
-            },
-            {
-              "name": "Navigation",
-              "score": 0
-            },
-            {
-              "name": "Observation",
-              "score": 1
-            }
+            { "name": "Spatiality", "score": 1 },
+            { "name": "Navigation", "score": 0 },
+            { "name": "Observation", "score": 1 }
           ]
         }
       },
       {
         "id": 10,
         "answerType": "Images",
-        "question": "Select the map types in which you can clearly see the city of Gdansk.",
+        "question": {
+          "pl": "Wybierz typy map, na których wyraźnie widać miasto Gdańsk.",
+          "en": "Select the map types in which you can clearly see the city of Gdansk."
+        },
         "answer": {
-          "geometry": {
-            "type": "Images"
-          },
-          "answers": [
-            "/api/images/map1",
-            "/api/images/map2",
-            "/api/images/map3"
-          ],
+          "geometry": { "type": "Images" },
+          "answers": ["/api/images/map1", "/api/images/map2", "/api/images/map3"],
           "points": [1, 0.25, 0.25],
           "scoringCategories": [
-            {
-              "name": "Spatiality",
-              "score": 0
-            },
-            {
-              "name": "Navigation",
-              "score": 1
-            },
-            {
-              "name": "Observation",
-              "score": 0
-            }
+            { "name": "Spatiality", "score": 0 },
+            { "name": "Navigation", "score": 1 },
+            { "name": "Observation", "score": 0 }
           ]
         }
       },
       {
         "id": 11,
         "answerType": "Slider",
-        "question": "How satisfied are you with this questionnaire?",
+        "question": {
+          "pl": "Jak bardzo jesteś zadowolony z tej ankiety?",
+          "en": "How satisfied are you with this questionnaire?"
+        },
         "answer": {
-          "geometry": {
-            "type": "Slider"
-          },
+          "geometry": { "type": "Slider" },
           "minSlider": 0,
           "maxSlider": 100,
           "goodAnswer": 50,
           "scoringCategories": [
-            {
-              "name": "Spatiality",
-              "score": 0
-            },
-            {
-              "name": "Navigation",
-              "score": 0
-            },
-            {
-              "name": "Observation",
-              "score": 0
-            }
+            { "name": "Spatiality", "score": 0 },
+            { "name": "Navigation", "score": 0 },
+            { "name": "Observation", "score": 0 }
           ]
         }
       }

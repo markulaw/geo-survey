@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import { translations } from "../../../translate/Translations";
 import { useNavigate } from "react-router-dom";
 import { languages } from "../../../translate/Translations";
+import {getTranslatedValue} from "../../../helpers/GetTranslatedValue";
 
 type SurveyItemType = {
   survey: SurveyType;
@@ -118,9 +119,9 @@ const deleteAnswers = () => {
 
   return (
     <Container>
-      <h3>{survey.title}</h3>
+      <h3>{getTranslatedValue(survey.title)}</h3>
       <span>
-        {description}: {survey?.description}
+        {description}: {getTranslatedValue(survey?.description)}
       </span>
       {type === "answers" && (
         <h4>

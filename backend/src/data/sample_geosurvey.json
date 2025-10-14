@@ -1,8 +1,14 @@
 [
   {
     "surveyId": 1,
-    "title": "Sample Geosurvey",
-    "description": "Tests the knowledge of the City of Gdansk",
+    "title": {
+      "pl": "Przykładowa Geoankieta",
+      "en": "Sample Geosurvey"
+    },
+    "description": {
+      "pl": "Sprawdza wiedzę o mieście Gdańsku.",
+      "en": "Tests the knowledge of the City of Gdansk."
+    },
     "zoom": 12,
     "center": [54.35, 18.64],
     "mapUrl": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -14,36 +20,52 @@
       {
         "id": 1,
         "answerType": "SingleChoice",
-        "question": "How would you rate your knowledge of Gdansk?",
+        "question": {
+          "pl": "Jak oceniasz swoją wiedzę o Gdańsku?",
+          "en": "How would you rate your knowledge of Gdansk?"
+        },
         "answer": {
-          "geometry": {
-            "type": "SingleChoice"
-          },
-          "answers": ["High", "Medium", "Low"],
+          "geometry": { "type": "SingleChoice" },
+          "answers": [
+            { "pl": "Wysoka", "en": "High" },
+            { "pl": "Średnia", "en": "Medium" },
+            { "pl": "Niska", "en": "Low" }
+          ],
           "points": [0, 0, 0]
         }
       },
       {
         "id": 2,
         "answerType": "Table",
-        "question": "Have you visited Gdansk via:",
+        "question": {
+          "pl": "Czy odwiedziłeś Gdańsk przy użyciu:",
+          "en": "Have you visited Gdansk via:"
+        },
         "answer": {
-          "geometry": {
-            "type": "Table"
-          },
-          "table": ["Airplane", "Train", "Bus", "Car"],
-          "answers": ["Never", "Once", "Several times"],
+          "geometry": { "type": "Table" },
+          "table": [
+            { "pl": "Samolot", "en": "Airplane" },
+            { "pl": "Pociąg", "en": "Train" },
+            { "pl": "Autobus", "en": "Bus" },
+            { "pl": "Samochód", "en": "Car" }
+          ],
+          "answers": [
+            { "pl": "Nigdy", "en": "Never" },
+            { "pl": "Raz", "en": "Once" },
+            { "pl": "Kilka razy", "en": "Several times" }
+          ],
           "points": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         }
       },
       {
         "id": 3,
         "answerType": "SingleImage",
-        "question": "Which image shows the City of Gdansk?",
+        "question": {
+          "pl": "Który obraz przedstawia miasto Gdańsk?",
+          "en": "Which image shows the City of Gdansk?"
+        },
         "answer": {
-          "geometry": {
-            "type": "SingleImage"
-          },
+          "geometry": { "type": "SingleImage" },
           "answers": [
             "/api/images/Puck",
             "/api/images/Warszawa",
@@ -57,7 +79,10 @@
       {
         "id": 4,
         "answerType": "Point",
-        "question": "Select the building of the City Hall in Gdańsk.",
+        "question": {
+          "pl": "Zaznacz budynek Ratusza Głównego Miasta w Gdańsku.",
+          "en": "Select the building of the City Hall in Gdańsk."
+        },
         "answer": {
           "geometry": {
             "type": "Point",
@@ -68,7 +93,10 @@
       {
         "id": 5,
         "answerType": "Point",
-        "question": "Select the building of the Main Railway Station in Gdańsk.",
+        "question": {
+          "pl": "Zaznacz budynek Dworca Głównego w Gdańsku.",
+          "en": "Select the building of the Main Railway Station in Gdańsk."
+        },
         "mapUrlForQuestion": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         "mapAttribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
         "answer": {
@@ -81,7 +109,10 @@
       {
         "id": 6,
         "answerType": "LineString",
-        "question": "Show the shortest route from City Hall to Forum Gdańsk.",
+        "question": {
+          "pl": "Pokaż najkrótszą trasę z Ratusza do Forum Gdańsk.",
+          "en": "Show the shortest route from City Hall to Forum Gdańsk."
+        },
         "answer": {
           "geometry": {
             "type": "Polygon",
@@ -110,7 +141,10 @@
       {
         "id": 7,
         "answerType": "Polygon",
-        "question": "Select the area of the Main City district in Gdańsk.",
+        "question": {
+          "pl": "Zaznacz obszar dzielnicy Główne Miasto w Gdańsku.",
+          "en": "Select the area of the Main City district in Gdańsk."
+        },
         "answer": {
           "geometry": {
             "type": "Polygon",
@@ -129,7 +163,10 @@
       {
         "id": 8,
         "answerType": "Point",
-        "question": "Show the location of this object on the map.",
+        "question": {
+          "pl": "Pokaż lokalizację tego obiektu na mapie.",
+          "en": "Show the location of this object on the map."
+        },
         "img": "/api/images/neptun",
         "answer": {
           "geometry": {
@@ -141,17 +178,18 @@
       {
         "id": 9,
         "answerType": "MultipleChoice",
-        "question": "Which of the following activities are available in Gdansk? (Select all that apply)",
+        "question": {
+          "pl": "Które z poniższych aktywności są dostępne w Gdańsku? (Zaznacz wszystkie, które pasują)",
+          "en": "Which of the following activities are available in Gdansk? (Select all that apply)"
+        },
         "answer": {
-          "geometry": {
-            "type": "MultipleChoice"
-          },
+          "geometry": { "type": "MultipleChoice" },
           "answers": [
-            "Attending community events",
-            "Exploring nature trails",
-            "Visiting local parks",
-            "Interacting with local art installations",
-            "Participating in community sports events"
+            { "pl": "Uczestnictwo w wydarzeniach społecznych", "en": "Attending community events" },
+            { "pl": "Zwiedzanie szlaków przyrodniczych", "en": "Exploring nature trails" },
+            { "pl": "Odwiedzanie parków miejskich", "en": "Visiting local parks" },
+            { "pl": "Interakcja z lokalnymi instalacjami artystycznymi", "en": "Interacting with local art installations" },
+            { "pl": "Udział w wydarzeniach sportowych", "en": "Participating in community sports events" }
           ],
           "points": [1, 1, 1, 1, 1]
         }
@@ -159,11 +197,12 @@
       {
         "id": 10,
         "answerType": "Images",
-        "question": "Select the map types in which you can clearly see the city of Gdansk.",
+        "question": {
+          "pl": "Wybierz typy map, na których wyraźnie widać miasto Gdańsk.",
+          "en": "Select the map types in which you can clearly see the city of Gdansk."
+        },
         "answer": {
-          "geometry": {
-            "type": "Images"
-          },
+          "geometry": { "type": "Images" },
           "answers": [
             "/api/images/map1",
             "/api/images/map2",
@@ -175,11 +214,12 @@
       {
         "id": 11,
         "answerType": "Slider",
-        "question": "How satisfied are you with this questionnaire?",
+        "question": {
+          "pl": "Jak bardzo jesteś zadowolony z tej ankiety?",
+          "en": "How satisfied are you with this questionnaire?"
+        },
         "answer": {
-          "geometry": {
-            "type": "Slider"
-          },
+          "geometry": { "type": "Slider" },
           "minSlider": 0,
           "maxSlider": 100,
           "goodAnswer": 50
