@@ -111,6 +111,10 @@ const answerSchema = new mongoose.Schema({
       timeStamps: {
         type: [Number],
         required: false,
+      },
+      inactivityPeriods: {
+        type: [Number],
+        required: false,
       }
     },
   ],

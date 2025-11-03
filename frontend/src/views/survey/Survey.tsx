@@ -47,6 +47,7 @@ const Survey = () => {
   const [completedSurvey, setCompletedSurvey] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<number>(Date.now());
   const [timeOutsideTab, setTimeOutsideTab] = useState(0);
+  const [inactivityPeriods, setInactivityPeriods] = useState<number[]>([]);
   const lastTimeLeftTab = useRef<number | null>(null);
   const attemptsRef = useRef(0);
 
@@ -116,11 +117,50 @@ const Survey = () => {
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, []);
 
-  // Effect hook to left tab and attempts variables when current question changes
+  // Effect hook to track user inactivity (no mouse movement for >1s)
+  useEffect(() => {
+    let lastMove = Date.now();
+    let idleStart: number | null = null;
+    const threshold = 1000; // 1 second
+
+    const handleActivity = () => {
+      lastMove = Date.now();
+      if (idleStart !== null) {
+        console.log('user interacted after being idle')
+        // user interacted after being idle
+        const idleDuration = Date.now() - idleStart;
+        if (idleDuration > threshold) {
+          setInactivityPeriods((prev) => [...prev, idleDuration]);
+        }
+        idleStart = null;
+      }
+    };
+
+    const interval = setInterval(() => {
+      const now = Date.now();
+      if (now - lastMove > threshold && idleStart === null) {
+        // user became idle
+        console.log("user is idle");
+        idleStart = lastMove;
+      }
+    }, 500);
+
+    window.addEventListener("mousemove", handleActivity);
+    window.addEventListener("click", handleActivity);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("mousemove", handleActivity);
+      window.removeEventListener("click", handleActivity);
+    };
+  }, [currentQuestionId]);
+
+  // Effect hook to left tab, attempts and inactivity periods variables when current question changes
   useEffect(() => {
     setStartTime(Date.now());
     setTimeOutsideTab(0);
     attemptsRef.current = 0;
+    setInactivityPeriods([]);
   }, [currentQuestionId]);
 
   // Function to fetch survey data based on survey ID
@@ -220,6 +260,7 @@ const Survey = () => {
       clicks: interactions.clicks,
       timeStamps: interactions.timeStamps,
       timeOutsideTab: timeOutsideTab,
+      inactivityPeriods: inactivityPeriods,
     };
     setAnswers((prevValues: any) => {
       return { ...prevValues, [questionIndex]: newAnswer };
@@ -290,6 +331,7 @@ const Survey = () => {
       timeSpent: Date.now() - startTime,
       attempts: attemptsRef.current + 1,
       timeOutsideTab: timeOutsideTab,
+      inactivityPeriods: inactivityPeriods,
     };
 
     // Click detected (you can go to the next question)
@@ -324,6 +366,7 @@ const Survey = () => {
       timeSpent: Date.now() - startTime,
       attempts: attemptsRef.current,
       timeOutsideTab: timeOutsideTab,
+      inactivityPeriods: inactivityPeriods,
     };
 
     setAnswers((prevValues: any) => {
@@ -360,6 +403,7 @@ const Survey = () => {
       timeSpent: Date.now() - startTime,
       attempts: attemptsRef.current,
       timeOutsideTab: timeOutsideTab,
+      inactivityPeriods: inactivityPeriods,
     };
 
     setAnswers((prevValues: any) => {
@@ -393,6 +437,7 @@ const Survey = () => {
       timeSpent: Date.now() - startTime,
       attempts: attemptsRef.current,
       timeOutsideTab: timeOutsideTab,
+      inactivityPeriods: inactivityPeriods,
     };
 
     setAnswers((prevValues: any) => {
@@ -431,6 +476,7 @@ const Survey = () => {
       timeSpent: Date.now() - startTime,
       attempts: attemptsRef.current + 1,
       timeOutsideTab: timeOutsideTab,
+      inactivityPeriods: inactivityPeriods,
     };
 
     setAnswers((prevValues: any) => {
@@ -466,6 +512,7 @@ const Survey = () => {
       table: tableChoices.toString(),
       attempts: attemptsRef.current,
       timeOutsideTab: timeOutsideTab,
+      inactivityPeriods: inactivityPeriods,
       timeSpent: Date.now() - startTime,
     };
 
