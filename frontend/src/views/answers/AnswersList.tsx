@@ -582,6 +582,10 @@ const AnswersList = ({ answers, survey }: any) => {
         zoomPenalty: 5,
         dragPerExtra: 5,
         maxDragPenalty: 15,
+        longIdlePenalty: 10,
+        mediumIdlePenalty: 5,
+        tooManyIdles: 10,
+        excessiveIdleTime: 15,
       },
 
       // Thresholds
@@ -593,6 +597,10 @@ const AnswersList = ({ answers, survey }: any) => {
         fastClickInterval: 300, // ms
         maxZooms: 2,
         maxDrags: 3,
+        mediumIdle: 5000,  // 5s
+        longIdle: 15000,    // 15s
+        maxIdleCount: 5,
+        maxTotalIdleTime: 30000,
       },
     };
 
@@ -644,6 +652,28 @@ const AnswersList = ({ answers, survey }: any) => {
         (answer.drags - CONFIG.thresholds.maxDrags) * CONFIG.penalties.dragPerExtra,
         CONFIG.penalties.maxDragPenalty
       );
+
+    // 7. Periods of inactivity → reduced credibility if user was idle for long
+    if (Array.isArray(answer.inactivityPeriods) && answer.inactivityPeriods.length > 0) {
+      const totalIdle = answer.inactivityPeriods.reduce((sum, val) => sum + val, 0);
+
+      let mediumCount = 0;
+      let longCount = 0;
+
+      for (const idle of answer.inactivityPeriods) {
+        if (idle > CONFIG.thresholds.longIdle) longCount++;
+        else if (idle > CONFIG.thresholds.mediumIdle) mediumCount++;
+      }
+
+      score -= mediumCount * CONFIG.penalties.mediumIdlePenalty;
+      score -= longCount * CONFIG.penalties.longIdlePenalty;
+
+      if (answer.inactivityPeriods.length > CONFIG.thresholds.maxIdleCount)
+        score -= CONFIG.penalties.tooManyIdles;
+
+      if (totalIdle > CONFIG.thresholds.maxTotalIdleTime)
+        score -= CONFIG.penalties.excessiveIdleTime;
+    }
 
     // Ensure result stays in [0, 100]
     if (score < 0) score = 0;
