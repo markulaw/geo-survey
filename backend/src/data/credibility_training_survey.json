@@ -221,7 +221,8 @@
           "minSlider": 0,
           "maxSlider": 100,
           "goodAnswer": 50
-        }
+        },
+        "ignoreCredibility": true
       },
       {
         "id": 12,
@@ -238,7 +239,8 @@
             { "pl": "Ani razu", "en": "Never" }
           ],
           "points": [0, 0, 0]
-        }
+        },
+        "ignoreCredibility": true
       }
     ]
   }

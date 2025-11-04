@@ -292,7 +292,7 @@ const AnswersList = ({ answers, survey }: any) => {
     ).fill(0);
 
      totalCredibility = calculateTotalCredibility(
-       answer.answers.map((questionAnswer: any) => calculateCredibility(questionAnswer))
+       answer.answers.map((questionAnswer: any) => {return {value: calculateCredibility(questionAnswer), questionId: questionAnswer.questionId}}), survey
      );
      credibilities.push(totalCredibility);
 
@@ -655,7 +655,7 @@ const AnswersList = ({ answers, survey }: any) => {
 
     // 7. Periods of inactivity → reduced credibility if user was idle for long
     if (Array.isArray(answer.inactivityPeriods) && answer.inactivityPeriods.length > 0) {
-      const totalIdle = answer.inactivityPeriods.reduce((sum, val) => sum + val, 0);
+      const totalIdle = answer.inactivityPeriods.reduce((sum: number, val: number) => sum + val, 0);
 
       let mediumCount = 0;
       let longCount = 0;
@@ -682,9 +682,22 @@ const AnswersList = ({ answers, survey }: any) => {
     return Math.round(score);
   };
 
-  const calculateTotalCredibility = (credibilities: number[]): any => {
-      return credibilities.reduce((p: number, c: number) => p + c, 0) / credibilities.length;
-  }
+  const calculateTotalCredibility = (
+    credibilities: { questionId: string; value: number }[],
+    survey: { questions: { id: string; ignoreCredibility?: boolean }[] }
+  ): number => {
+    // we take into account only those credibilities which doesn't have ignoreCredibility flag set to true in the survey definition
+    const validCredibilities = credibilities.filter(({ questionId }) => {
+      const question = survey.questions.find(q => q.id === questionId);
+      return !question?.ignoreCredibility;
+    });
+
+    if (validCredibilities.length === 0) return 0;
+
+    const total = validCredibilities.reduce((sum, { value }) => sum + value, 0);
+    console.log(total / validCredibilities.length)
+    return total / validCredibilities.length;
+  };
 
   // Function to calculate score based on answer and categories' index
   const calculateScore = (answer: any, index: number): any => {
@@ -1115,7 +1128,14 @@ const AnswersList = ({ answers, survey }: any) => {
 	                 </TableCell>
 		        )}
                    <TableCell key={userAnswer.id}>
-                       {`${calculateCredibility(userAnswer)}%`}
+                     {
+                       survey.questions.find(
+                         (question: { id: string; ignoreCredibility?: boolean }) =>
+                           question.id === userAnswer.questionId
+                       )?.ignoreCredibility
+                         ? "-"
+                         : `${calculateCredibility(userAnswer)}%`
+                     }
                    </TableCell>
 		       {(answerIndex == answer.answers.length-1) && categories && (
 		          //<TableCell rowSpan={answer.answers.length+1}>
