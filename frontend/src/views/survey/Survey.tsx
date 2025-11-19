@@ -50,6 +50,7 @@ const Survey = () => {
   const [inactivityPeriods, setInactivityPeriods] = useState<number[]>([]);
   const lastTimeLeftTab = useRef<number | null>(null);
   const attemptsRef = useRef(0);
+  const prevQuestionIdRef = useRef<number | null>(null);
 
   // Initialize arrays and states for scoring
   var maxPoints: number[][] = [];
@@ -126,7 +127,6 @@ const Survey = () => {
     const handleActivity = () => {
       lastMove = Date.now();
       if (idleStart !== null) {
-        console.log('user interacted after being idle')
         // user interacted after being idle
         const idleDuration = Date.now() - idleStart;
         if (idleDuration > threshold) {
@@ -140,7 +140,6 @@ const Survey = () => {
       const now = Date.now();
       if (now - lastMove > threshold && idleStart === null) {
         // user became idle
-        console.log("user is idle");
         idleStart = lastMove;
       }
     }, 500);
@@ -157,10 +156,23 @@ const Survey = () => {
 
   // Effect hook to left tab, attempts and inactivity periods variables when current question changes
   useEffect(() => {
+    if (prevQuestionIdRef.current !== null && answers) {
+      const prevId = prevQuestionIdRef.current;
+      setAnswers((prev: any) => ({
+        ...prev,
+        [prevId]: {
+          ...(prev[prevId] || {}),
+          timeSpent: Date.now() - startTime,
+        },
+      }));
+    }
+
     setStartTime(Date.now());
     setTimeOutsideTab(0);
     attemptsRef.current = 0;
     setInactivityPeriods([]);
+
+    prevQuestionIdRef.current = currentQuestionId;
   }, [currentQuestionId]);
 
   // Function to fetch survey data based on survey ID
