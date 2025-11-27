@@ -145,6 +145,8 @@
           "pl": "Zaznacz obszar dzielnicy Główne Miasto w Gdańsku.",
           "en": "Select the area of the Main City district in Gdańsk."
         },
+        "mapUrlForQuestion": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "mapAttribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
         "answer": {
           "geometry": {
             "type": "Polygon",
@@ -183,6 +185,8 @@
           "en": "Mark the location of the attached object on the map."
         },
         "hintUrl": "https://www.openstreetmap.org/?mlat=54.37946640934679&mlon=18.61621975183676&zoom=16#map=16/54.37946640934679/18.61621975183676",
+        "mapUrlForQuestion": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "mapAttribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
         "answer": {
           "geometry": {
             "type": "Point",
@@ -197,13 +201,13 @@
           "pl": "Postaraj się maksymalnie odtworzyć trasę z poniższego linku",
           "en": "Try to recreate the route from the link below as accurately as possible."
         },
-        "hintUrl": "https://umap.openstreetmap.fr/pl/map/geo-survey_1297512?scaleControl=false&miniMap=false&scrollWheelZoom=false&zoomControl=true&editMode=disabled&moreControl=true&searchControl=null&tilelayersControl=null&embedControl=null&datalayersControl=true&onLoadPanel=none&captionBar=false&captionMenus=true#14/54.3903/18.6338",
+        "hintUrl": "https://umap.openstreetmap.fr/pl/map/geo-survey-map_1323968#15/54.3632/18.6534",
         "answer": {
           "geometry": {
             "type": "Polygon",
             "coordinates": [
               [
-                [18.649292,54.38748],[18.640666,54.383806],[18.634658,54.38843],[18.639894,54.393202],[18.626676,54.399748]
+                [18.653366,54.365622],[18.652064,54.363113],[18.65809,54.36188],[18.657305,54.360467]
               ]
             ]
           }
