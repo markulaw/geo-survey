@@ -83,6 +83,8 @@
           "pl": "Zaznacz budynek Ratusza Głównego Miasta w Gdańsku.",
           "en": "Select the building of the City Hall in Gdańsk."
         },
+        "mapUrlForQuestion": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "mapAttribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
         "answer": {
           "geometry": {
             "type": "Point",
@@ -113,6 +115,8 @@
           "pl": "Pokaż najkrótszą trasę z Ratusza do Forum Gdańsk.",
           "en": "Show the shortest route from City Hall to Forum Gdańsk."
         },
+        "mapUrlForQuestion": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "mapAttribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
         "answer": {
           "geometry": {
             "type": "Polygon",
@@ -169,6 +173,8 @@
           "pl": "Pokaż lokalizację tego obiektu na mapie.",
           "en": "Show the location of this object on the map."
         },
+        "mapUrlForQuestion": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "mapAttribution": "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
         "img": "/api/images/neptun",
         "answer": {
           "geometry": {
@@ -207,7 +213,42 @@
             "type": "Polygon",
             "coordinates": [
               [
-                [18.653366,54.365622],[18.652064,54.363113],[18.65809,54.36188],[18.657305,54.360467]
+                [
+                  18.653584,
+                  54.365733
+                ],
+                [
+                  18.65324,
+                  54.365808
+                ],
+                [
+                  18.651824,
+                  54.363031
+                ],
+                [
+                  18.657789,
+                  54.361805
+                ],
+                [
+                  18.657081,
+                  54.360391
+                ],
+                [
+                  18.657403,
+                  54.360279
+                ],
+                [
+                  18.65839,
+                  54.361993
+                ],
+                [
+                  18.652318,
+                  54.363181
+                ],
+                [
+                  18.653584,
+                  54.365733
+                ]
               ]
             ]
           }
