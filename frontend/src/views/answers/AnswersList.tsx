@@ -25,6 +25,7 @@ import {
   BarElement,
   Title,
   Legend,
+  ChartOptions
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 
@@ -170,23 +171,83 @@ const AnswersList = ({ answers, survey }: any) => {
     },
   };
 
+
+  const optionsWithCredibility: ChartOptions<"bar"> = {
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: {
+          font: {
+            size: 15,
+          },
+        },
+      },
+      title: {
+        display: false,
+      },
+    },
+    scales: {
+      x: {
+        border: { display: false },
+        grid: { color: "black" },
+        ticks: {
+          font: { size: 14 },
+        },
+      },
+      y: {
+        type: "linear",
+        position: "left",
+        border: { display: false },
+        grid: { color: "black" },
+        ticks: {
+          font: { size: 15 },
+        },
+        title: {
+          display: true,
+          text: (translations as any)[language]["score"],
+        },
+      },
+      y1: {
+        type: "linear",
+        position: "right",
+        min: 0,
+        max: 100,
+        border: { display: false },
+        grid: {
+          drawOnChartArea: false,
+        },
+        ticks: {
+          font: { size: 15 },
+          callback: (value: string | number) => `${value}%`,
+        },
+        title: {
+          display: true,
+          text: (translations as any)[language]["credibility"],
+        },
+      },
+    },
+  };
+
   // Chart data objects
   // Data for the graph with the sum of respondents' scores
   const data = {
-    labels: labels,
+    labels,
     datasets: [
       {
-        label: (translations as any)[language]['score'],
+        label: (translations as any)[language]["score"],
         data: points,
         backgroundColor: "rgba(49, 55, 115, 0.9)",
+        yAxisID: "y",
       },
       {
-        label: (translations as any)[language]['credibility'],
+        label: (translations as any)[language]["credibility"],
         data: credibilities,
         backgroundColor: "rgba(0, 200, 83, 0.7)",
+        yAxisID: "y1",
       },
     ],
   };
+
   // Data for a graph with average scores in categories
   const dataDetailed = {
     labels: allPointsLabels,
@@ -272,7 +333,7 @@ const AnswersList = ({ answers, survey }: any) => {
       () => []
     );
 
-    answers.map((answer: any) => (questionsLen = survey.questions?.length));
+    answers.map((answer: any) => (questionsLen = survey?.questions?.length));
     questionsLenArray.length = 0;
     for (var i = 1; i < questionsLen; i++) {
       questionsLenArray.push(i);
@@ -309,7 +370,7 @@ const AnswersList = ({ answers, survey }: any) => {
     );
 
     var numberOfQuestions = 0;
-    answers.map((answer: any) => (numberOfQuestions = survey.questions?.length));
+    answers.map((answer: any) => (numberOfQuestions = survey?.questions?.length));
 
     dataQuestionDetailed.datasets[0].label = "Question ID: " + questionId;
     for (
@@ -416,7 +477,7 @@ const AnswersList = ({ answers, survey }: any) => {
   const calculateAnswer = (answer: any): any => {
    if (survey !== undefined)
    {
-    const questionAnswer = survey.questions?.find(
+    const questionAnswer = survey?.questions?.find(
       (question: any) => question.id === answer.questionId
     )?.answer;
 
@@ -472,7 +533,7 @@ const AnswersList = ({ answers, survey }: any) => {
         let poly = questionAnswer.geometry;
         const poly2 = feature(poly);
         var overlapping = lineSplit(feature(line), poly2);
-        let intersectionLength2 = 0;        
+        let intersectionLength2 = 0;
         if (overlapping.features.length === 0)
         {
            var lineIsInsidePoly = booleanPointInPolygon(point(line.coordinates[0]), poly2);
@@ -490,7 +551,7 @@ const AnswersList = ({ answers, survey }: any) => {
         }
         else
         {
-           for (let i = 0; i < overlapping.features.length; i++) 
+           for (let i = 0; i < overlapping.features.length; i++)
            {
              let pointInCenter = centerOfMass(overlapping.features[i]);
              if (booleanPointInPolygon(pointInCenter, poly2))
@@ -560,7 +621,7 @@ const AnswersList = ({ answers, survey }: any) => {
         return answer?.table;
       }
     }
-   }    
+   }
     return null;
   };
 
@@ -687,7 +748,7 @@ const AnswersList = ({ answers, survey }: any) => {
   ): number => {
     // we take into account only those credibilities which doesn't have ignoreCredibility flag set to true in the survey definition
     const validCredibilities = credibilities.filter(({ questionId }) => {
-      const question = survey.questions?.find(q => q.id === questionId);
+      const question = survey?.questions?.find(q => q.id === questionId);
       return !question?.ignoreCredibility;
     });
 
@@ -703,7 +764,7 @@ const AnswersList = ({ answers, survey }: any) => {
    var calculatedScore = 0;
    if (survey !== undefined)
    {
-    const questionAnswer = survey.questions?.find(
+    const questionAnswer = survey?.questions?.find(
       (question: any) => question.id === answer.questionId
     )?.answer;
 
@@ -767,7 +828,7 @@ const AnswersList = ({ answers, survey }: any) => {
         totalCopy = Math.round((totalCopy + Number.EPSILON) * 100) / 100;
         // calculate  selected respondent's point totals
         points[points.length - 1] += calculatedScore;
-        
+
         allAbilityCopy.push(
           !Number.isNaN(calculatedScore) ? calculatedScore : 0
         );
@@ -817,12 +878,12 @@ const AnswersList = ({ answers, survey }: any) => {
                if (lengthOfLine > lengthOfPolygon*0.33)
                    intersectionLength2 = lengthOfLine;
                else
-                   intersectionLength2 = lengthOfLine*(lengthOfLine/(lengthOfPolygon*0.33));               
+                   intersectionLength2 = lengthOfLine*(lengthOfLine/(lengthOfPolygon*0.33));
            }
         }
         else
         {
-           for (let i = 0; i < overlapping.features.length; i++) 
+           for (let i = 0; i < overlapping.features.length; i++)
            {
              let pointInCenter = centerOfMass(overlapping.features[i]);
              if (booleanPointInPolygon(pointInCenter, poly2)) // Check if the point is inside the polygon
@@ -830,7 +891,7 @@ const AnswersList = ({ answers, survey }: any) => {
            }
         }
         const lineLength = length(line);
-        let percentage = (intersectionLength2 / lineLength) * 100;        
+        let percentage = (intersectionLength2 / lineLength) * 100;
          // Checking if the percentage of intersection is greater than acceptable minimum
         if (Math.round(percentage) > acceptableMin) {
           var scoreRange = Math.round(percentage) / 100;
@@ -1127,7 +1188,7 @@ const AnswersList = ({ answers, survey }: any) => {
 	                 </TableCell>
 		        )}
                       <TableCell key={userAnswer.id}>
-                        {survey.questions?.find(
+                        {survey?.questions?.find(
                           (question: { id: string; ignoreCredibility?: boolean }) =>
                             question.id === userAnswer.questionId
                         )?.ignoreCredibility ? (
@@ -1293,7 +1354,7 @@ const AnswersList = ({ answers, survey }: any) => {
         </Button>
       </ButtonGroup>
 
-      {selectedBtn === 1 && <Bar options={options} data={data} />}
+      {selectedBtn === 1 && <Bar options={optionsWithCredibility} data={data} />}
       {selectedBtn === 2 && <Bar options={options} data={dataDetailed} />}
       <div style={{ height: "5%" }}></div>
       {(selectedBtn === 3 || selectedBtn === 5 || selectedBtn === 6) && (
