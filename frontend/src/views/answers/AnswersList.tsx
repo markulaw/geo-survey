@@ -112,6 +112,7 @@ const AnswersList = ({ answers, survey }: any) => {
   var allPointsLabels: string[] = [""];
 
   var counter = 0;
+  const tolerableCredibility = 85;
 
   // Number of questions
   var questionsLen = 0;
@@ -180,6 +181,34 @@ const AnswersList = ({ answers, survey }: any) => {
           font: {
             size: 15,
           },
+          generateLabels: (chart: any) => {
+            const original =
+              ChartJS.defaults.plugins.legend.labels.generateLabels(chart);
+
+            const filtered = original.filter(
+              (item: any) => item.text !== (translations as any)[language]["credibility"]
+            );
+
+            return [
+              ...filtered,
+              {
+                text:
+                  (translations as any)[language]["credibility"] + `≥ ${tolerableCredibility}%`,
+                fillStyle: "rgba(0, 200, 83, 0.7)",
+                strokeStyle: "rgba(0, 200, 83, 1)",
+                lineWidth: 1,
+                hidden: false,
+              },
+              {
+                text:
+                  (translations as any)[language]["credibility"] + `< ${tolerableCredibility}%`,
+                fillStyle: "rgba(255, 0, 0, 0.7)",
+                strokeStyle: "rgba(255, 0, 0, 1)",
+                lineWidth: 1,
+                hidden: false,
+              },
+            ];
+          },
         },
       },
       title: {
@@ -242,8 +271,13 @@ const AnswersList = ({ answers, survey }: any) => {
       {
         label: (translations as any)[language]["credibility"],
         data: credibilities,
-        backgroundColor: "rgba(0, 200, 83, 0.7)",
         yAxisID: "y1",
+        backgroundColor: (ctx: any) => {
+          const value = Number(ctx.raw);
+          return value < tolerableCredibility
+            ? "rgba(255, 0, 0, 0.7)"
+            : "rgba(0, 200, 83, 0.7)";
+        },
       },
     ],
   };
