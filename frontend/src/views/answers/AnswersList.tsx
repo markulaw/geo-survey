@@ -16,6 +16,7 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import randomColor from "randomcolor";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+import Tooltip from "@mui/material/Tooltip";
 
 import {
   Chart as ChartJS,
@@ -23,7 +24,6 @@ import {
   LinearScale,
   BarElement,
   Title,
-  Tooltip,
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
@@ -50,7 +50,6 @@ ChartJS.register(
   LinearScale,
   BarElement,
   Title,
-  Tooltip,
   Legend
 );
 
@@ -177,12 +176,12 @@ const AnswersList = ({ answers, survey }: any) => {
     labels: labels,
     datasets: [
       {
-        label: "points",
+        label: (translations as any)[language]['score'],
         data: points,
         backgroundColor: "rgba(49, 55, 115, 0.9)",
       },
       {
-        label: "credibility",
+        label: (translations as any)[language]['credibility'],
         data: credibilities,
         backgroundColor: "rgba(0, 200, 83, 0.7)",
       },
@@ -193,7 +192,7 @@ const AnswersList = ({ answers, survey }: any) => {
     labels: allPointsLabels,
     datasets: [
       {
-        label: "points",
+        label: (translations as any)[language]['score'],
         data: avgData,
         backgroundColor: "rgba(49, 55, 115, 0.9)",
       },
@@ -273,7 +272,7 @@ const AnswersList = ({ answers, survey }: any) => {
       () => []
     );
 
-    answers.map((answer: any) => (questionsLen = survey.questions.length));
+    answers.map((answer: any) => (questionsLen = survey.questions?.length));
     questionsLenArray.length = 0;
     for (var i = 1; i < questionsLen; i++) {
       questionsLenArray.push(i);
@@ -310,7 +309,7 @@ const AnswersList = ({ answers, survey }: any) => {
     );
 
     var numberOfQuestions = 0;
-    answers.map((answer: any) => (numberOfQuestions = survey.questions.length));
+    answers.map((answer: any) => (numberOfQuestions = survey.questions?.length));
 
     dataQuestionDetailed.datasets[0].label = "Question ID: " + questionId;
     for (
@@ -417,7 +416,7 @@ const AnswersList = ({ answers, survey }: any) => {
   const calculateAnswer = (answer: any): any => {
    if (survey !== undefined)
    {
-    const questionAnswer = survey.questions.find(
+    const questionAnswer = survey.questions?.find(
       (question: any) => question.id === answer.questionId
     )?.answer;
 
@@ -688,7 +687,7 @@ const AnswersList = ({ answers, survey }: any) => {
   ): number => {
     // we take into account only those credibilities which doesn't have ignoreCredibility flag set to true in the survey definition
     const validCredibilities = credibilities.filter(({ questionId }) => {
-      const question = survey.questions.find(q => q.id === questionId);
+      const question = survey.questions?.find(q => q.id === questionId);
       return !question?.ignoreCredibility;
     });
 
@@ -704,7 +703,7 @@ const AnswersList = ({ answers, survey }: any) => {
    var calculatedScore = 0;
    if (survey !== undefined)
    {
-    const questionAnswer = survey.questions.find(
+    const questionAnswer = survey.questions?.find(
       (question: any) => question.id === answer.questionId
     )?.answer;
 
@@ -1127,16 +1126,75 @@ const AnswersList = ({ answers, survey }: any) => {
                           {calculateScore(userAnswer, 0)}
 	                 </TableCell>
 		        )}
-                   <TableCell key={userAnswer.id}>
-                     {
-                       survey.questions.find(
-                         (question: { id: string; ignoreCredibility?: boolean }) =>
-                           question.id === userAnswer.questionId
-                       )?.ignoreCredibility
-                         ? "-"
-                         : `${calculateCredibility(userAnswer)}%`
-                     }
-                   </TableCell>
+                      <TableCell key={userAnswer.id}>
+                        {survey.questions?.find(
+                          (question: { id: string; ignoreCredibility?: boolean }) =>
+                            question.id === userAnswer.questionId
+                        )?.ignoreCredibility ? (
+                          "-"
+                        ) : (
+                          <Tooltip
+                            title={
+                              <>
+                                {userAnswer.timeSpent != null && (
+                                  <div>
+                                    {(translations as any)[language]["timeSpent"]}: {userAnswer.timeSpent / 1000} s
+                                  </div>
+                                )}
+
+                                {userAnswer.attempts != null && (
+                                  <div>
+                                    {(translations as any)[language]["attempts"]}: {userAnswer.attempts}
+                                  </div>
+                                )}
+
+                                {userAnswer.clicks != null && (
+                                  <div>
+                                    {(translations as any)[language]["clicks"]}: {userAnswer.clicks}
+                                  </div>
+                                )}
+
+                                {(userAnswer.zoomIns != null || userAnswer.zoomOuts != null) && (
+                                  <div>
+                                    {(translations as any)[language]["zoomIns"]} / {(translations as any)[language]["zoomOuts"]}:{" "}
+                                    {(userAnswer.zoomIns ?? 0) + (userAnswer.zoomOuts ?? 0)}
+                                  </div>
+                                )}
+
+                                {userAnswer.drags != null && (
+                                  <div>
+                                    {(translations as any)[language]["drags"]}: {userAnswer.drags}
+                                  </div>
+                                )}
+
+                                {userAnswer.timeOutsideTab != null && (
+                                  <div>
+                                    {(translations as any)[language]["timeOutsideTab"]}: {userAnswer.timeOutsideTab / 1000} s
+                                  </div>
+                                )}
+
+                                {userAnswer.timeStamps?.length > 0 && (
+                                  <div>
+                                    {(translations as any)[language]["timeStamps"]}:{" "}
+                                    {userAnswer.timeStamps.map((t: number) => t / 1000).join(", ")} s
+                                  </div>
+                                )}
+
+                                {userAnswer.inactivityPeriods?.length > 0 && (
+                                  <div>
+                                    {(translations as any)[language]["inactivityPeriods"]}:{" "}
+                                    {userAnswer.inactivityPeriods.map((t: number) => t / 1000).join(", ")} s
+                                  </div>
+                                )}
+                              </>
+                            }
+                            arrow
+                            placement="top"
+                          >
+                            <span>{`${calculateCredibility(userAnswer)}%`}</span>
+                          </Tooltip>
+                        )}
+                      </TableCell>
 		       {(answerIndex == answer.answers.length-1) && categories && (
 		          //<TableCell rowSpan={answer.answers.length+1}>
 		          <TableCell>
