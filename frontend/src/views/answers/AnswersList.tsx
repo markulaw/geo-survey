@@ -193,7 +193,7 @@ const AnswersList = ({ answers, survey }: any) => {
               ...filtered,
               {
                 text:
-                  (translations as any)[language]["credibility"] + `≥ ${tolerableCredibility}%`,
+                  (translations as any)[language]["credibility"] + ` ≥ ${tolerableCredibility}%`,
                 fillStyle: "rgba(0, 200, 83, 0.7)",
                 strokeStyle: "rgba(0, 200, 83, 1)",
                 lineWidth: 1,
@@ -201,7 +201,7 @@ const AnswersList = ({ answers, survey }: any) => {
               },
               {
                 text:
-                  (translations as any)[language]["credibility"] + `< ${tolerableCredibility}%`,
+                  (translations as any)[language]["credibility"] + ` < ${tolerableCredibility}%`,
                 fillStyle: "rgba(255, 0, 0, 0.7)",
                 strokeStyle: "rgba(255, 0, 0, 1)",
                 lineWidth: 1,
@@ -789,7 +789,6 @@ const AnswersList = ({ answers, survey }: any) => {
     if (validCredibilities.length === 0) return 0;
 
     const total = validCredibilities.reduce((sum, { value }) => sum + value, 0);
-    console.log(total / validCredibilities.length)
     return total / validCredibilities.length;
   };
 
@@ -1178,7 +1177,6 @@ const AnswersList = ({ answers, survey }: any) => {
           <TableBody>
             {answers.map((answer: any) => (
              <Fragment>
-              {clearScoreSum(answer)}
               <TableRow
                 key={answer.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -1317,6 +1315,7 @@ const AnswersList = ({ answers, survey }: any) => {
             )}
 		    </TableRow>                    
 		   ))}
+               {clearScoreSum(answer)}
            </Fragment>
             ))}
           </TableBody>
