@@ -17,6 +17,9 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import randomColor from "randomcolor";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import Tooltip from "@mui/material/Tooltip";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import TextField from "@mui/material/TextField";
 
 import {
   Chart as ChartJS,
@@ -79,8 +82,40 @@ const AnswersList = ({ answers, survey }: any) => {
   };
 
   // Function to calculate average of an array of numbers
-  const average = (arr: number[]) =>
-    arr.reduce((p: number, c: number) => p + c, 0) / arr.length;
+  const safeAverage = (
+    arr: any[],
+    credArr?: any[],
+    threshold = 0,
+    applyThreshold = false
+  ): number => {
+    if (!Array.isArray(arr) || arr.length === 0) return 0;
+    const items = arr.map((v, i) => ({
+      num: Number(v ?? NaN),
+      cred: credArr && credArr[i] != null ? Number(credArr[i]) : 100,
+    })).filter(({ num }) => Number.isFinite(num));
+    const filtered = items.filter(({ num, cred }) =>
+      !applyThreshold ? true : (Number.isFinite(cred) && cred >= threshold)
+    );
+    if (filtered.length === 0) return 0;
+    const sum = filtered.reduce((s, o) => s + o.num, 0);
+    return sum / filtered.length;
+  };
+
+  const buildCredPerValue = (len: number): number[] => {
+    const respondentCreds = Array.isArray(credibilities) ? credibilities.slice(1) : [];
+    if (respondentCreds.length === 0) return new Array(len).fill(100);
+    const numberOfQ = Math.max(1, Math.round(len / respondentCreds.length));
+    const credPerValue: number[] = [];
+    for (let r = 0; r < respondentCreds.length; r++) {
+      for (let q = 0; q < numberOfQ; q++) {
+        credPerValue.push(Number(respondentCreds[r] ?? 100));
+      }
+    }
+    return credPerValue.slice(0, len);
+  };
+
+  const [applyCredThreshold, setApplyCredThreshold] = React.useState<boolean>(false);
+  const [credThreshold, setCredThreshold] = React.useState<number>(50);
 
   // Initialize arrays and variables for chart data
   // An array of point totals in each category, if points are not awarded in categories, it has only one index
@@ -339,8 +374,12 @@ const AnswersList = ({ answers, survey }: any) => {
   };
 
   // Function to calculate detailed data
-  const calculateDataDetailed = () =>
-    allPointsByCategories.slice(0).map((arr) => average(arr));
+  const calculateDataDetailed = (): number[] =>
+    (allPointsByCategories ?? []).map((arr) => {
+      const len = Array.isArray(arr) ? arr.length : 0;
+      const credPerValue = buildCredPerValue(len);
+      return safeAverage(arr ?? [], credPerValue, credThreshold, applyCredThreshold);
+    });
 
   // Function to prepare for score calculation
   function prepareCalculation(): void {
@@ -413,12 +452,15 @@ const AnswersList = ({ answers, survey }: any) => {
       i = i + numberOfQuestions
     ) {
       for (var j = 0; j < allPointsLabels.length; j++) {
-        tempAllPointsByCategories[j].push(allPointsByCategories[j][i]);
+        tempAllPointsByCategories[j].push(Number(allPointsByCategories?.[j]?.[i] ?? 0));
       }
     }
-    for (var j = 0; j < allPointsLabels.length; j++) {
-      avgAttributesPoints.push(average(tempAllPointsByCategories[j]));
-    }
+
+     for (var j = 0; j < allPointsLabels.length; j++) {
+       const arr = tempAllPointsByCategories[j] ?? [];
+       const credPerValue = buildCredPerValue(arr.length);
+       avgAttributesPoints.push(safeAverage(arr, credPerValue, credThreshold, applyCredThreshold));
+     }
 
     questionsLen = numberOfQuestions;
 
@@ -1386,6 +1428,32 @@ const AnswersList = ({ answers, survey }: any) => {
           <KeyboardDoubleArrowUpIcon />
         </Button>
       </ButtonGroup>
+
+      {[2, 3].includes(selectedBtn) && (
+        <Box sx={{ display: "flex", gap: 2, alignItems: "center", mt: 1, mb: 1 }}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={applyCredThreshold}
+                onChange={(e) => setApplyCredThreshold(e.target.checked)}
+                color="primary"
+                size="small"
+              />
+            }
+            label={(translations as any)[language]["applyCredibilityThreshold"]}
+          />
+          <TextField
+            label={(translations as any)[language]["credibilityThreshold"]}
+            type="number"
+            size="small"
+            value={credThreshold}
+            onChange={(e) => setCredThreshold(Number(e.target.value))}
+            inputProps={{ min: 0, max: 100, step: 1 }}
+            disabled={!applyCredThreshold}
+            sx={{ width: 160 }}
+          />
+        </Box>
+      )}
 
       {selectedBtn === 1 && <Bar options={optionsWithCredibility} data={data} />}
       {selectedBtn === 2 && <Bar options={options} data={dataDetailed} />}

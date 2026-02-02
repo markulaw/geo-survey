@@ -68,6 +68,8 @@ export const translations = {
     clicks: "Number of map mouse clicks",
     timeStamps: "Time between clicks (seconds)",
     inactivityPeriods: "Periods of inactivity (seconds)",
+    credibilityThreshold: "Credibility threshold (%)",
+    applyCredibilityThreshold: "Apply credibility threshold",
     // SurveyItem.tsx
     description: "Description",
     showAnswers: "Show answers",
@@ -176,6 +178,8 @@ export const translations = {
     clicks: "Ilość kliknięć myszką na mapie",
     timeStamps: "Czasy pomiędzy kliknięciami (sekundy)",
     inactivityPeriods: "Okresy bezczynności (sekundy)",
+    credibilityThreshold: "Próg wiarygodności (%)",
+    applyCredibilityThreshold: "Użyj progu wiarygodności",
     // SurveyItem.tsx
     description: "Opis",
     showAnswers: "Pokaż odpowiedzi",
