@@ -8,6 +8,7 @@ import axios from "axios";
 import { translations, languages } from "../../translate/Translations";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+import { calculateCredibility } from "../../helpers/Credibility";
 
 const Container = styled.div`
   display: flex;
@@ -192,6 +193,19 @@ const AdminPanel = () => {
     fetchImagesList();
   }, []);
 
+  const computeResponseCredibility = (response: any): number => {
+    if (!response || !Array.isArray(response.answers) || response.answers.length === 0) return 0;
+    const creds: number[] = response.answers
+      .map((ans: any) => {
+        try { return calculateCredibility(ans); } catch { return 0; }
+      })
+      .filter((v: any) => Number.isFinite(v))
+      .map((v: any) => Number(v));
+    if (creds.length === 0) return 0;
+    const avg = creds.reduce((s: number, n: number) => s + n, 0) / creds.length;
+    return Math.round(avg);
+  };
+
   const handleChangePassword = async () => {
     var oldPasswdDiv = document.getElementById('currentPassword') as HTMLInputElement | null;
     if (oldPasswdDiv != null)
@@ -241,20 +255,20 @@ const AdminPanel = () => {
   };
 
   // Function to download survey answers in JSON format
-  const downloadJSON = async (surveyId: number) => {
+  const downloadJSON = async (surveyId: number, applyThreshold?: boolean, threshold?: number) => {
     const answers = await fetchAnswers(surveyId);
+    if (!answers || answers.length === 0) return;
 
-    if (answers.length === 0) {
-      console.log("No data available for download.");
-      return;
-    }
+    const useApply = typeof applyThreshold === "boolean" ? applyThreshold : false;
+    const useThreshold = typeof threshold === "number" ? threshold : 0;
 
-    // Convert answers to JSON format
-    const jsonContent = JSON.stringify(answers, null, 2);
+    const filteredAnswers = useApply
+      ? answers.filter((resp: any) => computeResponseCredibility(resp) >= useThreshold)
+      : answers;
+
+    const jsonContent = JSON.stringify(filteredAnswers, null, 2);
     const blob = new Blob([jsonContent], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-
-    // Create a link to download the JSON file
     const link = document.createElement("a");
     link.href = url;
     link.download = "answers_" + surveyId + ".json";
@@ -264,35 +278,46 @@ const AdminPanel = () => {
   };
 
   // Function to download survey answers in CSV format
-  const downloadCSV = async (surveyId: number) => {
+  const downloadCSV = async (surveyId: number, applyThreshold?: boolean, threshold?: number) => {
     const answers = await fetchAnswers(surveyId);
+    if (!answers || answers.length === 0) return;
 
-    if (answers.length === 0) {
-      console.log("No data available for download.");
-      return;
-    }
+    const useApply = typeof applyThreshold === "boolean" ? applyThreshold : false;
+    const useThreshold = typeof threshold === "number" ? threshold : 0;
 
-    // Extract headers for CSV file
+    const filteredAnswers = useApply
+      ? answers.filter((resp: any) => computeResponseCredibility(resp) >= useThreshold)
+      : answers;
+
     const headers = Object.keys(answers[0].user).concat(
       answers[0].answers.map((ans: any) => Object.keys(ans)).flat()
     );
 
-    // Create CSV content
-    const csvContent = `${headers.join(",")}\n${answers
+    const csvContent = `${headers.join(",")}\n${filteredAnswers
       .map((entry: any) => {
         const userValues = Object.values(entry.user);
-        var answersValues = entry.answers
-          .map((ans: any) => { var output=''; var len=0; for (var key in ans) { if (key=='geoJSON') {output+="'"+JSON.stringify(ans[key])+"'";} else {output+=ans[key].toString();} len++; if (len<Object.keys(ans).length) output+=',';} return output;})
+        const answersValues = entry.answers
+          .map((ans: any) => {
+            let output = "";
+            let len = 0;
+            for (const key in ans) {
+              if (key === "geoJSON") {
+                output += `'${JSON.stringify(ans[key])}'`;
+              } else {
+                output += String(ans[key]);
+              }
+              len++;
+              if (len < Object.keys(ans).length) output += ",";
+            }
+            return output;
+          })
           .flat();
         return [...userValues, ...answersValues].join(",");
       })
       .join("\n")}`;
 
-    // Create a Blob containing CSV content
     const blob = new Blob([csvContent], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
-
-    // Create a link to download the CSV file
     const link = document.createElement("a");
     link.href = url;
     link.download = "answers_" + surveyId + ".csv";

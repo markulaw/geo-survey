@@ -20,6 +20,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import TextField from "@mui/material/TextField";
+import { calculateCredibility } from "../../helpers/Credibility";
 
 import {
   Chart as ChartJS,
@@ -699,123 +700,6 @@ const AnswersList = ({ answers, survey }: any) => {
     }
    }
     return null;
-  };
-
-  const calculateCredibility = (answer: any): number => {
-    // All thresholds and penalties in one place for easy tuning
-    const CONFIG = {
-      baseScore: 100,
-
-      // Penalties
-      penalties: {
-        timeOutsideTab: 40,
-        tooFast: 20,
-        tooSlow: 10,
-        attemptPerExtra: 10,
-        clickPerExtra: 2,
-        maxClickPenalty: 20,
-        fastClicking: 15,
-        zoomPenalty: 5,
-        dragPerExtra: 5,
-        maxDragPenalty: 15,
-        longIdlePenalty: 10,
-        mediumIdlePenalty: 5,
-        tooManyIdles: 10,
-        excessiveIdleTime: 15,
-      },
-
-      // Thresholds
-      thresholds: {
-        minTime: 2000, // ms
-        maxTime: 120000, // ms
-        timeOutsideTab: 5000, // ms
-        maxClicks: 5,
-        fastClickInterval: 300, // ms
-        maxZooms: 2,
-        maxDrags: 3,
-        mediumIdle: 5000,  // 5s
-        longIdle: 15000,    // 15s
-        maxIdleCount: 5,
-        maxTotalIdleTime: 30000,
-      },
-    };
-
-    let score = CONFIG.baseScore;
-
-    // 1. Too much time spent outside of survey browser tab → big penalty
-    if (answer.timeOutsideTab > CONFIG.thresholds.timeOutsideTab) score -= CONFIG.penalties.timeOutsideTab;
-
-    // 2. Time spent on question (ms)
-    if (typeof answer.timeSpent === "number") {
-      if (answer.timeSpent < CONFIG.thresholds.minTime)
-        score -= CONFIG.penalties.tooFast;
-      if (answer.timeSpent > CONFIG.thresholds.maxTime)
-        score -= CONFIG.penalties.tooSlow;
-    }
-
-    // 3. Multiple attempts → penalize each extra try
-    if (typeof answer.attempts === "number" && answer.attempts > 1) {
-      score -= (answer.attempts - 1) * CONFIG.penalties.attemptPerExtra;
-    }
-
-    // 4. Too many clicks → suspicious
-    if (typeof answer.clicks === "number" && answer.clicks > CONFIG.thresholds.maxClicks) {
-      score -= Math.min(
-        (answer.clicks - CONFIG.thresholds.maxClicks) * CONFIG.penalties.clickPerExtra,
-        CONFIG.penalties.maxClickPenalty
-      );
-    }
-
-    // 5. Analyze time intervals between clicks
-    if (Array.isArray(answer.timeStamps) && answer.timeStamps.length > 1) {
-      const avgInterval =
-        answer.timeStamps.reduce((acc: number, val: number) => acc + val, 0) /
-        answer.timeStamps.length;
-
-      if (avgInterval < CONFIG.thresholds.fastClickInterval)
-        score -= CONFIG.penalties.fastClicking;
-    }
-
-    // 6. Extra interactions (zoom/drag) → small penalty if too many
-    if (typeof answer.zoomIns === "number" && answer.zoomIns > CONFIG.thresholds.maxZooms)
-      score -= CONFIG.penalties.zoomPenalty;
-
-    if (typeof answer.zoomOuts === "number" && answer.zoomOuts > CONFIG.thresholds.maxZooms)
-      score -= CONFIG.penalties.zoomPenalty;
-
-    if (typeof answer.drags === "number" && answer.drags > CONFIG.thresholds.maxDrags)
-      score -= Math.min(
-        (answer.drags - CONFIG.thresholds.maxDrags) * CONFIG.penalties.dragPerExtra,
-        CONFIG.penalties.maxDragPenalty
-      );
-
-    // 7. Periods of inactivity → reduced credibility if user was idle for long
-    if (Array.isArray(answer.inactivityPeriods) && answer.inactivityPeriods.length > 0) {
-      const totalIdle = answer.inactivityPeriods.reduce((sum: number, val: number) => sum + val, 0);
-
-      let mediumCount = 0;
-      let longCount = 0;
-
-      for (const idle of answer.inactivityPeriods) {
-        if (idle > CONFIG.thresholds.longIdle) longCount++;
-        else if (idle > CONFIG.thresholds.mediumIdle) mediumCount++;
-      }
-
-      score -= mediumCount * CONFIG.penalties.mediumIdlePenalty;
-      score -= longCount * CONFIG.penalties.longIdlePenalty;
-
-      if (answer.inactivityPeriods.length > CONFIG.thresholds.maxIdleCount)
-        score -= CONFIG.penalties.tooManyIdles;
-
-      if (totalIdle > CONFIG.thresholds.maxTotalIdleTime)
-        score -= CONFIG.penalties.excessiveIdleTime;
-    }
-
-    // Ensure result stays in [0, 100]
-    if (score < 0) score = 0;
-    if (score > 100) score = 100;
-
-    return Math.round(score);
   };
 
   const calculateTotalCredibility = (
