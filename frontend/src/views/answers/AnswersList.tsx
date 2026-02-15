@@ -1043,7 +1043,7 @@ const AnswersList = ({ answers, survey }: any) => {
   function setCategories(): void {
     if (survey !== undefined)
     {
-      answers.map((answer: any) => (categories = survey.categories));
+      answers?.map((answer: any) => (categories = survey.categories));
     }
   }
 
