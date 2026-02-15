@@ -46,10 +46,10 @@ const Survey = () => {
   const [clicked, setClicked] = useState<boolean>(false);
   const [completedSurvey, setCompletedSurvey] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<number>(Date.now());
-  const [timeOutsideTab, setTimeOutsideTab] = useState(0);
-  const [inactivityPeriods, setInactivityPeriods] = useState<number[]>([]);
   const lastTimeLeftTab = useRef<number | null>(null);
   const attemptsRef = useRef(0);
+  const timeOutsideTabRef = useRef(0);
+  const inactivityPeriodsRef = useRef<number[]>([]);
   const prevQuestionIdRef = useRef<number | null>(null);
 
   // Initialize arrays and states for scoring
@@ -110,7 +110,7 @@ const Survey = () => {
         lastTimeLeftTab.current = Date.now();
       } else if (lastTimeLeftTab.current) {
         const diff = Date.now() - lastTimeLeftTab.current;
-        setTimeOutsideTab(t => t + diff);
+        timeOutsideTabRef.current += diff;
       }
     };
 
@@ -130,7 +130,7 @@ const Survey = () => {
         // user interacted after being idle
         const idleDuration = Date.now() - idleStart;
         if (idleDuration > threshold) {
-          setInactivityPeriods((prev) => [...prev, idleDuration]);
+          inactivityPeriodsRef.current = [...inactivityPeriodsRef.current, idleDuration];
         }
         idleStart = null;
       }
@@ -168,9 +168,9 @@ const Survey = () => {
     }
 
     setStartTime(Date.now());
-    setTimeOutsideTab(0);
+    timeOutsideTabRef.current = 0;
     attemptsRef.current = 0;
-    setInactivityPeriods([]);
+    inactivityPeriodsRef.current = [];
 
     prevQuestionIdRef.current = currentQuestionId;
   }, [currentQuestionId]);
@@ -271,8 +271,8 @@ const Survey = () => {
       drags: interactions.drags,
       clicks: interactions.clicks,
       timeStamps: interactions.timeStamps,
-      timeOutsideTab: timeOutsideTab,
-      inactivityPeriods: inactivityPeriods,
+      timeOutsideTab: timeOutsideTabRef.current,
+      inactivityPeriods: inactivityPeriodsRef.current,
     };
     setAnswers((prevValues: any) => {
       return { ...prevValues, [questionIndex]: newAnswer };
@@ -342,8 +342,8 @@ const Survey = () => {
       imagesChoose: selectedImages.toString(),
       timeSpent: Date.now() - startTime,
       attempts: attemptsRef.current + 1,
-      timeOutsideTab: timeOutsideTab,
-      inactivityPeriods: inactivityPeriods,
+      timeOutsideTab: timeOutsideTabRef.current,
+      inactivityPeriods: inactivityPeriodsRef.current,
     };
 
     // Click detected (you can go to the next question)
@@ -377,8 +377,8 @@ const Survey = () => {
       sliderValue: sliderValue,
       timeSpent: Date.now() - startTime,
       attempts: attemptsRef.current,
-      timeOutsideTab: timeOutsideTab,
-      inactivityPeriods: inactivityPeriods,
+      timeOutsideTab: timeOutsideTabRef.current,
+      inactivityPeriods: inactivityPeriodsRef.current,
     };
 
     setAnswers((prevValues: any) => {
@@ -414,8 +414,8 @@ const Survey = () => {
       singleChoice: selectedAnswer.toString(),
       timeSpent: Date.now() - startTime,
       attempts: attemptsRef.current,
-      timeOutsideTab: timeOutsideTab,
-      inactivityPeriods: inactivityPeriods,
+      timeOutsideTab: timeOutsideTabRef.current,
+      inactivityPeriods: inactivityPeriodsRef.current,
     };
 
     setAnswers((prevValues: any) => {
@@ -448,8 +448,8 @@ const Survey = () => {
       singleImage: selectedImage.toString(),
       timeSpent: Date.now() - startTime,
       attempts: attemptsRef.current,
-      timeOutsideTab: timeOutsideTab,
-      inactivityPeriods: inactivityPeriods,
+      timeOutsideTab: timeOutsideTabRef.current,
+      inactivityPeriods: inactivityPeriodsRef.current,
     };
 
     setAnswers((prevValues: any) => {
@@ -487,8 +487,8 @@ const Survey = () => {
       multipleChoice: selectedAnswers.toString(),
       timeSpent: Date.now() - startTime,
       attempts: attemptsRef.current + 1,
-      timeOutsideTab: timeOutsideTab,
-      inactivityPeriods: inactivityPeriods,
+      timeOutsideTab: timeOutsideTabRef.current,
+      inactivityPeriods: inactivityPeriodsRef.current,
     };
 
     setAnswers((prevValues: any) => {
@@ -523,8 +523,8 @@ const Survey = () => {
       geoJSON: null,
       table: tableChoices.toString(),
       attempts: attemptsRef.current,
-      timeOutsideTab: timeOutsideTab,
-      inactivityPeriods: inactivityPeriods,
+      timeOutsideTab: timeOutsideTabRef.current,
+      inactivityPeriods: inactivityPeriodsRef.current,
       timeSpent: Date.now() - startTime,
     };
 
