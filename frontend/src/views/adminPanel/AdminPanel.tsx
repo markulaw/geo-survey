@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getSurveys, getAnswers, SurveyType } from "../../api/surveyApi";
+import {getSurveys, getAnswers, SurveyType, getSurvey} from "../../api/surveyApi";
 import styled from "styled-components";
 import SurveyItem from "../dashboard/SurveyItem/SurveyItem";
 import { Button, Box, FormControl, NativeSelect } from "@mui/material";
@@ -9,6 +9,8 @@ import { translations, languages } from "../../translate/Translations";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import { calculateCredibility } from "../../helpers/Credibility";
+import {calculateQuestionScore} from "../../helpers/CalculateQuestionScore";
+import {buildCsv} from "../../helpers/Csv";
 
 const Container = styled.div`
   display: flex;
@@ -278,9 +280,19 @@ const AdminPanel = () => {
   };
 
   // Function to download survey answers in CSV format
-  const downloadCSV = async (surveyId: number, applyThreshold?: boolean, threshold?: number) => {
+  const downloadCSV = async (
+    surveyId: number,
+    applyThreshold?: boolean,
+    threshold?: number,
+  ) => {
     const answers = await fetchAnswers(surveyId);
+    const survey = await getSurvey(surveyId);
     if (!answers || answers.length === 0) return;
+
+    if (!survey) {
+      console.error("Survey definition not loaded (needed to score answers).");
+      return;
+    }
 
     const useApply = typeof applyThreshold === "boolean" ? applyThreshold : false;
     const useThreshold = typeof threshold === "number" ? threshold : 0;
@@ -289,38 +301,88 @@ const AdminPanel = () => {
       ? answers.filter((resp: any) => computeResponseCredibility(resp) >= useThreshold)
       : answers;
 
-    const headers = Object.keys(answers[0].user).concat(
-      answers[0].answers.map((ans: any) => Object.keys(ans)).flat()
-    );
+    const rows: Record<string, any>[] = filteredAnswers.map((entry: any) => {
+      const userValues = entry.user ?? {};
 
-    const csvContent = `${headers.join(",")}\n${filteredAnswers
-      .map((entry: any) => {
-        const userValues = Object.values(entry.user);
-        const answersValues = entry.answers
-          .map((ans: any) => {
-            let output = "";
-            let len = 0;
-            for (const key in ans) {
-              if (key === "geoJSON") {
-                output += `'${JSON.stringify(ans[key])}'`;
-              } else {
-                output += String(ans[key]);
-              }
-              len++;
-              if (len < Object.keys(ans).length) output += ",";
-            }
-            return output;
-          })
-          .flat();
-        return [...userValues, ...answersValues].join(",");
-      })
-      .join("\n")}`;
+      let totalScoreAll = 0;
+      const totalsByCat: number[] = [];
 
-    const blob = new Blob([csvContent], { type: "text/csv" });
+      const scoredAnswers = (entry.answers ?? []).map((ans: any) => {
+        const question = survey?.questions?.find((q: any) => q.id === ans.questionId);
+        const questionAnswer = question?.answer;
+
+        if (!questionAnswer) {
+          return { ...ans, score_total: 0 };
+        }
+
+        const scoringCats = questionAnswer?.scoringCategories ?? null;
+
+        if (scoringCats && Array.isArray(scoringCats) && scoringCats.length > 0) {
+          let sum = 0;
+          const out: any = { ...ans };
+
+          scoringCats.forEach((cat: any, idx: number) => {
+            const maxScorePerQn = cat?.score ?? 0;
+            const { score } = calculateQuestionScore({ answer: ans, questionAnswer, maxScorePerQn });
+
+            out[`score_cat${idx}`] = score;
+            sum += score;
+
+            totalsByCat[idx] = (totalsByCat[idx] ?? 0) + score;
+          });
+
+          out["score_total"] = sum;
+          totalScoreAll += sum;
+          return out;
+        }
+
+        const { score } = calculateQuestionScore({ answer: ans, questionAnswer, maxScorePerQn: 1 });
+        totalScoreAll += score;
+        totalsByCat[0] = (totalsByCat[0] ?? 0) + score;
+
+        return { ...ans, score: score, score_total: score };
+      });
+
+      const flat: Record<string, any> = { ...userValues };
+
+      flat["total_score"] = totalScoreAll;
+      totalsByCat.forEach((v, i) => {
+        flat[`total_score_cat${i}`] = v;
+      });
+
+      scoredAnswers.forEach((ans: any) => {
+        const prefix = `q${ans.questionId}_`;
+        Object.keys(ans).forEach((k) => {
+          flat[`${prefix}${k}`] = ans[k];
+        });
+      });
+
+      return flat;
+    });
+
+    const headerSet = new Set<string>();
+    rows.forEach((r) => Object.keys(r).forEach((k) => headerSet.add(k)));
+
+    const userKeys = Object.keys(filteredAnswers[0]?.user ?? {});
+    const importantFirst = ["total_score"];
+    const catTotals = Array.from(headerSet).filter((h) => h.startsWith("total_score_cat")).sort();
+
+    const headers = [
+      ...userKeys,
+      ...importantFirst,
+      ...catTotals,
+      ...Array.from(headerSet)
+        .filter((h) => !userKeys.includes(h) && h !== "total_score" && !h.startsWith("total_score_cat"))
+        .sort(),
+    ];
+
+    const csvContent = buildCsv(headers, rows);
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "answers_" + surveyId + ".csv";
+    link.download = `answers_${surveyId}.csv`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

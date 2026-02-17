@@ -49,6 +49,7 @@ import {
   feature,
 } from "@turf/turf";
 import {getTranslatedValue} from "../../helpers/GetTranslatedValue";
+import {calculateQuestionScore} from "../../helpers/CalculateQuestionScore";
 
 ChartJS.register(
   CategoryScale,
@@ -720,313 +721,41 @@ const AnswersList = ({ answers, survey }: any) => {
 
   // Function to calculate score based on answer and categories' index
   const calculateScore = (answer: any, index: number): any => {
-   var calculatedScore = 0;
-   if (survey !== undefined)
-   {
+    let calculatedScore = 0;
+
+    if (!survey) return 0;
+
     const questionAnswer = survey?.questions?.find(
       (question: any) => question.id === answer.questionId
     )?.answer;
 
-    // Copy of the total points in the category
-    var totalCopy = 0;
-    // Copy of the table of points for the questions in the category
-    var allAbilityCopy: any[] = [];
+    let totalCopy = 0;
+    let allAbilityCopy: any[] = [];
+    let maxScorePerQn = 0;
 
-    // Max score per question
-    var maxScorePerQn = 0;
-
-    // Determine total points, all ability copy, and max score per question if answers are scored against categories
     if (categories) {
       totalCopy = totalPointsByCategories[index];
       allAbilityCopy = [...allPointsByCategories[index]];
-      maxScorePerQn = questionAnswer.scoringCategories[index].score;
+      maxScorePerQn = questionAnswer?.scoringCategories?.[index]?.score ?? 0;
     } else {
-      // otherwise the auxiliary arrays have only one index each and the maximum number of points to be scored in the question is 1
       totalCopy = totalPointsByCategories[0];
       allAbilityCopy = [...allPointsByCategories[0]];
       maxScorePerQn = 1;
     }
 
-    if (questionAnswer) {
-      // Calculate score based on question and answer types
+    const { score } = calculateQuestionScore({
+      answer,
+      questionAnswer,
+      maxScorePerQn,
+    });
 
-      // Set acceptable distance and minimum for the question if defined in .json file, otherwise use default values
-      acceptableDistance =
-        questionAnswer.acceptableDistance !== undefined
-          ? questionAnswer.acceptableDistance
-          : 50;
+    calculatedScore = score;
 
-      acceptableMin =
-        questionAnswer.acceptableMin !== undefined
-          ? questionAnswer.acceptableMin
-          : 30;
+    totalCopy += calculatedScore >= 0 ? calculatedScore : 0;
+    totalCopy = Math.round((totalCopy + Number.EPSILON) * 100) / 100;
+    points[points.length - 1] += calculatedScore;
 
-      if (questionAnswer.geometry.type === "Point" && answer.type === "Point") {
-        // Check if the distance between answer and question is within acceptable distance
-        if (
-          distance(answer.geoJSON.geometry, questionAnswer.geometry, {
-            units: "meters",
-          }) < acceptableDistance
-        ) {
-          // Calculate score range based on the distance
-          var scoreRange =
-            (acceptableDistance -
-              distance(answer.geoJSON.geometry, questionAnswer.geometry, {
-                units: "meters",
-              })) /
-            acceptableDistance;
-          // Multiply the maximum possible number of points to be scored by the percentage of correct answer
-          calculatedScore = maxScorePerQn * scoreRange;
-          // Round up the result
-          calculatedScore =
-            Math.round((calculatedScore + Number.EPSILON) * 100) / 100;
-        }
-        // set totalCopy if calculatedScore was set @todo
-        totalCopy += calculatedScore >= 0 ? calculatedScore : 0;
-        // Round up the result
-        totalCopy = Math.round((totalCopy + Number.EPSILON) * 100) / 100;
-        // calculate  selected respondent's point totals
-        points[points.length - 1] += calculatedScore;
-
-        allAbilityCopy.push(
-          !Number.isNaN(calculatedScore) ? calculatedScore : 0
-        );
-      } else if (
-        questionAnswer?.geometry?.type === "Polygon" &&
-        answer?.type === "Point"
-      ) { // Check if the point is inside the polygon
-        if (
-          booleanPointInPolygon(
-            answer.geoJSON.geometry,
-            questionAnswer.geometry
-          )
-        ) { // If the point is inside the polygon, assign the maximum possible score
-          calculatedScore = maxScorePerQn;
-          calculatedScore = calculatedScore >= 0 ? calculatedScore : 0;
-          calculatedScore =
-            Math.round((calculatedScore + Number.EPSILON) * 100) / 100;
-        }
-        totalCopy += calculatedScore;
-        totalCopy = Math.round((totalCopy + Number.EPSILON) * 100) / 100;
-        points[points.length - 1] += calculatedScore;
-        // Add the score to the array of copies of all abilities
-        allAbilityCopy.push(
-          !Number.isNaN(calculatedScore) ? calculatedScore : 0
-        );
-      } else if (
-        questionAnswer?.geometry?.type === "Polygon" &&
-        answer?.type === "LineString"
-      ) {
-        // Extracting line and polygon geometries
-        let line = answer.geoJSON.geometry;
-        let poly = questionAnswer.geometry;
-        const poly2 = feature(poly);
-        // Splitting the line where it intersects with the polygon
-        var overlapping = lineSplit(feature(line), poly2);
-        let intersectionLength2 = 0;
-        // Calculating the length of intersections
-        if (overlapping.features.length === 0)
-        {
-           var lineIsInsidePoly = booleanPointInPolygon(point(line.coordinates[0]), poly2);
-           // Line is completely inside of polygon:
-           if (lineIsInsidePoly)
-           {
-               var lengthOfLine = length(line);
-               var linePolygon = polygonToLine(poly2);
-               var lengthOfPolygon = length(linePolygon);
-               if (lengthOfLine > lengthOfPolygon*0.33)
-                   intersectionLength2 = lengthOfLine;
-               else
-                   intersectionLength2 = lengthOfLine*(lengthOfLine/(lengthOfPolygon*0.33));
-           }
-        }
-        else
-        {
-           for (let i = 0; i < overlapping.features.length; i++)
-           {
-             let pointInCenter = centerOfMass(overlapping.features[i]);
-             if (booleanPointInPolygon(pointInCenter, poly2)) // Check if the point is inside the polygon
-               intersectionLength2 += length(overlapping.features[i].geometry);
-           }
-        }
-        const lineLength = length(line);
-        let percentage = (intersectionLength2 / lineLength) * 100;
-         // Checking if the percentage of intersection is greater than acceptable minimum
-        if (Math.round(percentage) > acceptableMin) {
-          var scoreRange = Math.round(percentage) / 100;
-// Calculating score based on the percentage of intersection
-          calculatedScore = maxScorePerQn * scoreRange;
-          calculatedScore = calculatedScore >= 0 ? calculatedScore : 0;
-          calculatedScore =
-            Math.round((calculatedScore + Number.EPSILON) * 100) / 100;
-        }
-        totalCopy += calculatedScore;
-        totalCopy = Math.round((totalCopy + Number.EPSILON) * 100) / 100;
-        points[points.length - 1] += calculatedScore;
-
-        allAbilityCopy.push(
-          !Number.isNaN(calculatedScore) ? calculatedScore : 0
-        );
-      } else if (
-        questionAnswer?.geometry?.type === "Polygon" &&
-        answer?.type === "Polygon"
-      ) {
-        let answerPoly = answer.geoJSON.geometry;
-        let questionPoly = questionAnswer.geometry;
-        const intersectedPoly = intersect(answerPoly, questionPoly);
-        if (!intersectedPoly) {
-          // If no intersection, assign score as 0 and add it to the array of abilities
-          allAbilityCopy.push(
-            !Number.isNaN(calculatedScore) ? calculatedScore : 0
-          );
-          calculatedScore = 0;
-        } else {
-          // Calculating areas of question polygon, common area, and answer polygon
-          const questionArea = area(questionPoly);
-          const commonArea = area(intersectedPoly);
-          const answerArea = area(answerPoly);
-          const basicPercentage = Math.round((commonArea / questionArea) * 100);
-          const areaRatio = Math.round((commonArea / answerArea) * 100);
-          if (Math.min(basicPercentage, areaRatio) > acceptableMin) {
-            var scoreRange = Math.min(basicPercentage, areaRatio) / 100;
-
-            calculatedScore = maxScorePerQn * scoreRange;
-            calculatedScore = calculatedScore >= 0 ? calculatedScore : 0;
-            calculatedScore =
-              Math.round((calculatedScore + Number.EPSILON) * 100) / 100;
-          }
-          totalCopy += calculatedScore;
-          totalCopy = Math.round((totalCopy + Number.EPSILON) * 100) / 100;
-          points[points.length - 1] += calculatedScore;
-
-          allAbilityCopy.push(
-            !Number.isNaN(calculatedScore) ? calculatedScore : 0
-          );
-        }
-      } else if (
-        questionAnswer?.geometry?.type === "Slider" &&
-        answer?.type === "Slider"
-      ) {
-        if (questionAnswer?.goodAnswer === answer?.sliderValue) {
-          // If the answer is good, award max points
-          calculatedScore = maxScorePerQn;
-          calculatedScore = calculatedScore >= 0 ? calculatedScore : 0;
-          calculatedScore =
-            Math.round((calculatedScore + Number.EPSILON) * 100) / 100;
-        }
-        totalCopy += calculatedScore;
-        totalCopy = Math.round((totalCopy + Number.EPSILON) * 100) / 100;
-        points[points.length - 1] += calculatedScore;
-
-        allAbilityCopy.push(
-          !Number.isNaN(calculatedScore) ? calculatedScore : 0
-        );
-      } else if (
-        questionAnswer?.geometry?.type === "Images" &&
-        answer?.type === "Images"
-      ) {
-        const splitedArr = answer?.imagesChoose.split(",");
-        for (let i = 0; i < splitedArr.length; i++) {
-          if (splitedArr[i] === "true") {
-            // If the selected picture is the correct answer award partial points
-            calculatedScore += maxScorePerQn * questionAnswer.points[i];
-            calculatedScore =
-              Math.round((calculatedScore + Number.EPSILON) * 100) / 100;
-          }
-        }
-        calculatedScore = calculatedScore >= 0 ? calculatedScore : 0;
-        totalCopy += calculatedScore;
-        totalCopy = Math.round((totalCopy + Number.EPSILON) * 100) / 100;
-        points[points.length - 1] += calculatedScore;
-
-        allAbilityCopy.push(
-          !Number.isNaN(calculatedScore) ? calculatedScore : 0
-        );
-      } else if (
-        questionAnswer?.geometry?.type === "SingleChoice" &&
-        answer?.type === "SingleChoice"
-      ) {
-        if (questionAnswer?.points[answer?.singleChoice]) {
-          // If the answer is good, award the points that were possible for this answer
-          calculatedScore =
-            maxScorePerQn * questionAnswer?.points[answer?.singleChoice];
-          calculatedScore =
-            Math.round((calculatedScore + Number.EPSILON) * 100) / 100;
-        }
-        calculatedScore = calculatedScore >= 0 ? calculatedScore : 0;
-        totalCopy += calculatedScore;
-        totalCopy = Math.round((totalCopy + Number.EPSILON) * 100) / 100;
-        points[points.length - 1] += calculatedScore;
-
-        allAbilityCopy.push(
-          !Number.isNaN(calculatedScore) ? calculatedScore : 0
-        );
-      } else if (
-        questionAnswer?.geometry?.type === "SingleImage" &&
-        answer?.type === "SingleImage"
-      ) {
-        if (questionAnswer?.points[answer?.singleImage]) {
-          // If the answer is good, award the points that were possible for this answer
-          calculatedScore =
-            maxScorePerQn * questionAnswer?.points[answer?.singleImage];
-          calculatedScore =
-            Math.round((calculatedScore + Number.EPSILON) * 100) / 100;
-        }
-        calculatedScore = calculatedScore >= 0 ? calculatedScore : 0;
-        totalCopy += calculatedScore;
-        totalCopy = Math.round((totalCopy + Number.EPSILON) * 100) / 100;
-        points[points.length - 1] += calculatedScore;
-
-        allAbilityCopy.push(
-          !Number.isNaN(calculatedScore) ? calculatedScore : 0
-        );
-      } else if (
-        questionAnswer?.geometry?.type === "MultipleChoice" &&
-        answer?.type === "MultipleChoice"
-      ) {
-        const splitedArr = answer?.multipleChoice.split(",");
-        for (let i = 0; i < splitedArr.length; i++) {
-          if (splitedArr[i] === "true") {
-            // If the selected picture is the correct answer, award partial points
-            calculatedScore += maxScorePerQn * questionAnswer.points[i];
-            calculatedScore =
-              Math.round((calculatedScore + Number.EPSILON) * 100) / 100;
-          }
-        }
-        calculatedScore = calculatedScore >= 0 ? calculatedScore : 0;
-        totalCopy += calculatedScore;
-        totalCopy = Math.round((totalCopy + Number.EPSILON) * 100) / 100;
-        points[points.length - 1] += calculatedScore;
-
-        allAbilityCopy.push(
-          !Number.isNaN(calculatedScore) ? calculatedScore : 0
-        );
-      } else if (
-        questionAnswer?.geometry?.type === "Table" &&
-        answer?.type === "Table"
-      ) {
-        const splitedArr = answer?.table.split(",");
-        for (let i = 0; i < splitedArr.length; i++) {
-          // If the selected answer is the correct one, award partial points
-          calculatedScore +=
-            maxScorePerQn *
-            questionAnswer.points[
-              i * questionAnswer.answers.length + parseInt(splitedArr[i])
-            ];
-          calculatedScore =
-            Math.round((calculatedScore + Number.EPSILON) * 100) / 100;
-        }
-        calculatedScore = calculatedScore >= 0 ? calculatedScore : 0;
-        totalCopy += calculatedScore;
-        totalCopy = Math.round((totalCopy + Number.EPSILON) * 100) / 100;
-        points[points.length - 1] += calculatedScore;
-
-        allAbilityCopy.push(
-          !Number.isNaN(calculatedScore) ? calculatedScore : 0
-        );
-      }
-    }
-    totalCopy = !Number.isNaN(totalCopy) ? totalCopy : 0;
+    allAbilityCopy.push(!Number.isNaN(calculatedScore) ? calculatedScore : 0);
 
     if (categories) {
       totalPointsByCategories[index] = totalCopy;
@@ -1035,7 +764,7 @@ const AnswersList = ({ answers, survey }: any) => {
       totalPointsByCategories[0] = totalCopy;
       allPointsByCategories[0] = [...allAbilityCopy];
     }
-   }
+
     return calculatedScore;
   };
 
