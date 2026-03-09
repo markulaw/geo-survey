@@ -20,7 +20,10 @@ import Tooltip from "@mui/material/Tooltip";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import TextField from "@mui/material/TextField";
-import { calculateCredibility } from "../../helpers/Credibility";
+import {
+    calculateCredibility,
+    buildCredibilityContext,
+} from "../../helpers/Credibility";
 
 import {
   Chart as ChartJS,
@@ -72,6 +75,14 @@ const AnswersList = ({ answers, survey }: any) => {
   const [questionId, setQuestionId] = React.useState("10");
   const [respondent, setRespondent] = React.useState("");
   const [selectedBtn, setSelectedBtn] = React.useState(-1);
+
+  const credibilityContext = React.useMemo(() => {
+    if (!answers || !survey) return { statsByQuestionId: {} };
+    return buildCredibilityContext(answers, survey);
+  }, [answers, survey]);
+
+  const getSurveyQuestion = (questionId: string | number) =>
+      survey?.questions?.find((question: any) => String(question.id) === String(questionId));
 
   // Event handler for selecting question ID
   const handleIdQuestionChoice = (event: SelectChangeEvent) => {
@@ -416,9 +427,22 @@ const AnswersList = ({ answers, survey }: any) => {
    }
   }
 
+    const getRespondentTotalCredibility = (respondentAnswerSet: any): number => {
+        return calculateTotalCredibility(
+            respondentAnswerSet.answers.map((questionAnswer: any) => ({
+                value: calculateCredibility(
+                    questionAnswer,
+                    getSurveyQuestion(questionAnswer.questionId),
+                    credibilityContext
+                ),
+                questionId: questionAnswer.questionId,
+            })),
+            survey
+        );
+    };
+
   // Function to clear score sum
-  const clearScoreSum = (answer: any) => {
-   if (survey !== undefined)
+   const clearScoreSum = (answer: any, respondentTotalCredibility: number) => {   if (survey !== undefined)
    {
     totalPointsByCategories = [];
     totalPointsByCategories.length = 0;
@@ -426,9 +450,7 @@ const AnswersList = ({ answers, survey }: any) => {
       allPointsLabels.length
     ).fill(0);
 
-     totalCredibility = calculateTotalCredibility(
-       answer.answers.map((questionAnswer: any) => {return {value: calculateCredibility(questionAnswer), questionId: questionAnswer.questionId}}), survey
-     );
+     totalCredibility = respondentTotalCredibility;
      credibilities.push(totalCredibility);
 
     avgData.length = 0; // Clear existing array without destroying references to original array
@@ -704,19 +726,20 @@ const AnswersList = ({ answers, survey }: any) => {
   };
 
   const calculateTotalCredibility = (
-    credibilities: { questionId: string; value: number }[],
-    survey: { questions: { id: string; ignoreCredibility?: boolean }[] }
+      credibilities: { questionId: string; value: number }[],
+      survey: { questions: { id: string; ignoreCredibility?: boolean }[] }
   ): number => {
-    // we take into account only those credibilities which doesn't have ignoreCredibility flag set to true in the survey definition
-    const validCredibilities = credibilities.filter(({ questionId }) => {
-      const question = survey?.questions?.find(q => q.id === questionId);
-      return !question?.ignoreCredibility;
-    });
+      const validCredibilities = credibilities.filter(({ questionId }) => {
+          const question = survey?.questions?.find(
+              (q: any) => String(q.id) === String(questionId)
+          );
+          return !question?.ignoreCredibility;
+      });
 
-    if (validCredibilities.length === 0) return 0;
+      if (validCredibilities.length === 0) return 0;
 
-    const total = validCredibilities.reduce((sum, { value }) => sum + value, 0);
-    return total / validCredibilities.length;
+      const total = validCredibilities.reduce((sum, { value }) => sum + value, 0);
+      return total / validCredibilities.length;
   };
 
   // Function to calculate score based on answer and categories' index
@@ -830,7 +853,10 @@ const AnswersList = ({ answers, survey }: any) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {answers.map((answer: any) => (
+              {answers.map((answer: any) => {
+                  const respondentTotalCredibility = getRespondentTotalCredibility(answer);
+
+                  return (
              <Fragment>
               <TableRow
                 key={answer.id}
@@ -939,7 +965,13 @@ const AnswersList = ({ answers, survey }: any) => {
                             arrow
                             placement="top"
                           >
-                            <span>{`${calculateCredibility(userAnswer)}%`}</span>
+                            <span>
+                              {`${calculateCredibility(
+                                  userAnswer,
+                                  getSurveyQuestion(userAnswer.questionId),
+                                  credibilityContext
+                              )}%`}
+                            </span>
                           </Tooltip>
                         )}
                       </TableCell>
@@ -964,15 +996,16 @@ const AnswersList = ({ answers, survey }: any) => {
 
               <TableCell>
 
-                {`${Math.round(totalCredibility)}%`}
+                {`${Math.round(respondentTotalCredibility)}%`}
 
               </TableCell>
             )}
 		    </TableRow>                    
 		   ))}
-               {clearScoreSum(answer)}
+               {clearScoreSum(answer, respondentTotalCredibility)}
            </Fragment>
-            ))}
+              );
+              })}
           </TableBody>
         </Table>
       </TableContainer>

@@ -19,6 +19,7 @@
     "questions": [
       {
         "id": 1,
+        "ignoreCredibility": true,
         "answerType": "SingleChoice",
         "question": {
           "pl": "Jak oceniasz swoją wiedzę o geografii Gdańska?",
@@ -36,6 +37,7 @@
       },
       {
         "id": 2,
+        "ignoreCredibility": true,
         "answerType": "Table",
         "question": {
           "pl": "Czy odwiedziłeś Gdańsk przy użyciu:",
@@ -185,6 +187,7 @@
       },
       {
         "id": 9,
+        "ignoreCredibility": true,
         "answerType": "Point",
         "question": {
           "pl": "Zaznacz na mapie lokalizację załączonego obiektu.",
@@ -203,6 +206,7 @@
       {
         "id": 10,
         "answerType": "LineString",
+        "ignoreCredibility": true,
         "question": {
           "pl": "Postaraj się maksymalnie odtworzyć trasę z poniższego linku",
           "en": "Try to recreate the route from the link below as accurately as possible."

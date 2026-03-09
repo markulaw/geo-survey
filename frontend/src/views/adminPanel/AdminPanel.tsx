@@ -8,7 +8,7 @@ import axios from "axios";
 import { translations, languages } from "../../translate/Translations";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
-import { calculateCredibility } from "../../helpers/Credibility";
+import { calculateCredibility, buildCredibilityContext } from "../../helpers/Credibility";
 import {calculateQuestionScore} from "../../helpers/CalculateQuestionScore";
 import {buildCsv} from "../../helpers/Csv";
 
@@ -165,6 +165,38 @@ const AdminPanel = () => {
   var fileError = (translations as any)[language]["fileError"];
   var fileContentError = (translations as any)[language]["fileContentError"];
 
+  const computeResponseCredibility = (
+      response: any,
+      survey: any,
+      credibilityContext: any
+  ): number => {
+      if (!response || !Array.isArray(response.answers) || response.answers.length === 0) return 0;
+
+      const creds: number[] = response.answers
+          .map((ans: any) => {
+              try {
+                  const surveyQuestion = survey?.questions?.find(
+                      (q: any) => String(q.id) === String(ans.questionId)
+                  );
+
+                  if (!surveyQuestion?.ignoreCredibility) {
+                      return calculateCredibility(ans, surveyQuestion, credibilityContext);
+                  }
+
+                  return null;
+              } catch {
+                  return 0;
+              }
+          })
+          .filter((v: any) => v !== null && Number.isFinite(v))
+          .map((v: any) => Number(v));
+
+      if (creds.length === 0) return 0;
+
+      const avg = creds.reduce((s: number, n: number) => s + n, 0) / creds.length;
+      return Math.round(avg);
+  };
+
   // Fetch data on component mount
   useEffect(() => {
     fetchSurveys();
@@ -194,19 +226,6 @@ const AdminPanel = () => {
 
     fetchImagesList();
   }, []);
-
-  const computeResponseCredibility = (response: any): number => {
-    if (!response || !Array.isArray(response.answers) || response.answers.length === 0) return 0;
-    const creds: number[] = response.answers
-      .map((ans: any) => {
-        try { return calculateCredibility(ans); } catch { return 0; }
-      })
-      .filter((v: any) => Number.isFinite(v))
-      .map((v: any) => Number(v));
-    if (creds.length === 0) return 0;
-    const avg = creds.reduce((s: number, n: number) => s + n, 0) / creds.length;
-    return Math.round(avg);
-  };
 
   const handleChangePassword = async () => {
     var oldPasswdDiv = document.getElementById('currentPassword') as HTMLInputElement | null;
@@ -257,26 +276,37 @@ const AdminPanel = () => {
   };
 
   // Function to download survey answers in JSON format
-  const downloadJSON = async (surveyId: number, applyThreshold?: boolean, threshold?: number) => {
-    const answers = await fetchAnswers(surveyId);
-    if (!answers || answers.length === 0) return;
+  const downloadJSON = async (
+      surveyId: number,
+      applyThreshold?: boolean,
+      threshold?: number
+  ) => {
+      const answers = await fetchAnswers(surveyId);
+      const survey = await getSurvey(surveyId);
 
-    const useApply = typeof applyThreshold === "boolean" ? applyThreshold : false;
-    const useThreshold = typeof threshold === "number" ? threshold : 0;
+      if (!answers || answers.length === 0) return;
+      if (!survey) return;
 
-    const filteredAnswers = useApply
-      ? answers.filter((resp: any) => computeResponseCredibility(resp) >= useThreshold)
-      : answers;
+      const credibilityContext = buildCredibilityContext(answers, survey);
 
-    const jsonContent = JSON.stringify(filteredAnswers, null, 2);
-    const blob = new Blob([jsonContent], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "answers_" + surveyId + ".json";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+      const useApply = typeof applyThreshold === "boolean" ? applyThreshold : false;
+      const useThreshold = typeof threshold === "number" ? threshold : 0;
+
+      const filteredAnswers = useApply
+          ? answers.filter((resp: any) =>
+              computeResponseCredibility(resp, survey, credibilityContext) >= useThreshold
+          )
+          : answers;
+
+      const jsonContent = JSON.stringify(filteredAnswers, null, 2);
+      const blob = new Blob([jsonContent], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "answers_" + surveyId + ".json";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
   };
 
   // Function to download survey answers in CSV format
@@ -294,15 +324,20 @@ const AdminPanel = () => {
       return;
     }
 
+    const credibilityContext = buildCredibilityContext(answers, survey);
+
     const useApply = typeof applyThreshold === "boolean" ? applyThreshold : false;
     const useThreshold = typeof threshold === "number" ? threshold : 0;
 
     const filteredAnswers = useApply
-      ? answers.filter((resp: any) => computeResponseCredibility(resp) >= useThreshold)
-      : answers;
+        ? answers.filter((resp: any) =>
+            computeResponseCredibility(resp, survey, credibilityContext) >= useThreshold
+        )
+        : answers;
 
     const rows: Record<string, any>[] = filteredAnswers.map((entry: any) => {
       const userValues = entry.user ?? {};
+      const credibility = computeResponseCredibility(entry, survey, credibilityContext);
 
       let totalScoreAll = 0;
       const totalsByCat: number[] = [];
@@ -345,6 +380,7 @@ const AdminPanel = () => {
 
       const flat: Record<string, any> = { ...userValues };
 
+      flat["credibility"] = credibility;
       flat["total_score"] = totalScoreAll;
       totalsByCat.forEach((v, i) => {
         flat[`total_score_cat${i}`] = v;
@@ -364,7 +400,7 @@ const AdminPanel = () => {
     rows.forEach((r) => Object.keys(r).forEach((k) => headerSet.add(k)));
 
     const userKeys = Object.keys(filteredAnswers[0]?.user ?? {});
-    const importantFirst = ["total_score"];
+    const importantFirst = ["credibility", "total_score"];
     const catTotals = Array.from(headerSet).filter((h) => h.startsWith("total_score_cat")).sort();
 
     const headers = [
