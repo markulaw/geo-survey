@@ -1114,7 +1114,7 @@ const AnswersList = ({ answers, survey }: any) => {
         </Button>
       </ButtonGroup>
 
-      {[2, 3].includes(selectedBtn) && (
+      {[2, 3, 7].includes(selectedBtn) && (
         <Box sx={{ display: "flex", gap: 2, alignItems: "center", mt: 1, mb: 1 }}>
           <FormControlLabel
             control={
