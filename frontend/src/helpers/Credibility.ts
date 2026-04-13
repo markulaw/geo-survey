@@ -66,6 +66,13 @@ const linearPercentilePenalty = (percentile: number): number => {
     return 20 + (percentile / 20) * 80;
 };
 
+const medianClickSecondsScore = (seconds: number): number => {
+    if (!Number.isFinite(seconds)) return 100;
+    if (seconds >= 1) return 100;
+    if (seconds <= 0) return 0;
+    return seconds * 100;
+};
+
 const linearDecay20to60 = (seconds: number): number => {
     if (!Number.isFinite(seconds)) return 100;
     if (seconds <= 20) return 100;
@@ -298,11 +305,12 @@ export const calculateCredibility = (
     }
 
     // 2. mediana timeStamps percentile
-    if (stats?.medianTimeStampsSorted?.length) {
+    // 2. mediana timeStamps
+    // >=1s => 100, 0..1s => liniowo do 0
+    {
         const med = median(Array.isArray(answer?.timeStamps) ? answer.timeStamps : []);
         if (Number.isFinite(med)) {
-            const p = percentileRank(stats.medianTimeStampsSorted, med);
-            metrics.push(linearPercentilePenalty(p));
+            metrics.push(medianClickSecondsScore(msToSeconds(med)));
         }
     }
 
@@ -327,7 +335,7 @@ export const calculateCredibility = (
     // 5. attempts
     {
         const attempts = Number(answer?.attempts ?? 0);
-        metrics.push(attempts > 3 ? 120 : 100);
+        metrics.push(attempts > 3 ? 110 : 100);
     }
 
     // 6. zoomLevel percentile for map questions
@@ -344,7 +352,7 @@ export const calculateCredibility = (
         const zoomActions =
             Number(answer?.zoomIns ?? 0) + Number(answer?.zoomOuts ?? 0);
         const p = percentileRank(stats.zoomActionsSorted, zoomActions);
-        metrics.push(p > 70 ? 120 : 100);
+        metrics.push(p > 70 ? 110 : 100);
     }
 
     // 8. LineString points percentile

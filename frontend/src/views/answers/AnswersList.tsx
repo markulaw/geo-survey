@@ -160,7 +160,7 @@ const AnswersList = ({ answers, survey }: any) => {
   var allPointsLabels: string[] = [""];
 
   var counter = 0;
-  const tolerableCredibility = 85;
+  const tolerableCredibility = 90;
 
   // Number of questions
   var questionsLen = 0;
