@@ -363,6 +363,18 @@ const AnswersList = ({ answers, survey }: any) => {
       },
     ],
   };
+
+  const dataAvgPerAllQuestions = {
+    labels: questionsLenArray.map((i) => `Q${i}`),
+    datasets: [
+      {
+        label: (translations as any)[language]["score"],
+        data: [] as number[],
+        backgroundColor: "rgba(49, 55, 115, 0.9)",
+      },
+    ],
+  };
+
   // Data for the chart with the scores of a given respondent
   const dataRespondentDetailed = {
     labels: allPointsLabels,
@@ -570,6 +582,26 @@ const AnswersList = ({ answers, survey }: any) => {
       responderId = responderId + 1;
     }
    }
+
+    dataAvgPerAllQuestions.labels = questionsLenArray.map((i) => `Q${i}`);
+    dataAvgPerAllQuestions.datasets[0].data = questionsLenArray.map((qIndex) => {
+      const colIndex = qIndex - 1;
+
+      const vals =
+        labels.length - 1 > 0
+          ? Array.from({ length: labels.length - 1 }, (_, r) => {
+            let sum = 0;
+            for (let j = 0; j < allPointsLabels.length; j++) {
+              sum += allPointsByCategories[j][r * questionsLen + colIndex] ?? 0;
+            }
+            return sum;
+          })
+          : [];
+
+      const credPerValue = buildCredPerValue(vals.length);
+      return safeAverage(vals, credPerValue, credThreshold, applyCredThreshold);
+    });
+
     return " ";
   };
 
@@ -1020,6 +1052,13 @@ const AnswersList = ({ answers, survey }: any) => {
           {(translations as any)[language]["totalPoints"]}
         </Button>
 
+        <Button
+          style={{ backgroundColor: selectedBtn === 7 ? "#313773" : "#65688A" }}
+          onClick={() => setSelectedBtn(7)}
+        >
+          {(translations as any)[language]["avgPerAllQuestions"]}
+        </Button>
+
         {categories && (
           <>
             <Button
@@ -1131,6 +1170,11 @@ const AnswersList = ({ answers, survey }: any) => {
       {selectedBtn === 3 && (
         <Bar options={options} data={dataQuestionDetailed} />
       )}
+
+      {selectedBtn === 7 && (
+        <Bar options={options} data={dataAvgPerAllQuestions} />
+      )}
+
       <div style={{ height: "5%" }}></div>
       {(selectedBtn === 4 || selectedBtn === 6) && (
         <Box sx={{ minWidth: 120 }}>
