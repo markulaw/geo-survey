@@ -49,7 +49,7 @@ export const translations = {
     questionId: "Question ID",
     answer: "Answer",
     sum: "Sum",
-    totalPoints: "Total points of responders",
+    totalPoints: "Total points of respondents",
     mean: "Mean of categories",
     avgPerQuestion: "Average points scored per question and category",
     avgPerAllQuestions: "Avg score per question",
