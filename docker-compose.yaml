@@ -41,7 +41,7 @@ services:
       - database
 
   fix-database-volume-permissions:
-    image: bitnami/mongodb:latest
+    image: soldevelo/mongodb:latest
     user: root
     command: chown -R 1001:1001 /bitnami
     volumes:
@@ -49,7 +49,7 @@ services:
 
   database:
     container_name: mongodb
-    image: bitnami/mongodb:latest
+    image: soldevelo/mongodb:latest
     restart: on-failure
     volumes:
       - ./mongodb_data:/bitnami/mongodb
